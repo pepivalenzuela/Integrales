@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B5 — Integrales racionales · Las Chapas ECOS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+<style>
+  :root{
+    --navy:#1a2e4a;
+    --navy-light:#2a4468;
+    --teal:#1d7a6b;
+    --teal-light:#e4f2ef;
+    --orange:#e07b3a;
+    --orange-light:#fdeee0;
+    --cream:#f5f2eb;
+    --ink:#2b2b2b;
+    --muted:#6b6f76;
+    --white:#ffffff;
+    --line:#e4e0d6;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:'Nunito Sans',sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    line-height:1.7;
+  }
+  h1,h2,h3,.brand{font-family:'Nunito',sans-serif}
+  a{color:inherit;text-decoration:none}
+
+  header.top{
+    background:var(--navy);
+    color:#fff;
+    padding:14px 24px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:.88rem;
+    font-weight:600;
+    flex-wrap:wrap;
+  }
+  header.top a{color:#cfd8e6}
+  header.top a:hover{color:#fff}
+  header.top .sep{color:#5c6b82}
+  header.top .current{color:#fff;font-weight:800}
+
+  .wrap{max-width:800px;margin:0 auto;padding:0 24px}
+
+  .hero{padding:44px 0 8px;text-align:center}
+  .hero .kicker{
+    display:inline-block;
+    background:var(--orange-light);
+    color:var(--orange);
+    font-weight:800;
+    font-size:.76rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    padding:6px 14px;
+    border-radius:100px;
+    margin-bottom:16px;
+  }
+  .hero h1{
+    font-size:2.15rem;
+    font-weight:900;
+    color:var(--navy);
+    margin:0 0 16px;
+    letter-spacing:-.01em;
+  }
+  .hero h1 em{font-style:normal;color:var(--teal)}
+  .hero p.lead{color:var(--muted);font-size:1.05rem;max-width:620px;margin:0 auto}
+
+  section{padding:34px 0}
+  section h2{
+    color:var(--navy);
+    font-size:1.35rem;
+    margin:0 0 14px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  section h2 .n{
+    background:var(--teal);
+    color:#fff;
+    width:30px;height:30px;
+    border-radius:8px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:.9rem;font-weight:800;
+    flex-shrink:0;
+  }
+  p{margin:0 0 14px}
+
+  .box{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:22px 24px;
+    margin:16px 0;
+  }
+  .box.definicion{
+    border-left:6px solid var(--navy);
+    background:linear-gradient(180deg,#fff,#fbfbf9);
+  }
+  .box.definicion .tag{
+    font-weight:800;color:var(--navy);font-size:.82rem;
+    text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;
+  }
+  .box.ejemplo{border-left:6px solid var(--orange)}
+  .box.ejemplo .tag{color:var(--orange);font-weight:800;font-size:.82rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+
+  .verif{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:var(--teal-light);
+    border-radius:10px;
+    padding:14px 18px;
+    margin:14px 0;
+    font-weight:700;
+    color:var(--navy);
+  }
+  .verif .flecha{color:var(--teal);font-size:1.3rem}
+
+  .familia{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:10px;
+    margin:16px 0;
+  }
+  .familia .item{
+    background:var(--navy);
+    color:#fff;
+    text-align:center;
+    padding:12px 8px;
+    border-radius:10px;
+    font-size:.95rem;
+  }
+  .familia .item.destacado{background:var(--orange)}
+
+  table.props{width:100%;border-collapse:collapse;margin:16px 0}
+  table.props td{
+    border:1px solid var(--line);
+    padding:12px 14px;
+    background:#fff;
+  }
+  table.props tr td:first-child{
+    font-weight:700;color:var(--navy);width:38%;
+  }
+
+  .mundo{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:14px;
+    margin:16px 0;
+  }
+  .mundo .item{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:16px 18px;
+  }
+  .mundo .item .k{
+    color:var(--teal);
+    font-weight:800;
+    font-size:.75rem;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    margin-bottom:4px;
+  }
+  .mundo .item h4{margin:0 0 6px;color:var(--navy);font-size:1rem}
+  .mundo .item p{margin:0;color:var(--muted);font-size:.92rem}
+
+  .ib{
+    background:var(--navy);
+    color:#fff;
+    border-radius:16px;
+    padding:28px 26px;
+    margin:38px 0;
+  }
+  .ib h3{margin:0 0 16px;font-size:1.1rem;display:flex;align-items:center;gap:8px}
+  .ib .grid2{display:grid;grid-template-columns:1fr;gap:16px}
+  .ib .card{background:rgba(255,255,255,.08);border-radius:10px;padding:16px 18px}
+  .ib .card .t{font-weight:800;font-size:.82rem;color:#ffd4ae;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em}
+  .ib .card p{margin:0;color:#e6ebf2;font-size:.95rem}
+  .ib .indagacion{
+    background:rgba(224,123,58,.18);
+    border:1px solid rgba(224,123,58,.4);
+    border-radius:10px;
+    padding:18px 20px;
+    margin-bottom:16px;
+  }
+  .ib .indagacion .t{color:var(--orange);font-weight:800;font-size:.82rem;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
+  .ib .indagacion p{margin:0;font-weight:600}
+
+  .nav-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:30px 0 60px;
+    gap:14px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-block;
+    padding:13px 22px;
+    border-radius:10px;
+    font-weight:800;
+    font-size:.95rem;
+  }
+  .btn.ghost{background:#fff;color:var(--navy);border:1px solid var(--line)}
+  .btn.ghost:hover{background:#f0ede4}
+  .btn.on{background:var(--teal);color:#fff}
+  .btn.on:hover{background:#166357}
+  .btn.off{background:#ece9df;color:#a6a196;cursor:default}
+
+  .video-box{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:14px;
+    margin:18px 0;
+  }
+  .video-box .vt{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-weight:800;
+    color:var(--navy);
+    font-size:.9rem;
+    margin:2px 6px 12px;
+  }
+  .video-box .vt .dot{
+    width:8px;height:8px;border-radius:50%;background:var(--orange);flex-shrink:0;
+  }
+  .video-box .frame{
+    position:relative;
+    width:100%;
+    padding-top:56.25%;
+    border-radius:10px;
+    overflow:hidden;
+    background:#0d1622;
+  }
+  .video-box .frame iframe{
+    position:absolute;top:0;left:0;width:100%;height:100%;border:0;
+  }
+
+  .tabla-inm{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:10px;
+    margin:16px 0;
+  }
+  .tabla-inm .f{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:12px 14px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .tabla-inm .f .num{
+    background:var(--teal);
+    color:#fff;
+    width:24px;height:24px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:.75rem;font-weight:800;
+    flex-shrink:0;
+  }
+  .propiedad{
+    background:#fff;
+    border:1px solid var(--line);
+    border-left:6px solid var(--orange);
+    border-radius:12px;
+    padding:16px 18px;
+    margin:12px 0;
+  }
+  .propiedad .num-p{
+    color:var(--orange);
+    font-weight:800;
+    font-size:.78rem;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    margin-bottom:6px;
+  }
+  mjx-container[display="true"]{display:block;overflow-x:auto;overflow-y:hidden;max-width:100%}
+  .box,.propiedad{overflow-x:auto;min-width:0}
+  table.props{display:block;overflow-x:auto;max-width:100%}
+  .tabla-inm .f{min-width:0} .tabla-inm .f span{min-width:0;overflow-x:auto}
+  @media (max-width:600px){ .wrap{padding:0 16px} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a href="index.html">Portal de Integrales</a>
+  <span class="sep">·</span>
+  <span class="current">Bloque 5</span>
+</header>
+
+<div class="wrap">
+
+  <div class="hero">
+    <span class="kicker">Bloque 5 · Introducción</span>
+    <h1>Integrales <em>racionales</em></h1>
+    <p class="lead">Un cociente de dos polinomios. Parece sencillo, pero según cómo sean las raíces del denominador, el resultado puede ser un logaritmo, un arcotangente, o los dos a la vez. Aquí aprendes a reconocer cada caso.</p>
+  </div>
+
+  <section>
+    <h2><span class="n">1</span> Integrales racionales</h2>
+    <div class="box definicion">
+      <div class="tag">Definición</div>
+      <p style="margin-bottom:0">Una integral racional es de la forma \(\displaystyle\int \frac{P(x)}{Q(x)}\,dx\), donde \(P(x)\) y \(Q(x)\) son polinomios.</p>
+    </div>
+
+    <table class="props">
+      <tr><td>Paso 0</td><td>Si el grado de \(P(x)\) es <strong>mayor o igual</strong> que el grado de \(Q(x)\), divide primero los polinomios: \(\dfrac{P(x)}{Q(x)} = C(x) + \dfrac{R(x)}{Q(x)}\), con \(\text{grado}(R) &lt; \text{grado}(Q)\).</td></tr>
+      <tr><td>Después</td><td>Integras \(C(x)\) (es un polinomio, inmediato) y te queda solo \(\displaystyle\int \frac{R(x)}{Q(x)}dx\), una fracción propia.</td></tr>
+      <tr><td>La clave</td><td>El resultado depende del tipo de raíces de \(Q(x)\): reales simples o múltiples (dan logaritmos y potencias), o complejas — sin raíces reales, denominador irreducible — (dan arcotangentes). Los siguientes apartados cubren cada caso.</td></tr>
+    </table>
+
+    <div class="video-box">
+      <div class="vt"><span class="dot"></span>🎥 Vídeo · Integrales racionales (1)</div>
+      <div class="frame">
+        <iframe src="https://drive.google.com/file/d/1J5W-j3UQ7uTUxxsjwwEzc1g30oVh2sDZ/preview" allow="autoplay" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">2</span> Tipo arcotangente (1)</h2>
+    <p>Cuando el denominador es una suma de cuadrados, \(x^2+a^2\) (sin término en \(x\), y sin raíces reales), y el numerador es una constante, la primitiva es un arcotangente:</p>
+    <div class="box definicion">
+      <div class="tag">Fórmula</div>
+      <p style="margin-bottom:0">\[\int \frac{k}{x^2+a^2}\,dx = \frac{k}{a}\operatorname{arctg}\left(\frac{x}{a}\right) + C\]</p>
+    </div>
+    <div class="box ejemplo">
+      <div class="tag">Ejemplo</div>
+      <p>Calcula \(\displaystyle\int \frac{5}{x^2+4}\,dx\)</p>
+      <p>Aquí \(a^2=4 \Rightarrow a=2\):</p>
+      <p style="margin-bottom:0">\[\int \frac{5}{x^2+4}\,dx = \frac{5}{2}\operatorname{arctg}\left(\frac{x}{2}\right) + C\]</p>
+    </div>
+
+    <div class="video-box">
+      <div class="vt"><span class="dot"></span>🎥 Vídeo · Tipo arcotangente (1)</div>
+      <div class="frame">
+        <iframe src="https://drive.google.com/file/d/1HccTklQOYsFbIqwsLT32PAscoUGNoMJN/preview" allow="autoplay" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">3</span> Tipo arcotangente (2)</h2>
+    <p>¿Y si el denominador no es exactamente \(x^2+a^2\), sino algo como \(x^2+2x+5\), con término en \(x\) y sin raíces reales? Se completa el cuadrado para llevarlo a la forma anterior.</p>
+    <div class="box ejemplo">
+      <div class="tag">Ejemplo</div>
+      <p>Calcula \(\displaystyle\int \frac{dx}{x^2+2x+5}\)</p>
+      <p>Completamos el cuadrado en el denominador:</p>
+      <p>\[x^2+2x+5 = (x+1)^2+4\]</p>
+      <p>Ahora es del tipo anterior, con \(u=x+1\) y \(a=2\):</p>
+      <p style="margin-bottom:0">\[\int \frac{dx}{(x+1)^2+4} = \frac{1}{2}\operatorname{arctg}\left(\frac{x+1}{2}\right) + C\]</p>
+    </div>
+
+    <div class="video-box">
+      <div class="vt"><span class="dot"></span>🎥 Vídeo · Tipo arcotangente (2)</div>
+      <div class="frame">
+        <iframe src="https://drive.google.com/file/d/18DPmyiA4kP5fygVA1IG4gr4f11yIFVKW/preview" allow="autoplay" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">4</span> Tipo arcotangente + logaritmo</h2>
+    <p>¿Qué pasa si el numerador ya <strong>no es una constante</strong>, sino que depende de \(x\)? Entonces la integral se reparte en dos trozos: uno que da un logaritmo (la parte del numerador proporcional a la derivada del denominador) y otro que da un arcotangente (lo que sobra).</p>
+    <div class="box ejemplo">
+      <div class="tag">Ejemplo</div>
+      <p>Calcula \(\displaystyle\int \frac{3x+1}{x^2+4}\,dx\)</p>
+      <p>La derivada del denominador es \(2x\). Escribimos el numerador usando ese \(2x\):</p>
+      <p>\[3x+1 = \frac{3}{2}(2x) + 1\]</p>
+      <p>Separamos la integral en dos:</p>
+      <p>\[\int \frac{3x+1}{x^2+4}dx = \frac{3}{2}\int\frac{2x}{x^2+4}dx + \int\frac{1}{x^2+4}dx\]</p>
+      <p style="margin-bottom:0">\[= \frac{3}{2}\ln(x^2+4) + \frac{1}{2}\operatorname{arctg}\left(\frac{x}{2}\right) + C\]</p>
+    </div>
+    <p>El primer trozo es un cambio de variable (Bloque 3): \(u=x^2+4\). El segundo es el tipo arcotangente que ya conoces.</p>
+
+    <div class="video-box">
+      <div class="vt"><span class="dot"></span>🎥 Vídeo · Tipo arcotangente + logaritmo</div>
+      <div class="frame">
+        <iframe src="https://drive.google.com/file/d/1kM1J7kVkkVo1SQh6cFEhTB5hGwGp5rmw/preview" allow="autoplay" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">5</span> Descomponer una fracción en suma de fracciones simples</h2>
+    <p>Cuando el denominador <strong>sí tiene raíces reales</strong> (se puede factorizar en factores del tipo \((x-r)\)), la fracción se descompone en una suma de fracciones más simples, cada una con un único factor en el denominador.</p>
+
+    <table class="props">
+      <tr><td>Paso 1</td><td>Factoriza el denominador \(Q(x)\) en sus raíces reales: \(Q(x) = (x-r_1)(x-r_2)\cdots\)</td></tr>
+      <tr><td>Paso 2</td><td>Escribe la fracción como suma de fracciones simples: \(\dfrac{R(x)}{Q(x)} = \dfrac{A}{x-r_1} + \dfrac{B}{x-r_2} + \cdots\)</td></tr>
+      <tr><td>Paso 3</td><td>Halla A, B... (multiplicando por el denominador común e igualando numeradores, o sustituyendo cada raíz).</td></tr>
+      <tr><td>Paso 4</td><td>Integra cada fracción simple por separado — cada una da un logaritmo: \(\int \dfrac{A}{x-r}dx = A\ln|x-r|+C\)</td></tr>
+    </table>
+
+    <div class="box ejemplo">
+      <div class="tag">Ejemplo</div>
+      <p>Calcula \(\displaystyle\int \frac{5x-1}{(x-1)(x+2)}\,dx\)</p>
+      <p>Descomponemos: \(\dfrac{5x-1}{(x-1)(x+2)} = \dfrac{A}{x-1}+\dfrac{B}{x+2}\)</p>
+      <p>Multiplicando por \((x-1)(x+2)\): \(5x-1 = A(x+2)+B(x-1)\)</p>
+      <p>Con \(x=1\): \(4=3A \Rightarrow A=\frac{4}{3}\). Con \(x=-2\): \(-11=-3B \Rightarrow B=\frac{11}{3}\)</p>
+      <p style="margin-bottom:0">\[\int \frac{5x-1}{(x-1)(x+2)}dx = \frac{4}{3}\ln|x-1| + \frac{11}{3}\ln|x+2| + C\]</p>
+    </div>
+
+    <div class="video-box">
+      <div class="vt"><span class="dot"></span>🎥 Vídeo · Descomponer en fracciones simples</div>
+      <div class="frame">
+        <iframe src="https://drive.google.com/file/d/1DKCP-iZpnXNyhR-CdFzVdJiUy2cLBU-B/preview" allow="autoplay" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">6</span> Raíces reales múltiples</h2>
+    <p>Si el denominador tiene una raíz <strong>repetida</strong>, por ejemplo \((x-1)^2\), no basta con una fracción por factor: hay que poner una fracción por cada potencia, desde 1 hasta la multiplicidad.</p>
+    <div class="box definicion"><div class="tag">Planteamiento</div>
+      <p style="margin:0">\[\frac{R(x)}{(x-r)^2} = \frac{A}{x-r} + \frac{B}{(x-r)^2} \qquad\qquad \int \frac{B}{(x-r)^2}\,dx = -\frac{B}{x-r} + C\]</p></div>
+    <div class="box ejemplo">
+      <div class="tag">Ejemplo</div>
+      <p>Calcula \(\displaystyle\int \frac{x+3}{(x-1)^2}\,dx\)</p>
+      <p>Descomponemos: \(\dfrac{x+3}{(x-1)^2} = \dfrac{A}{x-1}+\dfrac{B}{(x-1)^2}\ \Rightarrow\ x+3 = A(x-1)+B\)</p>
+      <p>Con \(x=1\): \(B=4\). Comparando los términos en \(x\): \(A=1\).</p>
+      <p style="margin-bottom:0">\[\int \frac{x+3}{(x-1)^2}\,dx = \int\frac{dx}{x-1} + 4\int\frac{dx}{(x-1)^2} = \ln|x-1| - \frac{4}{x-1} + C\]</p>
+    </div>
+    <div class="box ejemplo">
+      <div class="tag">Ejemplo · Primero dividir</div>
+      <p>Calcula \(\displaystyle\int \frac{x^2+1}{x-1}\,dx\)</p>
+      <p>El numerador tiene mayor grado: dividimos. \(\dfrac{x^2+1}{x-1} = x+1+\dfrac{2}{x-1}\)</p>
+      <p style="margin-bottom:0">\[\int \frac{x^2+1}{x-1}\,dx = \frac{x^2}{2}+x+2\ln|x-1|+C\]</p>
+    </div>
+  </section>
+
+  <div class="ib">
+    <h3>🎓 Profundiza — Marco IB</h3>
+    <div class="indagacion">
+      <div class="t">🔍 Pregunta de indagación</div>
+      <p>El mismo tipo de expresión —un cociente de polinomios— puede dar como resultado un logaritmo o un arcotangente, según las raíces del denominador. ¿Qué relación hay entre la naturaleza de esas raíces (reales o complejas) y el tipo de función que aparece en la primitiva?</p>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <div class="t">Concepto clave</div>
+        <p>Clasificación · Estructura. El álgebra del denominador (sus raíces) determina por completo qué herramientas de cálculo hacen falta para integrar.</p>
+      </div>
+      <div class="card">
+        <div class="t">Habilidad ATL</div>
+        <p>Pensamiento clasificatorio: antes de calcular nada, identificar el "tipo" de integral racional a la que te enfrentas y elegir la estrategia correspondiente.</p>
+      </div>
+      <div class="card">
+        <div class="t">Conexión TdC</div>
+        <p>¿Por qué las raíces complejas de un polinomio real "aparecen" en el resultado como una función trigonométrica inversa? ¿Qué conexión más profunda entre álgebra y geometría se esconde ahí?</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-bottom">
+    <a class="btn ghost" href="index.html">← Portal de Integrales</a>
+    <a class="btn ghost" href="integrales_b4_intro.html">← Bloque 4</a>
+    <a class="btn on" href="integrales_b5_practica.html">Practicar B5 →</a>
+    <a class="btn on" href="https://pepivalenzuela.github.io/panel-matematicas/#panel">Formativas en mi panel →</a>
+    <a class="btn ghost" href="integrales_b6_intro.html">Bloque 6 →</a>
+  </div>
+
+</div>
+
+</body>
+</html>

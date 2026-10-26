@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B6 Práctica — Integrales · Las Chapas ECOS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+<style>
+  :root{
+    --navy:#1a2e4a; --navy-light:#2a4468; --teal:#1d7a6b; --teal-light:#e4f2ef;
+    --orange:#e07b3a; --orange-light:#fdeee0; --cream:#f5f2eb; --ink:#2b2b2b;
+    --muted:#6b6f76; --white:#ffffff; --line:#e4e0d6;
+    --red:#c65b4a; --red-light:#fbeae7;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Nunito Sans',sans-serif;background:var(--cream);color:var(--ink);line-height:1.6}
+  h1,h2,h3,.brand{font-family:'Nunito',sans-serif}
+  a{color:inherit;text-decoration:none}
+
+  header.top{background:var(--navy);color:#fff;padding:14px 24px;display:flex;align-items:center;gap:8px;font-size:.88rem;font-weight:600;flex-wrap:wrap}
+  header.top a{color:#cfd8e6}
+  header.top a:hover{color:#fff}
+  header.top .sep{color:#5c6b82}
+  header.top .current{color:#fff;font-weight:800}
+
+  .wrap{max-width:720px;margin:0 auto;padding:30px 24px 60px}
+
+  .titlebar{text-align:center;margin-bottom:22px}
+  .titlebar .kicker{display:inline-block;background:var(--teal-light);color:var(--teal);font-weight:800;font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;padding:6px 14px;border-radius:100px;margin-bottom:12px}
+  .titlebar h1{font-size:1.6rem;color:var(--navy);margin:0 0 6px;font-weight:900}
+  .titlebar p{color:var(--muted);margin:0;font-size:.95rem}
+
+  #gate{background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px;text-align:center}
+  #gate input{width:100%;max-width:340px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font-size:1rem;font-family:inherit;margin:14px 0}
+  .btn{display:inline-block;padding:13px 26px;border-radius:10px;font-weight:800;font-size:.95rem;border:none;cursor:pointer;font-family:inherit}
+  .btn.on{background:var(--teal);color:#fff}
+  .btn.on:hover{background:#166357}
+  .btn.ghost{background:#fff;color:var(--navy);border:1px solid var(--line)}
+  .btn.ghost:hover{background:#f0ede4}
+  .btn:disabled{opacity:.5;cursor:default}
+
+  #quiz{display:none}
+  .scoreboard{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 20px;margin-bottom:18px;font-weight:700;color:var(--navy);font-size:.9rem}
+  .scoreboard .ok{color:var(--teal)}
+  .scoreboard .bad{color:var(--red)}
+
+  .qcard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px}
+  .qtag{display:inline-block;font-weight:800;font-size:.72rem;letter-spacing:.05em;text-transform:uppercase;padding:4px 10px;border-radius:100px;margin-bottom:14px}
+  .qtag.teoria{background:var(--teal-light);color:var(--teal)}
+  .qtag.aplicacion{background:var(--orange-light);color:var(--orange)}
+  .qtext{font-size:1.15rem;color:var(--navy);font-weight:700;margin-bottom:20px}
+
+  .opt{display:block;width:100%;text-align:left;background:#fbfbf9;border:1.5px solid var(--line);border-radius:10px;padding:13px 16px;margin-bottom:10px;font-family:inherit;font-size:1rem;cursor:pointer;color:var(--ink)}
+  .opt:hover{border-color:var(--teal)}
+  .opt.correcta{background:var(--teal-light);border-color:var(--teal);color:var(--navy);font-weight:700}
+  .opt.incorrecta{background:var(--red-light);border-color:var(--red);color:#8a3a2e;font-weight:700}
+  .opt:disabled{cursor:default}
+
+  .feedback{margin-top:16px;padding:14px 16px;border-radius:10px;font-size:.92rem;display:none}
+  .feedback.show{display:block}
+  .feedback.ok{background:var(--teal-light);color:#12574c}
+  .feedback.bad{background:var(--red-light);color:#8a3a2e}
+
+  .controls{display:flex;justify-content:flex-end;margin-top:20px}
+
+  .nav-bottom{display:flex;justify-content:space-between;margin-top:28px}
+  @media (max-width:600px){ .wrap{padding:0 16px} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a href="index.html">Portal de Integrales</a>
+  <span class="sep">·</span>
+  <a href="integrales_b6_intro.html">Bloque 6</a>
+  <span class="sep">·</span>
+  <span class="current">Práctica libre</span>
+</header>
+
+<div class="wrap">
+  <div class="titlebar">
+    <span class="kicker">Bloque 6 · Práctica libre</span>
+    <h1>Integrales trigonométricas e irracionales</h1>
+    <p>Ejercicios aleatorios de teoría (tipos de integrales racionales) y de cálculo (arcotangente, arcotangente+logaritmo, fracciones simples). Cada vez que entras, el orden y las preguntas cambian.</p>
+  </div>
+
+  <div id="gate">
+    <p style="margin:0;color:var(--muted)">Escribe tu nombre para empezar (no hay límite de tiempo ni de intentos):</p>
+    <input type="text" id="nombre" placeholder="Nombre y apellidos">
+    <br>
+    <button class="btn on" onclick="empezar()">Empezar a practicar →</button>
+  </div>
+
+  <div id="quiz">
+    <div class="scoreboard">
+      <span id="contador">Pregunta 1</span>
+      <span><span class="ok" id="okcount">0</span> correctas · <span class="bad" id="badcount">0</span> incorrectas</span>
+    </div>
+
+    <div class="qcard">
+      <span class="qtag" id="qtag">Teoría</span>
+      <div class="qtext" id="qtext">—</div>
+      <div id="opciones"></div>
+      <div class="feedback" id="feedback"></div>
+      <div class="controls">
+        <button class="btn on" id="btnSiguiente" onclick="siguiente()" disabled>Siguiente pregunta →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-bottom" style="flex-wrap:wrap;gap:12px">
+    <a class="btn ghost" href="integrales_b6_intro.html">← Volver a la teoría</a>
+    <a class="btn on" href="https://pepivalenzuela.github.io/panel-matematicas/#panel">Formativas en mi panel →</a>
+    
+    <a class="btn ghost" href="index.html">Portal de Integrales</a>
+  </div>
+</div>
+
+<script>
+// ---------- Banco de preguntas: Bloque 1 · Primitiva e integral indefinida ----------
+const BANCO_TEORIA = [
+ {
+  "q": "¿Qué identidad se usa para transformar \\(\\operatorname{sen}^2 x\\) en una expresión sin cuadrados?",
+  "o": [
+   "\\(\\operatorname{sen}^2 x = \\dfrac{1-\\cos 2x}{2}\\)",
+   "\\(\\operatorname{sen}^2 x = \\dfrac{1+\\cos 2x}{2}\\)",
+   "\\(\\operatorname{sen}^2 x = 2\\operatorname{sen} x\\cos x\\)",
+   "\\(\\operatorname{sen}^2 x = 1+\\cos^2 x\\)"
+  ],
+  "c": 0,
+  "e": "De cos 2x = 1 − 2sen²x se despeja sen²x = (1 − cos 2x)/2."
+ },
+ {
+  "q": "¿Y para \\(\\cos^2 x\\)?",
+  "o": [
+   "\\(\\cos^2 x = \\dfrac{1+\\cos 2x}{2}\\)",
+   "\\(\\cos^2 x = \\dfrac{1-\\cos 2x}{2}\\)",
+   "\\(\\cos^2 x = 1+\\operatorname{sen}^2 x\\)",
+   "\\(\\cos^2 x = \\cos 2x\\)"
+  ],
+  "c": 0,
+  "e": "De cos 2x = 2cos²x − 1 se despeja cos²x = (1 + cos 2x)/2."
+ },
+ {
+  "q": "¿Cuál de estas expresiones es igual a \\(\\dfrac{1}{\\cos^2 x}\\)?",
+  "o": [
+   "\\(1+\\operatorname{tg}^2 x\\)",
+   "\\(1-\\operatorname{tg}^2 x\\)",
+   "\\(\\operatorname{tg}^2 x\\)",
+   "\\(1+\\operatorname{sen}^2 x\\)"
+  ],
+  "c": 0,
+  "e": "Dividiendo sen²x + cos²x = 1 entre cos²x: tg²x + 1 = 1/cos²x."
+ },
+ {
+  "q": "Para calcular \\(\\int \\operatorname{sen}^3 x\\,dx\\), ¿qué conviene hacer primero?",
+  "o": [
+   "Separar un seno y escribir \\(\\operatorname{sen}^2 x = 1-\\cos^2 x\\)",
+   "Usar \\(\\operatorname{sen}^2 x = \\dfrac{1-\\cos 2x}{2}\\) directamente",
+   "Integrar por partes tres veces",
+   "Escribir \\(\\operatorname{sen}^3 x = 3\\operatorname{sen} x\\)"
+  ],
+  "c": 0,
+  "e": "Con potencia impar se separa un factor: sen³x = (1 − cos²x)·sen x, y luego el cambio u = cos x."
+ },
+ {
+  "q": "Para calcular \\(\\int \\cos^2 x\\,dx\\), ¿qué conviene hacer?",
+  "o": [
+   "Usar \\(\\cos^2 x = \\dfrac{1+\\cos 2x}{2}\\)",
+   "Separar un coseno y hacer \\(u=\\operatorname{sen} x\\)",
+   "Escribir \\(\\cos^2 x = 2\\cos x\\)",
+   "No se puede integrar"
+  ],
+  "c": 0,
+  "e": "Con potencia par se baja el cuadrado con la fórmula del ángulo doble."
+ },
+ {
+  "q": "En \\(\\int \\operatorname{sen}^5 x\\cos x\\,dx\\), ¿qué método es el más rápido?",
+  "o": [
+   "Cambio \\(u=\\operatorname{sen} x\\), porque \\(\\cos x\\) es su derivada",
+   "Bajar el cuadrado tres veces",
+   "Integración por partes",
+   "Fracciones simples"
+  ],
+  "c": 0,
+  "e": "Aparece una función (sen x) y su derivada (cos x): es una potencia inmediata."
+ },
+ {
+  "q": "¿Por qué \\(\\int \\operatorname{tg}^2 x\\,dx = \\operatorname{tg} x - x + C\\)?",
+  "o": [
+   "Porque \\(\\operatorname{tg}^2 x = (1+\\operatorname{tg}^2 x) - 1\\) y \\(1+\\operatorname{tg}^2 x\\) es la derivada de \\(\\operatorname{tg} x\\)",
+   "Porque la derivada de \\(\\operatorname{tg} x\\) es \\(\\operatorname{tg}^2 x\\)",
+   "Porque \\(\\operatorname{tg}^2 x = 1\\)",
+   "Por integración por partes"
+  ],
+  "c": 0,
+  "e": "Sumando y restando 1 aparece 1 + tg²x, cuya primitiva es tg x; el −1 da −x."
+ },
+ {
+  "q": "¿Qué es una integral irracional?",
+  "o": [
+   "Una integral cuyo integrando contiene raíces",
+   "Una integral sin primitiva",
+   "Una integral cuyo resultado es irracional",
+   "Una integral de un cociente de polinomios"
+  ],
+  "c": 0,
+  "e": "Se llaman irracionales las integrales con radicales (raíces) en el integrando."
+ },
+ {
+  "q": "¿Cómo se escribe \\(\\sqrt{x}\\) para integrarla como potencia?",
+  "o": [
+   "\\(x^{1/2}\\)",
+   "\\(x^{2}\\)",
+   "\\(x^{-1/2}\\)",
+   "\\(2x\\)"
+  ],
+  "c": 0,
+  "e": "La raíz cuadrada es la potencia de exponente 1/2."
+ },
+ {
+  "q": "¿Cuál es la primitiva de \\(\\dfrac{f'(x)}{\\sqrt{f(x)}}\\)?",
+  "o": [
+   "\\(2\\sqrt{f(x)}+C\\)",
+   "\\(\\sqrt{f(x)}+C\\)",
+   "\\(\\ln\\sqrt{f(x)}+C\\)",
+   "\\(\\dfrac{1}{2\\sqrt{f(x)}}+C\\)"
+  ],
+  "c": 0,
+  "e": "La derivada de 2√f es 2·f'/(2√f) = f'/√f."
+ },
+ {
+  "q": "¿Qué función tiene por derivada \\(\\dfrac{1}{\\sqrt{1-x^2}}\\)?",
+  "o": [
+   "\\(\\operatorname{arcsen} x\\)",
+   "\\(\\operatorname{arctg} x\\)",
+   "\\(\\sqrt{1-x^2}\\)",
+   "\\(\\ln(1-x^2)\\)"
+  ],
+  "c": 0,
+  "e": "Es la derivada del arcoseno, así que ∫dx/√(1 − x²) = arcsen x + C."
+ },
+ {
+  "q": "En \\(\\int \\dfrac{dx}{1+\\sqrt{x}}\\), ¿qué cambio elimina la raíz?",
+  "o": [
+   "\\(t=\\sqrt{x}\\), es decir, \\(x=t^2\\) y \\(dx=2t\\,dt\\)",
+   "\\(t=1+x\\)",
+   "\\(t=x^2\\)",
+   "\\(t=\\dfrac{1}{x}\\)"
+  ],
+  "c": 0,
+  "e": "Llamando t a la raíz desaparece el radical y queda una integral racional en t."
+ },
+ {
+  "q": "Si hacemos \\(t=\\sqrt{x}\\), ¿cuánto vale \\(dx\\)?",
+  "o": [
+   "\\(2t\\,dt\\)",
+   "\\(dt\\)",
+   "\\(\\dfrac{dt}{2t}\\)",
+   "\\(t^2\\,dt\\)"
+  ],
+  "c": 0,
+  "e": "x = t² ⇒ dx = 2t dt."
+ },
+ {
+  "q": "¿Cuál es la identidad del ángulo doble para el seno?",
+  "o": [
+   "\\(\\operatorname{sen} 2x = 2\\operatorname{sen} x\\cos x\\)",
+   "\\(\\operatorname{sen} 2x = 2\\operatorname{sen} x\\)",
+   "\\(\\operatorname{sen} 2x = \\operatorname{sen}^2 x - \\cos^2 x\\)",
+   "\\(\\operatorname{sen} 2x = 1-2\\operatorname{sen}^2 x\\)"
+  ],
+  "c": 0,
+  "e": "sen 2x = 2 sen x cos x."
+ },
+ {
+  "q": "Para integrar una potencia de \\(\\operatorname{sen} x\\) o \\(\\cos x\\), ¿en qué se fija primero?",
+  "o": [
+   "En si el exponente es par o impar",
+   "En si el exponente es mayor que 10",
+   "En el signo del coeficiente",
+   "En si hay un logaritmo"
+  ],
+  "c": 0,
+  "e": "Impar: se separa un factor y se usa sen² + cos² = 1. Par: se baja el cuadrado."
+ },
+ {
+  "q": "¿Cómo se comprueba el resultado de una integral trigonométrica o irracional?",
+  "o": [
+   "Derivándolo: debe salir el integrando",
+   "Integrándolo otra vez",
+   "Sustituyendo x = 0 solamente",
+   "No se puede comprobar"
+  ],
+  "c": 0,
+  "e": "Derivar el resultado y obtener el integrando es la comprobación de cualquier primitiva."
+ }
+];
+
+const BANCO_APLICACION = [
+ {
+  "q": "Calcula \\(\\int \\operatorname{sen}^4 x\\cos x\\,dx\\)",
+  "o": [
+   "\\(\\dfrac{\\operatorname{sen}^5 x}{5}+C\\)",
+   "\\(\\dfrac{\\cos^5 x}{5}+C\\)",
+   "\\(-\\dfrac{\\operatorname{sen}^5 x}{5}+C\\)",
+   "\\(4\\operatorname{sen}^3 x+C\\)"
+  ],
+  "c": 0,
+  "e": "u = sen x, du = cos x dx: ∫u⁴ du = u⁵/5 = sen⁵x/5 + C."
+ },
+ {
+  "q": "Calcula \\(\\int \\cos^3 x\\,\\operatorname{sen} x\\,dx\\)",
+  "o": [
+   "\\(-\\dfrac{\\cos^4 x}{4}+C\\)",
+   "\\(\\dfrac{\\cos^4 x}{4}+C\\)",
+   "\\(\\dfrac{\\operatorname{sen}^4 x}{4}+C\\)",
+   "\\(-3\\cos^2 x+C\\)"
+  ],
+  "c": 0,
+  "e": "u = cos x, du = −sen x dx: −∫u³ du = −cos⁴x/4 + C."
+ },
+ {
+  "q": "Calcula \\(\\int \\operatorname{sen} x\\cos x\\,dx\\)",
+  "o": [
+   "\\(\\dfrac{\\operatorname{sen}^2 x}{2}+C\\)",
+   "\\(\\operatorname{sen} x\\cos x+C\\)",
+   "\\(-\\dfrac{\\operatorname{sen}^2 x}{2}+C\\)",
+   "\\(\\operatorname{sen}^2 x+C\\)"
+  ],
+  "c": 0,
+  "e": "u = sen x, du = cos x dx: ∫u du = sen²x/2 + C (también vale −cos²x/2 + C, que solo se diferencia en una constante)."
+ },
+ {
+  "q": "Calcula \\(\\int \\operatorname{sen}^3 x\\,dx\\)",
+  "o": [
+   "\\(-\\cos x+\\dfrac{\\cos^3 x}{3}+C\\)",
+   "\\(\\cos x-\\dfrac{\\cos^3 x}{3}+C\\)",
+   "\\(\\dfrac{\\operatorname{sen}^4 x}{4}+C\\)",
+   "\\(-\\cos^3 x+C\\)"
+  ],
+  "c": 0,
+  "e": "sen³x = (1 − cos²x) sen x; u = cos x: −∫(1 − u²) du = −cos x + cos³x/3 + C."
+ },
+ {
+  "q": "Calcula \\(\\int \\cos^3 x\\,dx\\)",
+  "o": [
+   "\\(\\operatorname{sen} x-\\dfrac{\\operatorname{sen}^3 x}{3}+C\\)",
+   "\\(\\operatorname{sen} x+\\dfrac{\\operatorname{sen}^3 x}{3}+C\\)",
+   "\\(\\dfrac{\\cos^4 x}{4}+C\\)",
+   "\\(-\\operatorname{sen} x+\\dfrac{\\operatorname{sen}^3 x}{3}+C\\)"
+  ],
+  "c": 0,
+  "e": "cos³x = (1 − sen²x) cos x; u = sen x: ∫(1 − u²) du = sen x − sen³x/3 + C."
+ },
+ {
+  "q": "Calcula \\(\\int \\cos^2 x\\,dx\\)",
+  "o": [
+   "\\(\\dfrac{x}{2}+\\dfrac{\\operatorname{sen} 2x}{4}+C\\)",
+   "\\(\\dfrac{x}{2}-\\dfrac{\\operatorname{sen} 2x}{4}+C\\)",
+   "\\(\\dfrac{\\cos^3 x}{3}+C\\)",
+   "\\(\\dfrac{x}{2}+\\dfrac{\\operatorname{sen} 2x}{2}+C\\)"
+  ],
+  "c": 0,
+  "e": "∫(1 + cos 2x)/2 dx = x/2 + sen 2x/4 + C."
+ },
+ {
+  "q": "Calcula \\(\\int \\operatorname{sen}^2 x\\,dx\\)",
+  "o": [
+   "\\(\\dfrac{x}{2}-\\dfrac{\\operatorname{sen} 2x}{4}+C\\)",
+   "\\(\\dfrac{x}{2}+\\dfrac{\\operatorname{sen} 2x}{4}+C\\)",
+   "\\(-\\dfrac{\\cos^3 x}{3}+C\\)",
+   "\\(\\dfrac{\\operatorname{sen}^3 x}{3}+C\\)"
+  ],
+  "c": 0,
+  "e": "∫(1 − cos 2x)/2 dx = x/2 − sen 2x/4 + C."
+ },
+ {
+  "q": "Calcula \\(\\int \\operatorname{tg}^2 x\\,dx\\)",
+  "o": [
+   "\\(\\operatorname{tg} x-x+C\\)",
+   "\\(\\operatorname{tg} x+x+C\\)",
+   "\\(\\dfrac{\\operatorname{tg}^3 x}{3}+C\\)",
+   "\\(-\\ln|\\cos x|+C\\)"
+  ],
+  "c": 0,
+  "e": "∫(1 + tg²x − 1) dx = tg x − x + C."
+ },
+ {
+  "q": "Calcula \\(\\int \\operatorname{sen} 2x\\,dx\\)",
+  "o": [
+   "\\(-\\dfrac{\\cos 2x}{2}+C\\)",
+   "\\(\\dfrac{\\cos 2x}{2}+C\\)",
+   "\\(-2\\cos 2x+C\\)",
+   "\\(-\\cos 2x+C\\)"
+  ],
+  "c": 0,
+  "e": "u = 2x, dx = du/2: (1/2)∫sen u du = −cos 2x/2 + C."
+ },
+ {
+  "q": "Calcula \\(\\int \\sqrt{x}\\,dx\\)",
+  "o": [
+   "\\(\\dfrac{2}{3}x^{3/2}+C\\)",
+   "\\(\\dfrac{3}{2}x^{3/2}+C\\)",
+   "\\(\\dfrac{1}{2\\sqrt{x}}+C\\)",
+   "\\(x^{3/2}+C\\)"
+  ],
+  "c": 0,
+  "e": "∫x^(1/2) dx = x^(3/2)/(3/2) = (2/3)x^(3/2) + C."
+ },
+ {
+  "q": "Calcula \\(\\int \\dfrac{1}{\\sqrt{x}}\\,dx\\)",
+  "o": [
+   "\\(2\\sqrt{x}+C\\)",
+   "\\(\\sqrt{x}+C\\)",
+   "\\(\\ln\\sqrt{x}+C\\)",
+   "\\(-\\dfrac{1}{2x\\sqrt{x}}+C\\)"
+  ],
+  "c": 0,
+  "e": "∫x^(−1/2) dx = x^(1/2)/(1/2) = 2√x + C."
+ },
+ {
+  "q": "Calcula \\(\\int x\\sqrt{x^2+1}\\,dx\\)",
+  "o": [
+   "\\(\\dfrac{(x^2+1)^{3/2}}{3}+C\\)",
+   "\\(\\dfrac{2(x^2+1)^{3/2}}{3}+C\\)",
+   "\\(\\dfrac{x^2}{2}\\sqrt{x^2+1}+C\\)",
+   "\\((x^2+1)^{3/2}+C\\)"
+  ],
+  "c": 0,
+  "e": "(1/2)∫2x(x² + 1)^(1/2) dx = (1/2)·(x² + 1)^(3/2)/(3/2) = (x² + 1)^(3/2)/3 + C."
+ },
+ {
+  "q": "Calcula \\(\\int \\dfrac{x}{\\sqrt{x^2+4}}\\,dx\\)",
+  "o": [
+   "\\(\\sqrt{x^2+4}+C\\)",
+   "\\(2\\sqrt{x^2+4}+C\\)",
+   "\\(\\ln(x^2+4)+C\\)",
+   "\\(\\dfrac{1}{2}\\sqrt{x^2+4}+C\\)"
+  ],
+  "c": 0,
+  "e": "(1/2)∫2x/√(x² + 4) dx = (1/2)·2√(x² + 4) = √(x² + 4) + C."
+ },
+ {
+  "q": "Calcula \\(\\int \\dfrac{2}{\\sqrt{1-x^2}}\\,dx\\)",
+  "o": [
+   "\\(2\\operatorname{arcsen} x+C\\)",
+   "\\(2\\operatorname{arctg} x+C\\)",
+   "\\(-2\\sqrt{1-x^2}+C\\)",
+   "\\(\\operatorname{arcsen}(2x)+C\\)"
+  ],
+  "c": 0,
+  "e": "La constante sale fuera y ∫dx/√(1 − x²) = arcsen x: 2 arcsen x + C."
+ },
+ {
+  "q": "Calcula \\(\\int \\dfrac{dx}{1+\\sqrt{x}}\\)",
+  "o": [
+   "\\(2\\sqrt{x}-2\\ln(1+\\sqrt{x})+C\\)",
+   "\\(\\ln(1+\\sqrt{x})+C\\)",
+   "\\(2\\sqrt{x}+2\\ln(1+\\sqrt{x})+C\\)",
+   "\\(2\\ln(1+\\sqrt{x})+C\\)"
+  ],
+  "c": 0,
+  "e": "t = √x, dx = 2t dt: ∫2t/(1 + t) dt = ∫(2 − 2/(1 + t)) dt = 2t − 2 ln|1 + t| = 2√x − 2 ln(1 + √x) + C."
+ },
+ {
+  "q": "Calcula \\(\\int \\dfrac{\\cos x}{\\sqrt{\\operatorname{sen} x}}\\,dx\\)",
+  "o": [
+   "\\(2\\sqrt{\\operatorname{sen} x}+C\\)",
+   "\\(\\sqrt{\\operatorname{sen} x}+C\\)",
+   "\\(\\ln|\\operatorname{sen} x|+C\\)",
+   "\\(-2\\sqrt{\\cos x}+C\\)"
+  ],
+  "c": 0,
+  "e": "Es del tipo f'/√f con f = sen x: 2√(sen x) + C."
+ }
+];
+
+let orden = [];
+let idx = 0;
+let ok = 0, bad = 0;
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function empezar(){
+  const nombre = document.getElementById('nombre').value.trim();
+  if(!nombre){ alert('Escribe tu nombre para empezar.'); return; }
+  document.getElementById('gate').style.display='none';
+  document.getElementById('quiz').style.display='block';
+  generarSecuencia();
+  mostrarPregunta();
+}
+
+function generarSecuencia(){
+  const todas = shuffle(
+    BANCO_TEORIA.map(x=>({...x,tipo:'teoria'})).concat(
+    BANCO_APLICACION.map(x=>({...x,tipo:'aplicacion'})))
+  );
+  orden = todas;
+  idx = 0; ok = 0; bad = 0;
+}
+
+function mostrarPregunta(){
+  if(idx >= orden.length){ generarSecuencia(); }
+  const item = orden[idx];
+  document.getElementById('contador').textContent = `Pregunta ${idx+1}`;
+  document.getElementById('okcount').textContent = ok;
+  document.getElementById('badcount').textContent = bad;
+  const tag = document.getElementById('qtag');
+  tag.textContent = item.tipo === 'teoria' ? 'Teoría' : 'Aplicación';
+  tag.className = 'qtag ' + item.tipo;
+  document.getElementById('qtext').innerHTML = item.q;
+
+  const opciones = shuffle(item.o.map((texto,i)=>({texto, esCorrecta:i===item.c})));
+  const cont = document.getElementById('opciones');
+  cont.innerHTML='';
+  opciones.forEach(op=>{
+    const btn = document.createElement('button');
+    btn.className='opt';
+    btn.innerHTML = op.texto;
+    btn.onclick = ()=>responder(btn, op.esCorrecta, opciones, cont);
+    cont.appendChild(btn);
+  });
+
+  document.getElementById('feedback').className='feedback';
+  document.getElementById('btnSiguiente').disabled = true;
+  if(window.MathJax){ MathJax.typesetClear([cont, document.getElementById('qtext')]); MathJax.typesetPromise([cont, document.getElementById('qtext')]); }
+}
+
+function responder(btnPulsado, esCorrecta, opciones, cont){
+  const botones = cont.querySelectorAll('.opt');
+  botones.forEach(b=>b.disabled=true);
+  botones.forEach((b,i)=>{
+    if(opciones[i].esCorrecta) b.classList.add('correcta');
+  });
+  if(!esCorrecta) btnPulsado.classList.add('incorrecta');
+
+  const fb = document.getElementById('feedback');
+  const exp = orden[idx] && orden[idx].e ? '<div style="margin-top:8px;font-weight:400">💡 ' + orden[idx].e + '</div>' : '';
+  if(esCorrecta){
+    ok++;
+    fb.innerHTML = '<b>✓ Correcto.</b>' + exp;
+    fb.className = 'feedback show ok';
+  } else {
+    bad++;
+    fb.innerHTML = '<b>✗ No es correcto. La respuesta correcta está marcada en verde.</b>' + exp;
+    fb.className = 'feedback show bad';
+  }
+  if(window.MathJax && MathJax.typesetPromise){ MathJax.typesetPromise([fb]).catch(()=>{}); }
+  document.getElementById('okcount').textContent = ok;
+  document.getElementById('badcount').textContent = bad;
+  document.getElementById('btnSiguiente').disabled = false;
+}
+
+function siguiente(){
+  idx++;
+  mostrarPregunta();
+}
+</script>
+
+</body>
+</html>

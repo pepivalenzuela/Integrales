@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B5 Práctica — Integrales · Las Chapas ECOS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+<style>
+  :root{
+    --navy:#1a2e4a; --navy-light:#2a4468; --teal:#1d7a6b; --teal-light:#e4f2ef;
+    --orange:#e07b3a; --orange-light:#fdeee0; --cream:#f5f2eb; --ink:#2b2b2b;
+    --muted:#6b6f76; --white:#ffffff; --line:#e4e0d6;
+    --red:#c65b4a; --red-light:#fbeae7;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Nunito Sans',sans-serif;background:var(--cream);color:var(--ink);line-height:1.6}
+  h1,h2,h3,.brand{font-family:'Nunito',sans-serif}
+  a{color:inherit;text-decoration:none}
+
+  header.top{background:var(--navy);color:#fff;padding:14px 24px;display:flex;align-items:center;gap:8px;font-size:.88rem;font-weight:600;flex-wrap:wrap}
+  header.top a{color:#cfd8e6}
+  header.top a:hover{color:#fff}
+  header.top .sep{color:#5c6b82}
+  header.top .current{color:#fff;font-weight:800}
+
+  .wrap{max-width:720px;margin:0 auto;padding:30px 24px 60px}
+
+  .titlebar{text-align:center;margin-bottom:22px}
+  .titlebar .kicker{display:inline-block;background:var(--teal-light);color:var(--teal);font-weight:800;font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;padding:6px 14px;border-radius:100px;margin-bottom:12px}
+  .titlebar h1{font-size:1.6rem;color:var(--navy);margin:0 0 6px;font-weight:900}
+  .titlebar p{color:var(--muted);margin:0;font-size:.95rem}
+
+  #gate{background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px;text-align:center}
+  #gate input{width:100%;max-width:340px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font-size:1rem;font-family:inherit;margin:14px 0}
+  .btn{display:inline-block;padding:13px 26px;border-radius:10px;font-weight:800;font-size:.95rem;border:none;cursor:pointer;font-family:inherit}
+  .btn.on{background:var(--teal);color:#fff}
+  .btn.on:hover{background:#166357}
+  .btn.ghost{background:#fff;color:var(--navy);border:1px solid var(--line)}
+  .btn.ghost:hover{background:#f0ede4}
+  .btn:disabled{opacity:.5;cursor:default}
+
+  #quiz{display:none}
+  .scoreboard{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 20px;margin-bottom:18px;font-weight:700;color:var(--navy);font-size:.9rem}
+  .scoreboard .ok{color:var(--teal)}
+  .scoreboard .bad{color:var(--red)}
+
+  .qcard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px}
+  .qtag{display:inline-block;font-weight:800;font-size:.72rem;letter-spacing:.05em;text-transform:uppercase;padding:4px 10px;border-radius:100px;margin-bottom:14px}
+  .qtag.teoria{background:var(--teal-light);color:var(--teal)}
+  .qtag.aplicacion{background:var(--orange-light);color:var(--orange)}
+  .qtext{font-size:1.15rem;color:var(--navy);font-weight:700;margin-bottom:20px}
+
+  .opt{display:block;width:100%;text-align:left;background:#fbfbf9;border:1.5px solid var(--line);border-radius:10px;padding:13px 16px;margin-bottom:10px;font-family:inherit;font-size:1rem;cursor:pointer;color:var(--ink)}
+  .opt:hover{border-color:var(--teal)}
+  .opt.correcta{background:var(--teal-light);border-color:var(--teal);color:var(--navy);font-weight:700}
+  .opt.incorrecta{background:var(--red-light);border-color:var(--red);color:#8a3a2e;font-weight:700}
+  .opt:disabled{cursor:default}
+
+  .feedback{margin-top:16px;padding:14px 16px;border-radius:10px;font-size:.92rem;display:none}
+  .feedback.show{display:block}
+  .feedback.ok{background:var(--teal-light);color:#12574c}
+  .feedback.bad{background:var(--red-light);color:#8a3a2e}
+
+  .controls{display:flex;justify-content:flex-end;margin-top:20px}
+
+  .nav-bottom{display:flex;justify-content:space-between;margin-top:28px}
+  @media (max-width:600px){ .wrap{padding:0 16px} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a href="index.html">Portal de Integrales</a>
+  <span class="sep">·</span>
+  <a href="integrales_b5_intro.html">Bloque 5</a>
+  <span class="sep">·</span>
+  <span class="current">Práctica libre</span>
+</header>
+
+<div class="wrap">
+  <div class="titlebar">
+    <span class="kicker">Bloque 5 · Práctica libre</span>
+    <h1>Integrales racionales</h1>
+    <p>Ejercicios aleatorios de teoría (tipos de integrales racionales) y de cálculo (arcotangente, arcotangente+logaritmo, fracciones simples). Cada vez que entras, el orden y las preguntas cambian.</p>
+  </div>
+
+  <div id="gate">
+    <p style="margin:0;color:var(--muted)">Escribe tu nombre para empezar (no hay límite de tiempo ni de intentos):</p>
+    <input type="text" id="nombre" placeholder="Nombre y apellidos">
+    <br>
+    <button class="btn on" onclick="empezar()">Empezar a practicar →</button>
+  </div>
+
+  <div id="quiz">
+    <div class="scoreboard">
+      <span id="contador">Pregunta 1</span>
+      <span><span class="ok" id="okcount">0</span> correctas · <span class="bad" id="badcount">0</span> incorrectas</span>
+    </div>
+
+    <div class="qcard">
+      <span class="qtag" id="qtag">Teoría</span>
+      <div class="qtext" id="qtext">—</div>
+      <div id="opciones"></div>
+      <div class="feedback" id="feedback"></div>
+      <div class="controls">
+        <button class="btn on" id="btnSiguiente" onclick="siguiente()" disabled>Siguiente pregunta →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-bottom" style="flex-wrap:wrap;gap:12px">
+    <a class="btn ghost" href="integrales_b5_intro.html">← Volver a la teoría</a>
+    <a class="btn on" href="https://pepivalenzuela.github.io/panel-matematicas/#panel">Formativas en mi panel →</a>
+    <a class="btn ghost" href="integrales_b6_intro.html">Bloque 6 →</a>
+    <a class="btn ghost" href="index.html">Portal de Integrales</a>
+  </div>
+</div>
+
+<script>
+// ---------- Banco de preguntas: Bloque 1 · Primitiva e integral indefinida ----------
+const BANCO_TEORIA = [
+ {
+  "q": "¿Qué es una integral racional?",
+  "o": [
+   "El cociente de dos polinomios: ∫P(x)/Q(x) dx",
+   "Una integral con raíz cuadrada",
+   "Una integral de una función trigonométrica",
+   "Una integral con límites infinitos"
+  ],
+  "c": 0,
+  "e": "Una integral racional es la de un cociente de polinomios P(x)/Q(x)."
+ },
+ {
+  "q": "Si el grado de P(x) es mayor o igual que el de Q(x), ¿qué debe hacerse primero?",
+  "o": [
+   "Dividir los polinomios",
+   "Aplicar directamente cambio de variable",
+   "Descomponer en fracciones simples sin más",
+   "Derivar P(x)"
+  ],
+  "c": 0,
+  "e": "Si el grado del numerador es mayor o igual que el del denominador, primero se dividen los polinomios."
+ },
+ {
+  "q": "Tras dividir los polinomios, ¿qué forma toma la fracción?",
+  "o": [
+   "\\(C(x) + \\dfrac{R(x)}{Q(x)}\\), con grado(R) &lt; grado(Q)",
+   "\\(\\dfrac{C(x)}{R(x)}\\)",
+   "Siempre un polinomio sin resto",
+   "\\(P(x)\\cdot Q(x)\\)"
+  ],
+  "c": 0,
+  "e": "Al dividir queda cociente más resto/divisor: C(x) + R(x)/Q(x), con el grado de R menor que el de Q."
+ },
+ {
+  "q": "¿De qué depende que el resultado de una integral racional sea un logaritmo o un arcotangente?",
+  "o": [
+   "Del tipo de raíces del denominador (reales o complejas)",
+   "Del signo del numerador",
+   "Del grado del numerador únicamente",
+   "Del valor de x en el punto inicial"
+  ],
+  "c": 0,
+  "e": "Depende de las raíces del denominador: reales dan logaritmos; si no tiene raíces reales aparece el arcotangente."
+ },
+ {
+  "q": "¿Cuándo se aplica la fórmula del tipo arcotangente 'puro'?",
+  "o": [
+   "Cuando el denominador es \\(x^2+a^2\\) y el numerador es constante",
+   "Cuando el denominador tiene raíces reales distintas",
+   "Siempre que el numerador sea x",
+   "Cuando el denominador es un polinomio de grado 1"
+  ],
+  "c": 0,
+  "e": "El arcotangente «puro» aparece con denominador x² + a² y numerador constante."
+ },
+ {
+  "q": "¿Cuál es la primitiva de \\(\\displaystyle\\int \\dfrac{k}{x^2+a^2}dx\\)?",
+  "o": [
+   "\\(\\dfrac{k}{a}\\operatorname{arctg}\\left(\\dfrac{x}{a}\\right)+C\\)",
+   "\\(k\\operatorname{arctg}(ax)+C\\)",
+   "\\(\\ln(x^2+a^2)+C\\)",
+   "\\(\\dfrac{k}{a}\\ln\\left(\\dfrac{x}{a}\\right)+C\\)"
+  ],
+  "c": 0,
+  "e": "Sacando a² factor común: k/(x² + a²) = (k/a²)·1/(1 + (x/a)²), y con u = x/a queda (k/a) arctg(x/a) + C."
+ },
+ {
+  "q": "Si el denominador es \\(x^2+2x+5\\) (sin raíces reales, con término en x), ¿qué se hace antes de aplicar la fórmula del arcotangente?",
+  "o": [
+   "Completar el cuadrado",
+   "Multiplicar por el conjugado",
+   "Aplicar directamente la fórmula sin cambios",
+   "Descomponer en fracciones simples"
+  ],
+  "c": 0,
+  "e": "Se completa el cuadrado: x² + 2x + 5 = (x + 1)² + 4, que ya es del tipo u² + a²."
+ },
+ {
+  "q": "¿Cuándo aparece un logaritmo Y un arcotangente en la misma integral racional?",
+  "o": [
+   "Cuando el numerador no es constante y el denominador es un cuadrático irreducible",
+   "Cuando el numerador es cero",
+   "Siempre que el denominador tiene grado 1",
+   "Nunca aparecen juntos"
+  ],
+  "c": 0,
+  "e": "Si el numerador tiene término en x y el denominador no tiene raíces reales, una parte da logaritmo y otra arcotangente."
+ },
+ {
+  "q": "Para separar ese tipo de integral (logaritmo + arcotangente), ¿en qué se basa la descomposición del numerador?",
+  "o": [
+   "En escribirlo usando la derivada del denominador más un resto constante",
+   "En derivarlo directamente",
+   "En igualarlo a cero",
+   "En multiplicarlo por el denominador"
+  ],
+  "c": 0,
+  "e": "Se escribe el numerador como k·(derivada del denominador) + constante: la primera parte da ln y la segunda arctg."
+ },
+ {
+  "q": "¿Cuándo se usa la descomposición en fracciones simples?",
+  "o": [
+   "Cuando el denominador tiene raíces reales y se puede factorizar",
+   "Cuando el denominador es irreducible",
+   "Solo si el numerador es constante",
+   "Solo con exponenciales"
+  ],
+  "c": 0,
+  "e": "Las fracciones simples se usan cuando el denominador tiene raíces reales y se puede factorizar."
+ },
+ {
+  "q": "En la descomposición con raíces reales simples, ¿qué forma toma cada fracción?",
+  "o": [
+   "\\(\\dfrac{A}{x-r}\\)",
+   "\\(A(x-r)\\)",
+   "\\(\\dfrac{A}{x^2-r}\\)",
+   "\\(A\\cdot(x-r)^2\\)"
+  ],
+  "c": 0,
+  "e": "Con raíces reales simples, cada factor (x − r) da una fracción A/(x − r)."
+ },
+ {
+  "q": "¿Qué primitiva da cada fracción simple del tipo \\(\\dfrac{A}{x-r}\\)?",
+  "o": [
+   "\\(A\\ln|x-r|+C\\)",
+   "\\(A\\operatorname{arctg}(x-r)+C\\)",
+   "\\(\\dfrac{A}{(x-r)^2}+C\\)",
+   "\\(Ae^{x-r}+C\\)"
+  ],
+  "c": 0,
+  "e": "∫A/(x − r) dx = A ln|x − r| + C."
+ },
+ {
+  "q": "¿Cómo se hallan las constantes A, B... en la descomposición en fracciones simples?",
+  "o": [
+   "Multiplicando por el denominador común e igualando numeradores (o sustituyendo cada raíz)",
+   "Derivando la fracción original",
+   "Integrando directamente sin descomponer",
+   "Aplicando la fórmula del arcotangente"
+  ],
+  "c": 0,
+  "e": "Se multiplica por el denominador común y se igualan numeradores; dando a x el valor de cada raíz salen A, B…"
+ },
+ {
+  "q": "¿Por qué es necesario que la fracción sea propia (grado numerador &lt; grado denominador) antes de descomponer en fracciones simples?",
+  "o": [
+   "Porque la descomposición en fracciones simples solo se aplica a fracciones propias",
+   "No es necesario, funciona igual siempre",
+   "Porque si no, el resultado sería siempre cero",
+   "Porque el denominador cambiaría de signo"
+  ],
+  "c": 0,
+  "e": "La descomposición solo funciona con fracciones propias; si no lo es, primero se divide."
+ },
+ {
+  "q": "¿Qué tipo de denominador da lugar a una primitiva de tipo arcotangente en lugar de logaritmo?",
+  "o": [
+   "Un denominador cuadrático irreducible (sin raíces reales)",
+   "Un denominador con raíces reales distintas",
+   "Un denominador de grado 1",
+   "Cualquier denominador polinómico"
+  ],
+  "c": 0,
+  "e": "Un denominador de segundo grado sin raíces reales (irreducible) da arcotangente."
+ },
+ {
+  "q": "Si el denominador tiene una raíz real doble, como \\((x-1)^2\\), ¿cómo se plantea la descomposición?",
+  "o": [
+   "\\(\\dfrac{A}{x-1}+\\dfrac{B}{(x-1)^2}\\)",
+   "\\(\\dfrac{A}{(x-1)^2}\\) solamente",
+   "\\(\\dfrac{A}{x-1}+\\dfrac{B}{x-1}\\)",
+   "\\(\\dfrac{Ax+B}{x-1}\\)"
+  ],
+  "c": 0,
+  "e": "Con una raíz doble aparecen dos fracciones: una con (x − 1) y otra con (x − 1)²."
+ }
+];
+
+const BANCO_APLICACION = [
+ {
+  "q": "Calcula \\(\\displaystyle\\int \\frac{5}{x^2+4}\\,dx\\)",
+  "o": [
+   "\\(\\dfrac{5}{2}\\operatorname{arctg}\\left(\\dfrac{x}{2}\\right)+C\\)",
+   "\\(5\\operatorname{arctg}\\left(\\dfrac{x}{2}\\right)+C\\)",
+   "\\(\\dfrac{2}{5}\\operatorname{arctg}\\left(\\dfrac{x}{2}\\right)+C\\)",
+   "\\(\\dfrac{5}{2}\\operatorname{arctg}(2x)+C\\)"
+  ],
+  "c": 0,
+  "e": "a² = 4 ⇒ a = 2: (5/2) arctg(x/2) + C."
+ },
+ {
+  "q": "Calcula \\(\\displaystyle\\int \\frac{3}{x^2+9}\\,dx\\)",
+  "o": [
+   "\\(\\operatorname{arctg}\\left(\\dfrac{x}{3}\\right)+C\\)",
+   "\\(3\\operatorname{arctg}\\left(\\dfrac{x}{3}\\right)+C\\)",
+   "\\(\\dfrac{1}{3}\\operatorname{arctg}(3x)+C\\)",
+   "\\(\\dfrac{1}{9}\\operatorname{arctg}\\left(\\dfrac{x}{3}\\right)+C\\)"
+  ],
+  "c": 0,
+  "e": "a² = 9 ⇒ a = 3: (3/3) arctg(x/3) = arctg(x/3) + C."
+ },
+ {
+  "q": "Calcula \\(\\displaystyle\\int \\frac{dx}{x^2+1}\\)",
+  "o": [
+   "\\(\\operatorname{arctg} x + C\\)",
+   "\\(-\\operatorname{arctg} x + C\\)",
+   "\\(\\ln(x^2+1)+C\\)",
+   "\\(x\\operatorname{arctg} x + C\\)"
+  ],
+  "c": 0,
+  "e": "Es inmediata: ∫dx/(x² + 1) = arctg x + C."
+ },
+ {
+  "q": "Calcula \\(\\displaystyle\\int \\frac{dx}{x^2+2x+5}\\)",
+  "o": [
+   "\\(\\dfrac{1}{2}\\operatorname{arctg}\\left(\\dfrac{x+1}{2}\\right)+C\\)",
+   "\\(\\operatorname{arctg}\\left(\\dfrac{x+1}{2}\\right)+C\\)",
+   "\\(\\dfrac{1}{2}\\operatorname{arctg}\\left(\\dfrac{x-1}{2}\\right)+C\\)",
+   "\\(\\dfrac{1}{4}\\operatorname{arctg}\\left(\\dfrac{x+1}{2}\\right)+C\\)"
+  ],
+  "c": 0,
+  "e": "x² + 2x + 5 = (x + 1)² + 4 ⇒ a = 2: (1/2) arctg((x + 1)/2) + C."
+ },
+ {
+  "q": "Calcula \\(\\displaystyle\\int \\frac{2}{x^2+2x+2}\\,dx\\)",
+  "o": [
+   "\\(2\\operatorname{arctg}(x+1)+C\\)",
+   "\\(\\operatorname{arctg}(x+1)+C\\)",
+   "\\(2\\operatorname{arctg}(x-1)+C\\)",
+   "\\(\\dfrac{1}{2}\\operatorname{arctg}(x+1)+C\\)"
+  ],
+  "c": 0,
+  "e": "x² + 2x + 2 = (x + 1)² + 1 ⇒ 2∫dx/((x + 1)² + 1) = 2 arctg(x + 1) + C."
+ },
+ {
+  "q": "Calcula \\(\\displaystyle\\int \\frac{2x+3}{x^2+4}\\,dx\\)",
+  "o": [
+   "\\(\\ln(x^2+4) + \\dfrac{3}{2}\\operatorname{arctg}\\left(\\dfrac{x}{2}\\right)+C\\)",
+   "\\(\\ln(x^2+4) - \\dfrac{3}{2}\\operatorname{arctg}\\left(\\dfrac{x}{2}\\right)+C\\)",
+   "\\(2\\ln(x^2+4)+\\dfrac{3}{2}\\operatorname{arctg}\\left(\\dfrac{x}{2}\\right)+C\\)",
+   "\\(\\ln(x^2+4)+3\\operatorname{arctg}\\left(\\dfrac{x}{2}\\right)+C\\)"
+  ],
+  "c": 0,
+  "e": "2x + 3 = 1·(2x) + 3: ∫2x/(x² + 4) dx + 3∫dx/(x² + 4) = ln(x² + 4) + (3/2) arctg(x/2) + C."
+ },
+ {
+  "q": "Calcula \\(\\displaystyle\\int \\frac{x+1}{x^2+9}\\,dx\\)",
+  "o": [
+   "\\(\\dfrac{1}{2}\\ln(x^2+9)+\\dfrac{1}{3}\\operatorname{arctg}\\left(\\dfrac{x}{3}\\right)+C\\)",
+   "\\(\\dfrac{1}{2}\\ln(x^2+9)-\\dfrac{1}{3}\\operatorname{arctg}\\left(\\dfrac{x}{3}\\right)+C\\)",
+   "\\(\\ln(x^2+9)+\\dfrac{1}{3}\\operatorname{arctg}\\left(\\dfrac{x}{3}\\right)+C\\)",
+   "\\(\\dfrac{1}{2}\\ln(x^2+9)+\\operatorname{arctg}\\left(\\dfrac{x}{3}\\right)+C\\)"
+  ],
+  "c": 0,
+  "e": "x + 1 = (1/2)(2x) + 1: (1/2) ln(x² + 9) + (1/3) arctg(x/3) + C."
+ },
+ {
+  "q": "Calcula \\(\\displaystyle\\int \\frac{4x-1}{(x-1)(x+3)}\\,dx\\)",
+  "o": [
+   "\\(\\dfrac{3}{4}\\ln|x-1|+\\dfrac{13}{4}\\ln|x+3|+C\\)",
+   "\\(\\dfrac{4}{3}\\ln|x-1|+\\dfrac{4}{13}\\ln|x+3|+C\\)",
+   "\\(\\dfrac{3}{4}\\ln|x-1|-\\dfrac{13}{4}\\ln|x+3|+C\\)",
+   "\\(\\dfrac{13}{4}\\ln|x-1|+\\dfrac{3}{4}\\ln|x+3|+C\\)"
+  ],
+  "c": 0,
+  "e": "4x − 1 = A(x + 3) + B(x − 1). x = 1: 3 = 4A ⇒ A = 3/4. x = −3: −13 = −4B ⇒ B = 13/4."
+ },
+ {
+  "q": "Calcula \\(\\displaystyle\\int \\frac{3x+7}{(x+1)(x+2)}\\,dx\\)",
+  "o": [
+   "\\(4\\ln|x+1| - \\ln|x+2| + C\\)",
+   "\\(\\ln|x+1| - 4\\ln|x+2| + C\\)",
+   "\\(4\\ln|x+1| + \\ln|x+2| + C\\)",
+   "\\(-4\\ln|x+1| - \\ln|x+2| + C\\)"
+  ],
+  "c": 0,
+  "e": "3x + 7 = A(x + 2) + B(x + 1). x = −1: 4 = A. x = −2: 1 = −B ⇒ B = −1. Resultado: 4 ln|x + 1| − ln|x + 2| + C."
+ },
+ {
+  "q": "Calcula \\(\\displaystyle\\int \\frac{x-1}{x(x-2)}\\,dx\\)",
+  "o": [
+   "\\(\\dfrac{1}{2}\\ln|x|+\\dfrac{1}{2}\\ln|x-2|+C\\)",
+   "\\(\\dfrac{1}{2}\\ln|x|-\\dfrac{1}{2}\\ln|x-2|+C\\)",
+   "\\(\\ln|x|+\\ln|x-2|+C\\)",
+   "\\(\\dfrac{1}{2}\\ln|x-2|+C\\)"
+  ],
+  "c": 0,
+  "e": "x − 1 = A(x − 2) + Bx. x = 0: −1 = −2A ⇒ A = 1/2. x = 2: 1 = 2B ⇒ B = 1/2."
+ },
+ {
+  "q": "Calcula \\(\\displaystyle\\int \\frac{dx}{x^2-1}\\)",
+  "o": [
+   "\\(\\dfrac{1}{2}\\ln|x-1| - \\dfrac{1}{2}\\ln|x+1| + C\\)",
+   "\\(\\dfrac{1}{2}\\ln|x-1| + \\dfrac{1}{2}\\ln|x+1| + C\\)",
+   "\\(\\ln|x-1| - \\ln|x+1| + C\\)",
+   "\\(\\dfrac{1}{2}\\ln|x+1| - \\dfrac{1}{2}\\ln|x-1| + C\\)"
+  ],
+  "c": 0,
+  "e": "x² − 1 = (x − 1)(x + 1). 1 = A(x + 1) + B(x − 1): x = 1 ⇒ A = 1/2; x = −1 ⇒ B = −1/2."
+ },
+ {
+  "q": "Calcula \\(\\displaystyle\\int \\frac{7}{x^2+49}\\,dx\\)",
+  "o": [
+   "\\(\\operatorname{arctg}\\left(\\dfrac{x}{7}\\right)+C\\)",
+   "\\(7\\operatorname{arctg}\\left(\\dfrac{x}{7}\\right)+C\\)",
+   "\\(\\dfrac{1}{7}\\operatorname{arctg}(7x)+C\\)",
+   "\\(\\dfrac{1}{49}\\operatorname{arctg}\\left(\\dfrac{x}{7}\\right)+C\\)"
+  ],
+  "c": 0,
+  "e": "a² = 49 ⇒ a = 7: (7/7) arctg(x/7) = arctg(x/7) + C."
+ },
+ {
+  "q": "Calcula \\(\\displaystyle\\int \\frac{x}{x^2+1}\\,dx\\)",
+  "o": [
+   "\\(\\dfrac{1}{2}\\ln(x^2+1)+C\\)",
+   "\\(\\ln(x^2+1)+C\\)",
+   "\\(\\operatorname{arctg} x + C\\)",
+   "\\(\\dfrac{1}{2}\\ln|x|+C\\)"
+  ],
+  "c": 0,
+  "e": "El numerador es la mitad de la derivada del denominador: (1/2)∫2x/(x² + 1) dx = (1/2) ln(x² + 1) + C."
+ },
+ {
+  "q": "Calcula \\(\\displaystyle\\int \\frac{dx}{x^2+4x+13}\\)",
+  "o": [
+   "\\(\\dfrac{1}{3}\\operatorname{arctg}\\left(\\dfrac{x+2}{3}\\right)+C\\)",
+   "\\(\\operatorname{arctg}\\left(\\dfrac{x+2}{3}\\right)+C\\)",
+   "\\(\\dfrac{1}{3}\\operatorname{arctg}\\left(\\dfrac{x-2}{3}\\right)+C\\)",
+   "\\(\\dfrac{1}{9}\\operatorname{arctg}\\left(\\dfrac{x+2}{3}\\right)+C\\)"
+  ],
+  "c": 0,
+  "e": "x² + 4x + 13 = (x + 2)² + 9 ⇒ a = 3: (1/3) arctg((x + 2)/3) + C."
+ },
+ {
+  "q": "Calcula \\(\\displaystyle\\int \\frac{x+3}{(x-1)^2}\\,dx\\)",
+  "o": [
+   "\\(\\ln|x-1|-\\dfrac{4}{x-1}+C\\)",
+   "\\(\\ln|x-1|+\\dfrac{4}{x-1}+C\\)",
+   "\\(\\ln|x-1|+4\\ln|x-1|+C\\)",
+   "\\(\\ln|x-1|-\\dfrac{4}{(x-1)^2}+C\\)"
+  ],
+  "c": 0,
+  "e": "x + 3 = A(x − 1) + B. x = 1: B = 4; comparando el término en x: A = 1. ∫dx/(x − 1) + 4∫dx/(x − 1)² = ln|x − 1| − 4/(x − 1) + C."
+ },
+ {
+  "q": "Calcula \\(\\displaystyle\\int \\frac{x^2+1}{x-1}\\,dx\\)",
+  "o": [
+   "\\(\\dfrac{x^2}{2}+x+2\\ln|x-1|+C\\)",
+   "\\(\\dfrac{x^2}{2}+x-2\\ln|x-1|+C\\)",
+   "\\((x^2+1)\\ln|x-1|+C\\)",
+   "\\(\\dfrac{x^2}{2}+2\\ln|x-1|+C\\)"
+  ],
+  "c": 0,
+  "e": "El numerador tiene grado 2 y el denominador 1: se divide. (x² + 1)/(x − 1) = x + 1 + 2/(x − 1), luego la integral es x²/2 + x + 2 ln|x − 1| + C."
+ }
+];
+
+let orden = [];
+let idx = 0;
+let ok = 0, bad = 0;
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function empezar(){
+  const nombre = document.getElementById('nombre').value.trim();
+  if(!nombre){ alert('Escribe tu nombre para empezar.'); return; }
+  document.getElementById('gate').style.display='none';
+  document.getElementById('quiz').style.display='block';
+  generarSecuencia();
+  mostrarPregunta();
+}
+
+function generarSecuencia(){
+  const todas = shuffle(
+    BANCO_TEORIA.map(x=>({...x,tipo:'teoria'})).concat(
+    BANCO_APLICACION.map(x=>({...x,tipo:'aplicacion'})))
+  );
+  orden = todas;
+  idx = 0; ok = 0; bad = 0;
+}
+
+function mostrarPregunta(){
+  if(idx >= orden.length){ generarSecuencia(); }
+  const item = orden[idx];
+  document.getElementById('contador').textContent = `Pregunta ${idx+1}`;
+  document.getElementById('okcount').textContent = ok;
+  document.getElementById('badcount').textContent = bad;
+  const tag = document.getElementById('qtag');
+  tag.textContent = item.tipo === 'teoria' ? 'Teoría' : 'Aplicación';
+  tag.className = 'qtag ' + item.tipo;
+  document.getElementById('qtext').innerHTML = item.q;
+
+  const opciones = shuffle(item.o.map((texto,i)=>({texto, esCorrecta:i===item.c})));
+  const cont = document.getElementById('opciones');
+  cont.innerHTML='';
+  opciones.forEach(op=>{
+    const btn = document.createElement('button');
+    btn.className='opt';
+    btn.innerHTML = op.texto;
+    btn.onclick = ()=>responder(btn, op.esCorrecta, opciones, cont);
+    cont.appendChild(btn);
+  });
+
+  document.getElementById('feedback').className='feedback';
+  document.getElementById('btnSiguiente').disabled = true;
+  if(window.MathJax){ MathJax.typesetClear([cont, document.getElementById('qtext')]); MathJax.typesetPromise([cont, document.getElementById('qtext')]); }
+}
+
+function responder(btnPulsado, esCorrecta, opciones, cont){
+  const botones = cont.querySelectorAll('.opt');
+  botones.forEach(b=>b.disabled=true);
+  botones.forEach((b,i)=>{
+    if(opciones[i].esCorrecta) b.classList.add('correcta');
+  });
+  if(!esCorrecta) btnPulsado.classList.add('incorrecta');
+
+  const fb = document.getElementById('feedback');
+  const exp = orden[idx] && orden[idx].e ? '<div style="margin-top:8px;font-weight:400">💡 ' + orden[idx].e + '</div>' : '';
+  if(esCorrecta){
+    ok++;
+    fb.innerHTML = '<b>✓ Correcto.</b>' + exp;
+    fb.className = 'feedback show ok';
+  } else {
+    bad++;
+    fb.innerHTML = '<b>✗ No es correcto. La respuesta correcta está marcada en verde.</b>' + exp;
+    fb.className = 'feedback show bad';
+  }
+  if(window.MathJax && MathJax.typesetPromise){ MathJax.typesetPromise([fb]).catch(()=>{}); }
+  document.getElementById('okcount').textContent = ok;
+  document.getElementById('badcount').textContent = bad;
+  document.getElementById('btnSiguiente').disabled = false;
+}
+
+function siguiente(){
+  idx++;
+  mostrarPregunta();
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B3 — Cambio de variable · Las Chapas ECOS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+<style>
+  :root{
+    --navy:#1a2e4a;
+    --navy-light:#2a4468;
+    --teal:#1d7a6b;
+    --teal-light:#e4f2ef;
+    --orange:#e07b3a;
+    --orange-light:#fdeee0;
+    --cream:#f5f2eb;
+    --ink:#2b2b2b;
+    --muted:#6b6f76;
+    --white:#ffffff;
+    --line:#e4e0d6;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:'Nunito Sans',sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    line-height:1.7;
+  }
+  h1,h2,h3,.brand{font-family:'Nunito',sans-serif}
+  a{color:inherit;text-decoration:none}
+
+  header.top{
+    background:var(--navy);
+    color:#fff;
+    padding:14px 24px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:.88rem;
+    font-weight:600;
+    flex-wrap:wrap;
+  }
+  header.top a{color:#cfd8e6}
+  header.top a:hover{color:#fff}
+  header.top .sep{color:#5c6b82}
+  header.top .current{color:#fff;font-weight:800}
+
+  .wrap{max-width:800px;margin:0 auto;padding:0 24px}
+
+  .hero{padding:44px 0 8px;text-align:center}
+  .hero .kicker{
+    display:inline-block;
+    background:var(--orange-light);
+    color:var(--orange);
+    font-weight:800;
+    font-size:.76rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    padding:6px 14px;
+    border-radius:100px;
+    margin-bottom:16px;
+  }
+  .hero h1{
+    font-size:2.15rem;
+    font-weight:900;
+    color:var(--navy);
+    margin:0 0 16px;
+    letter-spacing:-.01em;
+  }
+  .hero h1 em{font-style:normal;color:var(--teal)}
+  .hero p.lead{color:var(--muted);font-size:1.05rem;max-width:620px;margin:0 auto}
+
+  section{padding:34px 0}
+  section h2{
+    color:var(--navy);
+    font-size:1.35rem;
+    margin:0 0 14px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  section h2 .n{
+    background:var(--teal);
+    color:#fff;
+    width:30px;height:30px;
+    border-radius:8px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:.9rem;font-weight:800;
+    flex-shrink:0;
+  }
+  p{margin:0 0 14px}
+
+  .box{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:22px 24px;
+    margin:16px 0;
+  }
+  .box.definicion{
+    border-left:6px solid var(--navy);
+    background:linear-gradient(180deg,#fff,#fbfbf9);
+  }
+  .box.definicion .tag{
+    font-weight:800;color:var(--navy);font-size:.82rem;
+    text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;
+  }
+  .box.ejemplo{border-left:6px solid var(--orange)}
+  .box.ejemplo .tag{color:var(--orange);font-weight:800;font-size:.82rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+
+  .verif{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:var(--teal-light);
+    border-radius:10px;
+    padding:14px 18px;
+    margin:14px 0;
+    font-weight:700;
+    color:var(--navy);
+  }
+  .verif .flecha{color:var(--teal);font-size:1.3rem}
+
+  .familia{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:10px;
+    margin:16px 0;
+  }
+  .familia .item{
+    background:var(--navy);
+    color:#fff;
+    text-align:center;
+    padding:12px 8px;
+    border-radius:10px;
+    font-size:.95rem;
+  }
+  .familia .item.destacado{background:var(--orange)}
+
+  table.props{width:100%;border-collapse:collapse;margin:16px 0}
+  table.props td{
+    border:1px solid var(--line);
+    padding:12px 14px;
+    background:#fff;
+  }
+  table.props tr td:first-child{
+    font-weight:700;color:var(--navy);width:38%;
+  }
+
+  .mundo{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:14px;
+    margin:16px 0;
+  }
+  .mundo .item{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:16px 18px;
+  }
+  .mundo .item .k{
+    color:var(--teal);
+    font-weight:800;
+    font-size:.75rem;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    margin-bottom:4px;
+  }
+  .mundo .item h4{margin:0 0 6px;color:var(--navy);font-size:1rem}
+  .mundo .item p{margin:0;color:var(--muted);font-size:.92rem}
+
+  .ib{
+    background:var(--navy);
+    color:#fff;
+    border-radius:16px;
+    padding:28px 26px;
+    margin:38px 0;
+  }
+  .ib h3{margin:0 0 16px;font-size:1.1rem;display:flex;align-items:center;gap:8px}
+  .ib .grid2{display:grid;grid-template-columns:1fr;gap:16px}
+  .ib .card{background:rgba(255,255,255,.08);border-radius:10px;padding:16px 18px}
+  .ib .card .t{font-weight:800;font-size:.82rem;color:#ffd4ae;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em}
+  .ib .card p{margin:0;color:#e6ebf2;font-size:.95rem}
+  .ib .indagacion{
+    background:rgba(224,123,58,.18);
+    border:1px solid rgba(224,123,58,.4);
+    border-radius:10px;
+    padding:18px 20px;
+    margin-bottom:16px;
+  }
+  .ib .indagacion .t{color:var(--orange);font-weight:800;font-size:.82rem;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
+  .ib .indagacion p{margin:0;font-weight:600}
+
+  .nav-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:30px 0 60px;
+    gap:14px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-block;
+    padding:13px 22px;
+    border-radius:10px;
+    font-weight:800;
+    font-size:.95rem;
+  }
+  .btn.ghost{background:#fff;color:var(--navy);border:1px solid var(--line)}
+  .btn.ghost:hover{background:#f0ede4}
+  .btn.on{background:var(--teal);color:#fff}
+  .btn.on:hover{background:#166357}
+  .btn.off{background:#ece9df;color:#a6a196;cursor:default}
+
+  .video-box{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:14px;
+    margin:18px 0;
+  }
+  .video-box .vt{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-weight:800;
+    color:var(--navy);
+    font-size:.9rem;
+    margin:2px 6px 12px;
+  }
+  .video-box .vt .dot{
+    width:8px;height:8px;border-radius:50%;background:var(--orange);flex-shrink:0;
+  }
+  .video-box .frame{
+    position:relative;
+    width:100%;
+    padding-top:56.25%;
+    border-radius:10px;
+    overflow:hidden;
+    background:#0d1622;
+  }
+  .video-box .frame iframe{
+    position:absolute;top:0;left:0;width:100%;height:100%;border:0;
+  }
+
+  .tabla-inm{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:10px;
+    margin:16px 0;
+  }
+  .tabla-inm .f{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:12px 14px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .tabla-inm .f .num{
+    background:var(--teal);
+    color:#fff;
+    width:24px;height:24px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:.75rem;font-weight:800;
+    flex-shrink:0;
+  }
+  .propiedad{
+    background:#fff;
+    border:1px solid var(--line);
+    border-left:6px solid var(--orange);
+    border-radius:12px;
+    padding:16px 18px;
+    margin:12px 0;
+  }
+  .propiedad .num-p{
+    color:var(--orange);
+    font-weight:800;
+    font-size:.78rem;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    margin-bottom:6px;
+  }
+  mjx-container[display="true"]{display:block;overflow-x:auto;overflow-y:hidden;max-width:100%}
+  .box,.propiedad{overflow-x:auto;min-width:0}
+  table.props{display:block;overflow-x:auto;max-width:100%}
+  .tabla-inm .f{min-width:0} .tabla-inm .f span{min-width:0;overflow-x:auto}
+  @media (max-width:600px){ .wrap{padding:0 16px} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a href="index.html">Portal de Integrales</a>
+  <span class="sep">·</span>
+  <span class="current">Bloque 3</span>
+</header>
+
+<div class="wrap">
+
+  <div class="hero">
+    <span class="kicker">Bloque 3 · Introducción</span>
+    <h1>Integración por <em>cambio de variable</em></h1>
+    <p class="lead">Hay integrales que no están en la tabla de inmediatas... pero se parecen mucho a una si sabes mirar. El cambio de variable consiste en "disfrazar" la integral hasta que encaja en un patrón que ya conoces.</p>
+  </div>
+
+  <section>
+    <h2><span class="n">1</span> El problema: una integral que no está en la tabla</h2>
+    <p>Intenta calcular \(\displaystyle\int 2x\cos(x^2)\,dx\). No es ninguna de las 13 fórmulas de la tabla de inmediatas — no hay ninguna entrada para "\(\cos\) de algo al cuadrado". Y sin embargo, esta integral <strong>sí se puede resolver</strong> con lo que ya sabes.</p>
+    <p>Fíjate en un detalle: \(2x\) es la derivada de \(x^2\). No es casualidad — esta integral es, en realidad, una <strong>regla de la cadena escondida</strong>, leída al revés.</p>
+
+    <div class="box definicion">
+      <div class="tag">La idea clave</div>
+      <p style="margin-bottom:0">Si dentro de la integral aparece una función \(g(x)\) <strong>y también su derivada</strong> \(g'(x)\) multiplicando, podemos sustituir toda la parte "complicada" por una única letra, \(u\), y convertir la integral en otra mucho más simple.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">2</span> El método, paso a paso</h2>
+
+    <div class="box definicion">
+      <div class="tag">Cambio de variable</div>
+      <p>Si hacemos \(u = g(x)\), entonces \(du = g'(x)\,dx\), y:</p>
+      <p style="text-align:center;font-size:1.25rem;margin:16px 0">\[\int f(g(x))\cdot g'(x)\,dx = \int f(u)\,du\]</p>
+      <p style="margin-bottom:0">La integral de la derecha, en la variable \(u\), suele ser una integral inmediata de la tabla que ya conoces.</p>
+    </div>
+
+    <table class="props">
+      <tr><td>Paso 1</td><td>Identifica qué parte de la función conviene llamar \(u = g(x)\) — normalmente lo que está "dentro" de otra función.</td></tr>
+      <tr><td>Paso 2</td><td>Calcula \(du = g'(x)\,dx\).</td></tr>
+      <tr><td>Paso 3</td><td>Comprueba que el resto de la integral es (proporcional a) \(g'(x)\,dx\), y sustituye todo por \(u\) y \(du\).</td></tr>
+      <tr><td>Paso 4</td><td>Resuelve la integral en \(u\), usando la tabla de inmediatas.</td></tr>
+      <tr><td>Paso 5</td><td>Deshaz el cambio: sustituye \(u\) de nuevo por \(g(x)\) en el resultado.</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2><span class="n">3</span> Ejemplo resuelto</h2>
+    <div class="box ejemplo">
+      <div class="tag">Ejemplo</div>
+      <p>Calcula \(\displaystyle\int 2x\cos(x^2)\,dx\)</p>
+      <div class="verif">
+        <span>\(u = x^2\)</span>
+        <span class="flecha">→</span>
+        <span>\(du = 2x\,dx\)</span>
+      </div>
+      <p>Sustituyendo directamente (¡\(2x\,dx\) es exactamente \(du\)!):</p>
+      <p>\[\int 2x\cos(x^2)\,dx = \int \cos(u)\,du = \operatorname{sen}(u) + C\]</p>
+      <p style="margin-bottom:0">Deshacemos el cambio (\(u=x^2\)): <strong>\(\operatorname{sen}(x^2) + C\)</strong></p>
+    </div>
+
+    <div class="box ejemplo">
+      <div class="tag">Otro ejemplo</div>
+      <p>Calcula \(\displaystyle\int 3x^2\, e^{x^3}\,dx\)</p>
+      <div class="verif">
+        <span>\(u = x^3\)</span>
+        <span class="flecha">→</span>
+        <span>\(du = 3x^2\,dx\)</span>
+      </div>
+      <p>\[\int 3x^2\,e^{x^3}\,dx = \int e^{u}\,du = e^{u}+C\]</p>
+      <p style="margin-bottom:0">Deshacemos el cambio: <strong>\(e^{x^3}+C\)</strong></p>
+    </div>
+
+    <p>En ambos casos, el "truco" es el mismo: reconocer una función \(g(x)\) cuya derivada \(g'(x)\) también aparece multiplicando en la integral.</p>
+  </section>
+
+  <section>
+    <h2><span class="n">4</span> Vídeos</h2>
+    <div class="video-box">
+      <div class="vt"><span class="dot"></span>🎥 Vídeo · Cambio de variable (1/2)</div>
+      <div class="frame">
+        <iframe src="https://drive.google.com/file/d/18Q_16Xw8I_n7tJqjkfK7fLUuFGKAL_sJ/preview" allow="autoplay" allowfullscreen></iframe>
+      </div>
+    </div>
+    <div class="video-box">
+      <div class="vt"><span class="dot"></span>🎥 Vídeo · Cambio de variable (2/2)</div>
+      <div class="frame">
+        <iframe src="https://drive.google.com/file/d/18DqrkPQ5-dnCk74waiz1xdXCy9p24Fdk/preview" allow="autoplay" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <div class="ib">
+    <h3>🎓 Profundiza — Marco IB</h3>
+    <div class="indagacion">
+      <div class="t">🔍 Pregunta de indagación</div>
+      <p>El cambio de variable es la regla de la cadena "al revés". ¿Por qué invertir una regla de derivación no siempre da un método tan directo como la regla original? ¿Qué tiene que cumplirse en la integral para que el cambio funcione?</p>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <div class="t">Concepto clave</div>
+        <p>Patrones · Representación. Sustituir \(u=g(x)\) es cambiar el modo de representar el mismo problema para que encaje en un patrón ya resuelto.</p>
+      </div>
+      <div class="card">
+        <div class="t">Habilidad ATL</div>
+        <p>Reconocimiento de patrones: entrenar el ojo para detectar cuándo una función y su derivada aparecen juntas, aunque estén disfrazadas por constantes.</p>
+      </div>
+      <div class="card">
+        <div class="t">Conexión TdC</div>
+        <p>¿Es "reconocer el patrón adecuado" una forma de razonamiento, o una habilidad que se adquiere solo con práctica repetida? ¿Hay una frontera clara entre ambas?</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-bottom">
+    <a class="btn ghost" href="index.html">← Portal de Integrales</a>
+    <a class="btn ghost" href="integrales_b2_intro.html">← Bloque 2</a>
+    <a class="btn on" href="integrales_b3_practica.html">Practicar B3 →</a>
+    <a class="btn on" href="https://pepivalenzuela.github.io/panel-matematicas/#panel">Formativas en mi panel →</a>
+    <a class="btn ghost" href="integrales_b4_intro.html">Bloque 4 →</a>
+  </div>
+
+</div>
+
+</body>
+</html>

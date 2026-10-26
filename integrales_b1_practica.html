@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B1 Práctica — Integrales · Las Chapas ECOS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+<style>
+  :root{
+    --navy:#1a2e4a; --navy-light:#2a4468; --teal:#1d7a6b; --teal-light:#e4f2ef;
+    --orange:#e07b3a; --orange-light:#fdeee0; --cream:#f5f2eb; --ink:#2b2b2b;
+    --muted:#6b6f76; --white:#ffffff; --line:#e4e0d6;
+    --red:#c65b4a; --red-light:#fbeae7;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Nunito Sans',sans-serif;background:var(--cream);color:var(--ink);line-height:1.6}
+  h1,h2,h3,.brand{font-family:'Nunito',sans-serif}
+  a{color:inherit;text-decoration:none}
+
+  header.top{background:var(--navy);color:#fff;padding:14px 24px;display:flex;align-items:center;gap:8px;font-size:.88rem;font-weight:600;flex-wrap:wrap}
+  header.top a{color:#cfd8e6}
+  header.top a:hover{color:#fff}
+  header.top .sep{color:#5c6b82}
+  header.top .current{color:#fff;font-weight:800}
+
+  .wrap{max-width:720px;margin:0 auto;padding:30px 24px 60px}
+
+  .titlebar{text-align:center;margin-bottom:22px}
+  .titlebar .kicker{display:inline-block;background:var(--teal-light);color:var(--teal);font-weight:800;font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;padding:6px 14px;border-radius:100px;margin-bottom:12px}
+  .titlebar h1{font-size:1.6rem;color:var(--navy);margin:0 0 6px;font-weight:900}
+  .titlebar p{color:var(--muted);margin:0;font-size:.95rem}
+
+  #gate{background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px;text-align:center}
+  #gate input{width:100%;max-width:340px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font-size:1rem;font-family:inherit;margin:14px 0}
+  .btn{display:inline-block;padding:13px 26px;border-radius:10px;font-weight:800;font-size:.95rem;border:none;cursor:pointer;font-family:inherit}
+  .btn.on{background:var(--teal);color:#fff}
+  .btn.on:hover{background:#166357}
+  .btn.ghost{background:#fff;color:var(--navy);border:1px solid var(--line)}
+  .btn.ghost:hover{background:#f0ede4}
+  .btn:disabled{opacity:.5;cursor:default}
+
+  #quiz{display:none}
+  .scoreboard{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 20px;margin-bottom:18px;font-weight:700;color:var(--navy);font-size:.9rem}
+  .scoreboard .ok{color:var(--teal)}
+  .scoreboard .bad{color:var(--red)}
+
+  .qcard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px}
+  .qtag{display:inline-block;font-weight:800;font-size:.72rem;letter-spacing:.05em;text-transform:uppercase;padding:4px 10px;border-radius:100px;margin-bottom:14px}
+  .qtag.teoria{background:var(--teal-light);color:var(--teal)}
+  .qtag.aplicacion{background:var(--orange-light);color:var(--orange)}
+  .qtext{font-size:1.15rem;color:var(--navy);font-weight:700;margin-bottom:20px}
+
+  .opt{display:block;width:100%;text-align:left;background:#fbfbf9;border:1.5px solid var(--line);border-radius:10px;padding:13px 16px;margin-bottom:10px;font-family:inherit;font-size:1rem;cursor:pointer;color:var(--ink)}
+  .opt:hover{border-color:var(--teal)}
+  .opt.correcta{background:var(--teal-light);border-color:var(--teal);color:var(--navy);font-weight:700}
+  .opt.incorrecta{background:var(--red-light);border-color:var(--red);color:#8a3a2e;font-weight:700}
+  .opt:disabled{cursor:default}
+
+  .feedback{margin-top:16px;padding:14px 16px;border-radius:10px;font-size:.92rem;display:none}
+  .feedback.show{display:block}
+  .feedback.ok{background:var(--teal-light);color:#12574c}
+  .feedback.bad{background:var(--red-light);color:#8a3a2e}
+
+  .controls{display:flex;justify-content:flex-end;margin-top:20px}
+
+  .nav-bottom{display:flex;justify-content:space-between;margin-top:28px}
+  @media (max-width:600px){ .wrap{padding:0 16px} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a href="index.html">Portal de Integrales</a>
+  <span class="sep">·</span>
+  <a href="integrales_b1_intro.html">Bloque 1</a>
+  <span class="sep">·</span>
+  <span class="current">Práctica libre</span>
+</header>
+
+<div class="wrap">
+  <div class="titlebar">
+    <span class="kicker">Bloque 1 · Práctica libre</span>
+    <h1>Primitiva e integral indefinida</h1>
+    <p>Ejercicios aleatorios de teoría (tipos de integrales racionales) y de cálculo (arcotangente, arcotangente+logaritmo, fracciones simples). Cada vez que entras, el orden y las preguntas cambian.</p>
+  </div>
+
+  <div id="gate">
+    <p style="margin:0;color:var(--muted)">Escribe tu nombre para empezar (no hay límite de tiempo ni de intentos):</p>
+    <input type="text" id="nombre" placeholder="Nombre y apellidos">
+    <br>
+    <button class="btn on" onclick="empezar()">Empezar a practicar →</button>
+  </div>
+
+  <div id="quiz">
+    <div class="scoreboard">
+      <span id="contador">Pregunta 1</span>
+      <span><span class="ok" id="okcount">0</span> correctas · <span class="bad" id="badcount">0</span> incorrectas</span>
+    </div>
+
+    <div class="qcard">
+      <span class="qtag" id="qtag">Teoría</span>
+      <div class="qtext" id="qtext">—</div>
+      <div id="opciones"></div>
+      <div class="feedback" id="feedback"></div>
+      <div class="controls">
+        <button class="btn on" id="btnSiguiente" onclick="siguiente()" disabled>Siguiente pregunta →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-bottom" style="flex-wrap:wrap;gap:12px">
+    <a class="btn ghost" href="integrales_b1_intro.html">← Volver a la teoría</a>
+    <a class="btn on" href="https://pepivalenzuela.github.io/panel-matematicas/#panel">Formativas en mi panel →</a>
+    <a class="btn ghost" href="integrales_b2_intro.html">Bloque 2 →</a>
+    <a class="btn ghost" href="index.html">Portal de Integrales</a>
+  </div>
+</div>
+
+<script>
+// ---------- Banco de preguntas: Bloque 1 · Primitiva e integral indefinida ----------
+const BANCO_TEORIA = [
+ {
+  "q": "¿Qué significa que F(x) sea una primitiva de f(x)?",
+  "o": [
+   "Que F(x) = f(x)",
+   "Que F'(x) = f(x)",
+   "Que f'(x) = F(x)",
+   "Que F(x) y f(x) tienen la misma gráfica"
+  ],
+  "c": 1,
+  "e": "Por definición, F es primitiva de f cuando al derivar F se obtiene f: F'(x) = f(x)."
+ },
+ {
+  "q": "Si F(x) = x⁴ y f(x) = 4x³, ¿es F(x) primitiva de f(x)?",
+  "o": [
+   "Sí, porque F'(x) = 4x³ = f(x)",
+   "No, porque F(x) ≠ f(x)",
+   "Sí, porque tienen el mismo grado",
+   "No, hace falta integrar f(x) primero"
+  ],
+  "c": 0,
+  "e": "Se comprueba derivando: (x⁴)' = 4x³ = f(x). Que F y f sean distintas es lo normal."
+ },
+ {
+  "q": "¿Cuántas primitivas tiene una función f(x)?",
+  "o": [
+   "Exactamente una",
+   "Ninguna, salvo casos especiales",
+   "Infinitas, todas ellas difieren en una constante",
+   "Depende del grado de f(x)"
+  ],
+  "c": 2,
+  "e": "Si F es primitiva, también lo es F + C para cualquier número C, porque la derivada de una constante es 0. Hay infinitas."
+ },
+ {
+  "q": "En ∫f(x)dx = F(x)+C, ¿qué representa C?",
+  "o": [
+   "El grado del polinomio",
+   "La constante de integración, que representa la familia de primitivas",
+   "El valor de f(0)",
+   "Siempre vale cero"
+  ],
+  "c": 1,
+  "e": "C es la constante de integración: cada valor de C da una primitiva distinta de la familia."
+ },
+ {
+  "q": "¿Cómo se llama f(x) dentro de ∫f(x)dx?",
+  "o": [
+   "Diferencial",
+   "Integrando",
+   "Primitiva",
+   "Constante"
+  ],
+  "c": 1,
+  "e": "La función que se integra se llama integrando."
+ },
+ {
+  "q": "Si F(x) y G(x) son ambas primitivas de la misma función f(x), ¿qué relación hay entre ellas?",
+  "o": [
+   "F(x) = G(x) siempre",
+   "F(x) y G(x) difieren en una constante",
+   "No puede haber dos primitivas distintas",
+   "G(x) es la derivada de F(x)"
+  ],
+  "c": 1,
+  "e": "Si F' = G' = f, entonces (F − G)' = 0, y una función con derivada 0 es constante: F − G = C."
+ },
+ {
+  "q": "¿Qué operación deshace la integral indefinida?",
+  "o": [
+   "La suma",
+   "La derivada",
+   "La multiplicación",
+   "La raíz"
+  ],
+  "c": 1,
+  "e": "Integrar es la operación inversa de derivar: si derivas la integral recuperas el integrando."
+ },
+ {
+  "q": "Sabiendo que la derivada de sen(x) es cos(x), ¿cuál de estas es primitiva de cos(x)?",
+  "o": [
+   "cos(x)",
+   "−sen(x)",
+   "sen(x) + C",
+   "sen(x) · C"
+  ],
+  "c": 2,
+  "e": "Como (sen x)' = cos x, las primitivas de cos x son sen x + C. «sen x · C» no lo es: su derivada es C·cos x."
+ },
+ {
+  "q": "Si f(t) es la velocidad de un coche, ¿qué representa una primitiva de f(t)?",
+  "o": [
+   "La aceleración",
+   "La posición",
+   "El tiempo",
+   "La distancia en un instante"
+  ],
+  "c": 1,
+  "e": "La velocidad es la derivada de la posición, así que una primitiva de la velocidad es la posición."
+ },
+ {
+  "q": "¿Por qué necesitamos un dato adicional (como la posición inicial) para fijar una única primitiva en un problema real?",
+  "o": [
+   "Porque la derivada no es única",
+   "Porque la familia tiene infinitos valores de C, y ese dato permite fijar uno",
+   "Porque las primitivas no existen sin ese dato",
+   "No es cierto, con la fórmula general basta"
+  ],
+  "c": 1,
+  "e": "Todas las funciones s(t) + C tienen la misma derivada; un dato como s(0) permite calcular C y quedarnos con una sola."
+ },
+ {
+  "q": "En \\(\\int f(x)\\,dx\\), ¿qué indica \\(dx\\)?",
+  "o": [
+   "La derivada de x",
+   "La variable respecto a la que integramos",
+   "El dominio de f",
+   "El intervalo de integración"
+  ],
+  "c": 1,
+  "e": "dx indica la variable de integración: integramos respecto de x."
+ },
+ {
+  "q": "Si F(x) = x²+7 es primitiva de f(x) = 2x, ¿cuál de las siguientes también lo es?",
+  "o": [
+   "x²",
+   "2x²",
+   "x²+7x",
+   "2x²+7"
+  ],
+  "c": 0,
+  "e": "x² + 7 y x² solo se diferencian en una constante, así que tienen la misma derivada, 2x."
+ },
+ {
+  "q": "¿Es F(x) = 5x una primitiva de f(x) = 5?",
+  "o": [
+   "Sí, porque F'(x) = 5 = f(x)",
+   "No, porque F(x) ≠ f(x)",
+   "No, falta la constante C para poder comprobarlo",
+   "Sí, pero solo si x = 1"
+  ],
+  "c": 0,
+  "e": "Basta derivar: (5x)' = 5 = f(x). Para comprobar una primitiva no hace falta la C."
+ },
+ {
+  "q": "¿Qué le ocurre a la derivada de cualquier constante?",
+  "o": [
+   "Es igual a la constante",
+   "Es siempre 0",
+   "Depende del valor de la constante",
+   "No se puede derivar una constante"
+  ],
+  "c": 1,
+  "e": "La derivada de cualquier constante es 0; por eso al integrar aparece la constante C."
+ },
+ {
+  "q": "¿Cuál de estas afirmaciones es FALSA?",
+  "o": [
+   "Una primitiva siempre es única",
+   "Dos primitivas de la misma función difieren en una constante",
+   "Comprobar una primitiva consiste en derivarla y comparar",
+   "La integral indefinida representa toda la familia de primitivas"
+  ],
+  "c": 0,
+  "e": "Es falsa: una función tiene infinitas primitivas, que se diferencian en una constante."
+ },
+ {
+  "q": "El símbolo ∫ indica...",
+  "o": [
+   "Una suma finita",
+   "El proceso de encontrar la familia de primitivas",
+   "Una derivada",
+   "Un límite"
+  ],
+  "c": 1,
+  "e": "El símbolo ∫ indica que buscamos la familia de todas las primitivas del integrando."
+ }
+];
+
+const BANCO_APLICACION = [
+ {
+  "q": "Calcula una primitiva de \\(f(x) = 2x\\)",
+  "o": [
+   "x²+C",
+   "2x²+C",
+   "x²/2+C",
+   "x+C"
+  ],
+  "c": 0,
+  "e": "(x²)' = 2x, luego ∫2x dx = x² + C."
+ },
+ {
+  "q": "Calcula una primitiva de \\(f(x) = 3x^2\\)",
+  "o": [
+   "3x³+C",
+   "x³+C",
+   "x³/3+C",
+   "x²+C"
+  ],
+  "c": 1,
+  "e": "(x³)' = 3x², luego ∫3x² dx = x³ + C. Error típico: dejar el 3 delante."
+ },
+ {
+  "q": "Calcula una primitiva de \\(f(x) = 4\\) (función constante)",
+  "o": [
+   "4+C",
+   "x⁴+C",
+   "4x+C",
+   "x/4+C"
+  ],
+  "c": 2,
+  "e": "Una constante k se integra como kx: (4x)' = 4."
+ },
+ {
+  "q": "Calcula una primitiva de \\(f(x) = 1\\)",
+  "o": [
+   "x+C",
+   "1+C",
+   "x²/2+C",
+   "C"
+  ],
+  "c": 0,
+  "e": "(x)' = 1, luego ∫1 dx = x + C."
+ },
+ {
+  "q": "Calcula una primitiva de \\(f(x) = 5x^4\\)",
+  "o": [
+   "5x⁵+C",
+   "x⁵+C",
+   "x⁵/5+C",
+   "5x³+C"
+  ],
+  "c": 1,
+  "e": "(x⁵)' = 5x⁴, luego ∫5x⁴ dx = x⁵ + C."
+ },
+ {
+  "q": "Calcula una primitiva de \\(f(x) = 6x\\)",
+  "o": [
+   "6x²+C",
+   "x²+C",
+   "3x²+C",
+   "3x+C"
+  ],
+  "c": 2,
+  "e": "∫6x dx = 6·x²/2 = 3x² + C. Comprobación: (3x²)' = 6x."
+ },
+ {
+  "q": "Calcula una primitiva de \\(f(x) = 7x^6\\)",
+  "o": [
+   "x⁷+C",
+   "7x⁷+C",
+   "x⁷/7+C",
+   "7x⁵+C"
+  ],
+  "c": 0,
+  "e": "(x⁷)' = 7x⁶, luego ∫7x⁶ dx = x⁷ + C."
+ },
+ {
+  "q": "Calcula una primitiva de \\(f(x) = 10\\)",
+  "o": [
+   "10x+C",
+   "10+C",
+   "x¹⁰+C",
+   "x/10+C"
+  ],
+  "c": 0,
+  "e": "∫10 dx = 10x + C, porque (10x)' = 10."
+ },
+ {
+  "q": "Calcula una primitiva de \\(f(x) = 8x^3\\)",
+  "o": [
+   "8x⁴+C",
+   "2x⁴+C",
+   "x⁴/2+C",
+   "2x³+C"
+  ],
+  "c": 1,
+  "e": "∫8x³ dx = 8·x⁴/4 = 2x⁴ + C. Comprobación: (2x⁴)' = 8x³."
+ },
+ {
+  "q": "¿Cuál de estas funciones es primitiva de \\(f(x) = 9x^2\\)?",
+  "o": [
+   "9x³+C",
+   "3x³+C",
+   "x³+C",
+   "x³/3+C"
+  ],
+  "c": 1,
+  "e": "∫9x² dx = 9·x³/3 = 3x³ + C. Comprobación: (3x³)' = 9x²."
+ },
+ {
+  "q": "Si F(x) = x⁴+C es la familia de primitivas de \\(f(x)=4x^3\\), ¿cuál de estas pertenece a esa familia?",
+  "o": [
+   "x⁴+2",
+   "x⁴−x",
+   "4x³+1",
+   "2x⁴"
+  ],
+  "c": 0,
+  "e": "Las primitivas de 4x³ son x⁴ + C; x⁴ + 2 es la que tiene C = 2. Las demás no derivan 4x³."
+ },
+ {
+  "q": "Calcula una primitiva de \\(f(x) = 2\\)",
+  "o": [
+   "2x+C",
+   "x²+C",
+   "2+C",
+   "x/2+C"
+  ],
+  "c": 0,
+  "e": "∫2 dx = 2x + C."
+ },
+ {
+  "q": "Calcula una primitiva de \\(f(x) = 12x^5\\)",
+  "o": [
+   "12x⁶+C",
+   "2x⁶+C",
+   "x⁶/2+C",
+   "6x⁴+C"
+  ],
+  "c": 1,
+  "e": "∫12x⁵ dx = 12·x⁶/6 = 2x⁶ + C. Comprobación: (2x⁶)' = 12x⁵."
+ },
+ {
+  "q": "¿Cuál de estas es primitiva de \\(f(x) = x\\)? Pista: piensa qué función, al derivarla, da x.",
+  "o": [
+   "x²+C",
+   "x²/2+C",
+   "2x+C",
+   "x³/3+C"
+  ],
+  "c": 1,
+  "e": "∫x dx = x²/2 + C, porque (x²/2)' = x. Error típico: x², cuya derivada es 2x."
+ },
+ {
+  "q": "¿Cuáles son todas las primitivas de \\(f(x) = 0\\)?",
+  "o": [
+   "Las funciones constantes: F(x) = C",
+   "Solo la función F(x) = 0",
+   "F(x) = x + C",
+   "No tiene primitivas"
+  ],
+  "c": 0,
+  "e": "Las funciones con derivada 0 son las constantes, así que ∫0 dx = C (la función 0 es solo una de ellas, con C = 0)."
+ },
+ {
+  "q": "Comprueba: ¿es F(x) = x⁵ una primitiva de f(x) = 5x⁴?",
+  "o": [
+   "Sí, porque F'(x) = 5x⁴ = f(x)",
+   "No, los grados no coinciden",
+   "No, falta sumar C para que sea válida",
+   "Sí, pero solo en x=0"
+  ],
+  "c": 0,
+  "e": "Se comprueba derivando: (x⁵)' = 5x⁴ = f(x)."
+ }
+];
+
+let orden = [];
+let idx = 0;
+let ok = 0, bad = 0;
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function empezar(){
+  const nombre = document.getElementById('nombre').value.trim();
+  if(!nombre){ alert('Escribe tu nombre para empezar.'); return; }
+  document.getElementById('gate').style.display='none';
+  document.getElementById('quiz').style.display='block';
+  generarSecuencia();
+  mostrarPregunta();
+}
+
+function generarSecuencia(){
+  const todas = shuffle(
+    BANCO_TEORIA.map(x=>({...x,tipo:'teoria'})).concat(
+    BANCO_APLICACION.map(x=>({...x,tipo:'aplicacion'})))
+  );
+  orden = todas;
+  idx = 0; ok = 0; bad = 0;
+}
+
+function mostrarPregunta(){
+  if(idx >= orden.length){ generarSecuencia(); }
+  const item = orden[idx];
+  document.getElementById('contador').textContent = `Pregunta ${idx+1}`;
+  document.getElementById('okcount').textContent = ok;
+  document.getElementById('badcount').textContent = bad;
+  const tag = document.getElementById('qtag');
+  tag.textContent = item.tipo === 'teoria' ? 'Teoría' : 'Aplicación';
+  tag.className = 'qtag ' + item.tipo;
+  document.getElementById('qtext').innerHTML = item.q;
+
+  const opciones = shuffle(item.o.map((texto,i)=>({texto, esCorrecta:i===item.c})));
+  const cont = document.getElementById('opciones');
+  cont.innerHTML='';
+  opciones.forEach(op=>{
+    const btn = document.createElement('button');
+    btn.className='opt';
+    btn.innerHTML = op.texto;
+    btn.onclick = ()=>responder(btn, op.esCorrecta, opciones, cont);
+    cont.appendChild(btn);
+  });
+
+  document.getElementById('feedback').className='feedback';
+  document.getElementById('btnSiguiente').disabled = true;
+  if(window.MathJax){ MathJax.typesetClear([cont, document.getElementById('qtext')]); MathJax.typesetPromise([cont, document.getElementById('qtext')]); }
+}
+
+function responder(btnPulsado, esCorrecta, opciones, cont){
+  const botones = cont.querySelectorAll('.opt');
+  botones.forEach(b=>b.disabled=true);
+  botones.forEach((b,i)=>{
+    if(opciones[i].esCorrecta) b.classList.add('correcta');
+  });
+  if(!esCorrecta) btnPulsado.classList.add('incorrecta');
+
+  const fb = document.getElementById('feedback');
+  const exp = orden[idx] && orden[idx].e ? '<div style="margin-top:8px;font-weight:400">💡 ' + orden[idx].e + '</div>' : '';
+  if(esCorrecta){
+    ok++;
+    fb.innerHTML = '<b>✓ Correcto.</b>' + exp;
+    fb.className = 'feedback show ok';
+  } else {
+    bad++;
+    fb.innerHTML = '<b>✗ No es correcto. La respuesta correcta está marcada en verde.</b>' + exp;
+    fb.className = 'feedback show bad';
+  }
+  if(window.MathJax && MathJax.typesetPromise){ MathJax.typesetPromise([fb]).catch(()=>{}); }
+  document.getElementById('okcount').textContent = ok;
+  document.getElementById('badcount').textContent = bad;
+  document.getElementById('btnSiguiente').disabled = false;
+}
+
+function siguiente(){
+  idx++;
+  mostrarPregunta();
+}
+</script>
+
+</body>
+</html>

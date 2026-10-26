@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B1 — Primitiva e integral indefinida · Las Chapas ECOS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+<style>
+  :root{
+    --navy:#1a2e4a;
+    --navy-light:#2a4468;
+    --teal:#1d7a6b;
+    --teal-light:#e4f2ef;
+    --orange:#e07b3a;
+    --orange-light:#fdeee0;
+    --cream:#f5f2eb;
+    --ink:#2b2b2b;
+    --muted:#6b6f76;
+    --white:#ffffff;
+    --line:#e4e0d6;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:'Nunito Sans',sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    line-height:1.7;
+  }
+  h1,h2,h3,.brand{font-family:'Nunito',sans-serif}
+  a{color:inherit;text-decoration:none}
+
+  header.top{
+    background:var(--navy);
+    color:#fff;
+    padding:14px 24px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:.88rem;
+    font-weight:600;
+    flex-wrap:wrap;
+  }
+  header.top a{color:#cfd8e6}
+  header.top a:hover{color:#fff}
+  header.top .sep{color:#5c6b82}
+  header.top .current{color:#fff;font-weight:800}
+
+  .wrap{max-width:800px;margin:0 auto;padding:0 24px}
+
+  .hero{padding:44px 0 8px;text-align:center}
+  .hero .kicker{
+    display:inline-block;
+    background:var(--orange-light);
+    color:var(--orange);
+    font-weight:800;
+    font-size:.76rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    padding:6px 14px;
+    border-radius:100px;
+    margin-bottom:16px;
+  }
+  .hero h1{
+    font-size:2.15rem;
+    font-weight:900;
+    color:var(--navy);
+    margin:0 0 16px;
+    letter-spacing:-.01em;
+  }
+  .hero h1 em{font-style:normal;color:var(--teal)}
+  .hero p.lead{color:var(--muted);font-size:1.05rem;max-width:620px;margin:0 auto}
+
+  section{padding:34px 0}
+  section h2{
+    color:var(--navy);
+    font-size:1.35rem;
+    margin:0 0 14px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  section h2 .n{
+    background:var(--teal);
+    color:#fff;
+    width:30px;height:30px;
+    border-radius:8px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:.9rem;font-weight:800;
+    flex-shrink:0;
+  }
+  p{margin:0 0 14px}
+
+  .box{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:22px 24px;
+    margin:16px 0;
+  }
+  .box.definicion{
+    border-left:6px solid var(--navy);
+    background:linear-gradient(180deg,#fff,#fbfbf9);
+  }
+  .box.definicion .tag{
+    font-weight:800;color:var(--navy);font-size:.82rem;
+    text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;
+  }
+  .box.ejemplo{border-left:6px solid var(--orange)}
+  .box.ejemplo .tag{color:var(--orange);font-weight:800;font-size:.82rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+
+  .verif{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:var(--teal-light);
+    border-radius:10px;
+    padding:14px 18px;
+    margin:14px 0;
+    font-weight:700;
+    color:var(--navy);
+  }
+  .verif .flecha{color:var(--teal);font-size:1.3rem}
+
+  .familia{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:10px;
+    margin:16px 0;
+  }
+  .familia .item{
+    background:var(--navy);
+    color:#fff;
+    text-align:center;
+    padding:12px 8px;
+    border-radius:10px;
+    font-size:.95rem;
+  }
+  .familia .item.destacado{background:var(--orange)}
+
+  table.props{width:100%;border-collapse:collapse;margin:16px 0}
+  table.props td{
+    border:1px solid var(--line);
+    padding:12px 14px;
+    background:#fff;
+  }
+  table.props tr td:first-child{
+    font-weight:700;color:var(--navy);width:38%;
+  }
+
+  .mundo{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:14px;
+    margin:16px 0;
+  }
+  .mundo .item{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:16px 18px;
+  }
+  .mundo .item .k{
+    color:var(--teal);
+    font-weight:800;
+    font-size:.75rem;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    margin-bottom:4px;
+  }
+  .mundo .item h4{margin:0 0 6px;color:var(--navy);font-size:1rem}
+  .mundo .item p{margin:0;color:var(--muted);font-size:.92rem}
+
+  .ib{
+    background:var(--navy);
+    color:#fff;
+    border-radius:16px;
+    padding:28px 26px;
+    margin:38px 0;
+  }
+  .ib h3{margin:0 0 16px;font-size:1.1rem;display:flex;align-items:center;gap:8px}
+  .ib .grid2{display:grid;grid-template-columns:1fr;gap:16px}
+  .ib .card{background:rgba(255,255,255,.08);border-radius:10px;padding:16px 18px}
+  .ib .card .t{font-weight:800;font-size:.82rem;color:#ffd4ae;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em}
+  .ib .card p{margin:0;color:#e6ebf2;font-size:.95rem}
+  .ib .indagacion{
+    background:rgba(224,123,58,.18);
+    border:1px solid rgba(224,123,58,.4);
+    border-radius:10px;
+    padding:18px 20px;
+    margin-bottom:16px;
+  }
+  .ib .indagacion .t{color:var(--orange);font-weight:800;font-size:.82rem;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
+  .ib .indagacion p{margin:0;font-weight:600}
+
+  .nav-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:30px 0 60px;
+    gap:14px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-block;
+    padding:13px 22px;
+    border-radius:10px;
+    font-weight:800;
+    font-size:.95rem;
+  }
+  .btn.ghost{background:#fff;color:var(--navy);border:1px solid var(--line)}
+  .btn.ghost:hover{background:#f0ede4}
+  .btn.on{background:var(--teal);color:#fff}
+  .btn.on:hover{background:#166357}
+  .btn.off{background:#ece9df;color:#a6a196;cursor:default}
+
+  .video-box{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:14px;
+    margin:18px 0;
+  }
+  .video-box .vt{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-weight:800;
+    color:var(--navy);
+    font-size:.9rem;
+    margin:2px 6px 12px;
+  }
+  .video-box .vt .dot{
+    width:8px;height:8px;border-radius:50%;background:var(--orange);flex-shrink:0;
+  }
+  .video-box .frame{
+    position:relative;
+    width:100%;
+    padding-top:56.25%;
+    border-radius:10px;
+    overflow:hidden;
+    background:#0d1622;
+  }
+  .video-box .frame iframe{
+    position:absolute;top:0;left:0;width:100%;height:100%;border:0;
+  }
+  mjx-container[display="true"]{display:block;overflow-x:auto;overflow-y:hidden;max-width:100%}
+  .box,.propiedad{overflow-x:auto;min-width:0}
+  table.props{display:block;overflow-x:auto;max-width:100%}
+  .tabla-inm .f{min-width:0} .tabla-inm .f span{min-width:0;overflow-x:auto}
+  @media (max-width:600px){ .wrap{padding:0 16px} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a href="index.html">Portal de Integrales</a>
+  <span class="sep">·</span>
+  <span class="current">Bloque 1</span>
+</header>
+
+<div class="wrap">
+
+  <div class="hero">
+    <span class="kicker">Bloque 1 · Introducción</span>
+    <h1>La primitiva: <em>deshaciendo la derivada</em></h1>
+    <p class="lead">Llevas todo el curso aprendiendo a derivar: a partir de una función, encuentras su tasa de cambio. Ahora vamos a hacer el camino inverso — y vas a descubrir que ese camino de vuelta esconde una sorpresa.</p>
+  </div>
+
+  <section>
+    <h2><span class="n">1</span> El problema: deshacer una derivada</h2>
+    <p>Piensa en el coche del problema motivante: v(t) = 3t². Esa es la <strong>derivada</strong> de la función posición, s(t). Si supiéramos derivar "hacia atrás", podríamos recuperar s(t) a partir de v(t).</p>
+    <p>A esa operación inversa la llamamos <strong>encontrar una primitiva</strong>. No es un truco nuevo: es literalmente preguntarte <em>"¿de qué función viene esta derivada?"</em></p>
+
+    <div class="box definicion">
+      <div class="tag">Definición</div>
+      <p>Una función \(F(x)\) es una <strong>primitiva</strong> de \(f(x)\) en un intervalo si, al derivar \(F(x)\), obtenemos \(f(x)\):</p>
+      <p style="text-align:center;font-size:1.25rem;margin:16px 0">\[F'(x) = f(x)\]</p>
+      <p style="margin-bottom:0">Es decir: buscar una primitiva de \(f(x)\) es preguntarse "¿qué función, al derivarla, me da \(f(x)\)?"</p>
+    </div>
+
+    <div class="video-box">
+      <div class="vt"><span class="dot"></span>🎥 Vídeo · Concepto de primitiva de una función</div>
+      <div class="frame">
+        <iframe src="https://drive.google.com/file/d/0B2-mayZWYv91UWRRX2ZOek9jbG8/preview" allow="autoplay" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">2</span> Ejemplo: comprobar una primitiva</h2>
+    <div class="box ejemplo">
+      <div class="tag">Ejemplo resuelto</div>
+      <p>¿Es \(F(x) = x^3\) una primitiva de \(f(x) = 3x^2\)?</p>
+      <p>Para comprobarlo, no hace falta "buscar" nada — basta con <strong>derivar F(x)</strong> y ver si el resultado coincide con f(x):</p>
+      <div class="verif">
+        <span>\(F(x) = x^3\)</span>
+        <span class="flecha">→ derivamos →</span>
+        <span>\(F'(x) = 3x^2\)</span>
+      </div>
+      <p style="margin-bottom:0">Como \(F'(x) = 3x^2 = f(x)\), efectivamente <strong>\(F(x)=x^3\) es una primitiva de \(f(x)=3x^2\)</strong>. Comprobar una primitiva siempre se reduce a esto: derivar y comparar.</p>
+    </div>
+
+    <div class="video-box">
+      <div class="vt"><span class="dot"></span>🎥 Vídeo · Ejemplos</div>
+      <div class="frame">
+        <iframe src="https://drive.google.com/file/d/0B2-mayZWYv91bldHcTh0cG5mXzQ/preview" allow="autoplay" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">3</span> Buscando primitivas: la sorpresa de la constante</h2>
+    <p>Ahora prueba con \(F(x) = x^3 + 5\). Derívala:</p>
+    <div class="verif">
+      <span>\(F(x) = x^3+5\)</span>
+      <span class="flecha">→ derivamos →</span>
+      <span>\(F'(x) = 3x^2\)</span>
+    </div>
+    <p>¡También es una primitiva de \(f(x)=3x^2\)! Y también lo son \(x^3-2\), \(x^3+\pi\) o \(x^3+100\). La derivada de una constante siempre es cero, así que <strong>cualquier función de la forma \(x^3+C\) es primitiva de \(3x^2\)</strong>, sea cual sea el valor de C.</p>
+
+    <div class="familia">
+      <div class="item">x³ − 2</div>
+      <div class="item">x³</div>
+      <div class="item destacado">x³ + C</div>
+      <div class="item">x³ + 5</div>
+      <div class="item">x³ + π</div>
+    </div>
+
+    <p><strong>Conclusión clave:</strong> una función no tiene una única primitiva, sino <strong>infinitas primitivas</strong>, todas ellas iguales salvo una constante. A este conjunto lo llamamos <strong>familia de primitivas</strong>.</p>
+
+    <div class="video-box">
+      <div class="vt"><span class="dot"></span>🎥 Vídeo · Buscando primitivas</div>
+      <div class="frame">
+        <iframe src="https://drive.google.com/file/d/0B2-mayZWYv91M0NtZFhNTXpHMTA/preview" allow="autoplay" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">4</span> La integral indefinida</h2>
+    <p>A la familia completa de todas las primitivas de \(f(x)\) la llamamos <strong>integral indefinida</strong> de \(f(x)\), y se escribe así:</p>
+    <p style="text-align:center;font-size:1.4rem;margin:20px 0">\[\int f(x)\,dx = F(x) + C\]</p>
+
+    <table class="props">
+      <tr><td>\(\int\)</td><td>Símbolo de integración. Indica "encuentra la familia de primitivas de..."</td></tr>
+      <tr><td>\(f(x)\)</td><td>El <strong>integrando</strong>: la función de la que buscamos primitiva.</td></tr>
+      <tr><td>\(dx\)</td><td>Indica cuál es la variable respecto a la que integramos.</td></tr>
+      <tr><td>\(F(x)\)</td><td>Una primitiva cualquiera de \(f(x)\) — la "forma" de toda la familia.</td></tr>
+      <tr><td>\(C\)</td><td>La <strong>constante de integración</strong>, que representa todas las posibilidades.</td></tr>
+    </table>
+
+    <p>Volviendo al coche: si v(t) = 3t² y sabemos que \(\int 3t^2\,dt = t^3+C\), entonces la posición es \(s(t) = t^3+C\). Necesitaríamos <strong>un dato más</strong> (por ejemplo, la posición inicial) para saber exactamente cuál C corresponde a nuestro coche. Sin ese dato, solo podemos dar la familia completa.</p>
+
+    <div class="video-box">
+      <div class="vt"><span class="dot"></span>🎥 Vídeo · Concepto de integral indefinida</div>
+      <div class="frame">
+        <iframe src="https://drive.google.com/file/d/0B2-mayZWYv91VUZhRG41NTY5eUU/preview" allow="autoplay" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">5</span> ¿Dónde se usa esto?</h2>
+    <div class="mundo">
+      <div class="item">
+        <div class="k">Física</div>
+        <h4>Cinemática</h4>
+        <p>De la aceleración se obtiene la velocidad; de la velocidad, la posición. Cada paso es una integración.</p>
+      </div>
+      <div class="item">
+        <div class="k">Economía</div>
+        <h4>Coste total</h4>
+        <p>Si conoces el coste marginal (la derivada del coste), integrar te da la función de coste total.</p>
+      </div>
+      <div class="item">
+        <div class="k">Biología</div>
+        <h4>Poblaciones</h4>
+        <p>Conociendo la tasa de crecimiento de una población, integrar permite reconstruir su tamaño en el tiempo.</p>
+      </div>
+      <div class="item">
+        <div class="k">Geometría</div>
+        <h4>Áreas</h4>
+        <p>Más adelante verás que la integral definida —construida a partir de la primitiva— calcula áreas bajo curvas.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="ib">
+    <h3>🎓 Profundiza — Marco IB</h3>
+    <div class="indagacion">
+      <div class="t">🔍 Pregunta de indagación</div>
+      <p>Si la derivada de una función es única, ¿por qué la primitiva no lo es? ¿Qué información se "pierde" al derivar, y por qué esa pérdida es irrecuperable sin un dato adicional?</p>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <div class="t">Concepto clave</div>
+        <p>Cambio · Relaciones. La integral indefinida formaliza la idea de "operación inversa" y muestra que invertir un proceso puede introducir ambigüedad (la constante C).</p>
+      </div>
+      <div class="card">
+        <div class="t">Habilidad ATL</div>
+        <p>Pensamiento crítico: distinguir entre "una solución" y "todas las soluciones posibles" de un problema, y reconocer cuándo hace falta información adicional para decidir entre ellas.</p>
+      </div>
+      <div class="card">
+        <div class="t">Conexión TdC</div>
+        <p>Cuando invertimos un proceso, ¿recuperamos siempre toda la información original? ¿Qué nos dice esto sobre los límites de "deshacer" en matemáticas y en otras áreas del conocimiento?</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-bottom">
+    <a class="btn ghost" href="index.html">← Portal de Integrales</a>
+    <a class="btn on" href="integrales_b1_practica.html">Practicar B1 →</a>
+    <a class="btn on" href="https://pepivalenzuela.github.io/panel-matematicas/#panel">Formativas en mi panel →</a>
+    <a class="btn ghost" href="integrales_b2_intro.html">Bloque 2 →</a>
+  </div>
+
+</div>
+
+</body>
+</html>

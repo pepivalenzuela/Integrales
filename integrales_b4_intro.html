@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B4 — Integración por partes · Las Chapas ECOS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+<style>
+  :root{
+    --navy:#1a2e4a;
+    --navy-light:#2a4468;
+    --teal:#1d7a6b;
+    --teal-light:#e4f2ef;
+    --orange:#e07b3a;
+    --orange-light:#fdeee0;
+    --cream:#f5f2eb;
+    --ink:#2b2b2b;
+    --muted:#6b6f76;
+    --white:#ffffff;
+    --line:#e4e0d6;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:'Nunito Sans',sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    line-height:1.7;
+  }
+  h1,h2,h3,.brand{font-family:'Nunito',sans-serif}
+  a{color:inherit;text-decoration:none}
+
+  header.top{
+    background:var(--navy);
+    color:#fff;
+    padding:14px 24px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:.88rem;
+    font-weight:600;
+    flex-wrap:wrap;
+  }
+  header.top a{color:#cfd8e6}
+  header.top a:hover{color:#fff}
+  header.top .sep{color:#5c6b82}
+  header.top .current{color:#fff;font-weight:800}
+
+  .wrap{max-width:800px;margin:0 auto;padding:0 24px}
+
+  .hero{padding:44px 0 8px;text-align:center}
+  .hero .kicker{
+    display:inline-block;
+    background:var(--orange-light);
+    color:var(--orange);
+    font-weight:800;
+    font-size:.76rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    padding:6px 14px;
+    border-radius:100px;
+    margin-bottom:16px;
+  }
+  .hero h1{
+    font-size:2.15rem;
+    font-weight:900;
+    color:var(--navy);
+    margin:0 0 16px;
+    letter-spacing:-.01em;
+  }
+  .hero h1 em{font-style:normal;color:var(--teal)}
+  .hero p.lead{color:var(--muted);font-size:1.05rem;max-width:620px;margin:0 auto}
+
+  section{padding:34px 0}
+  section h2{
+    color:var(--navy);
+    font-size:1.35rem;
+    margin:0 0 14px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  section h2 .n{
+    background:var(--teal);
+    color:#fff;
+    width:30px;height:30px;
+    border-radius:8px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:.9rem;font-weight:800;
+    flex-shrink:0;
+  }
+  p{margin:0 0 14px}
+
+  .box{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:22px 24px;
+    margin:16px 0;
+  }
+  .box.definicion{
+    border-left:6px solid var(--navy);
+    background:linear-gradient(180deg,#fff,#fbfbf9);
+  }
+  .box.definicion .tag{
+    font-weight:800;color:var(--navy);font-size:.82rem;
+    text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;
+  }
+  .box.ejemplo{border-left:6px solid var(--orange)}
+  .box.ejemplo .tag{color:var(--orange);font-weight:800;font-size:.82rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+
+  .verif{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:var(--teal-light);
+    border-radius:10px;
+    padding:14px 18px;
+    margin:14px 0;
+    font-weight:700;
+    color:var(--navy);
+  }
+  .verif .flecha{color:var(--teal);font-size:1.3rem}
+
+  .familia{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:10px;
+    margin:16px 0;
+  }
+  .familia .item{
+    background:var(--navy);
+    color:#fff;
+    text-align:center;
+    padding:12px 8px;
+    border-radius:10px;
+    font-size:.95rem;
+  }
+  .familia .item.destacado{background:var(--orange)}
+
+  table.props{width:100%;border-collapse:collapse;margin:16px 0}
+  table.props td{
+    border:1px solid var(--line);
+    padding:12px 14px;
+    background:#fff;
+  }
+  table.props tr td:first-child{
+    font-weight:700;color:var(--navy);width:38%;
+  }
+
+  .mundo{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:14px;
+    margin:16px 0;
+  }
+  .mundo .item{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:16px 18px;
+  }
+  .mundo .item .k{
+    color:var(--teal);
+    font-weight:800;
+    font-size:.75rem;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    margin-bottom:4px;
+  }
+  .mundo .item h4{margin:0 0 6px;color:var(--navy);font-size:1rem}
+  .mundo .item p{margin:0;color:var(--muted);font-size:.92rem}
+
+  .ib{
+    background:var(--navy);
+    color:#fff;
+    border-radius:16px;
+    padding:28px 26px;
+    margin:38px 0;
+  }
+  .ib h3{margin:0 0 16px;font-size:1.1rem;display:flex;align-items:center;gap:8px}
+  .ib .grid2{display:grid;grid-template-columns:1fr;gap:16px}
+  .ib .card{background:rgba(255,255,255,.08);border-radius:10px;padding:16px 18px}
+  .ib .card .t{font-weight:800;font-size:.82rem;color:#ffd4ae;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em}
+  .ib .card p{margin:0;color:#e6ebf2;font-size:.95rem}
+  .ib .indagacion{
+    background:rgba(224,123,58,.18);
+    border:1px solid rgba(224,123,58,.4);
+    border-radius:10px;
+    padding:18px 20px;
+    margin-bottom:16px;
+  }
+  .ib .indagacion .t{color:var(--orange);font-weight:800;font-size:.82rem;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
+  .ib .indagacion p{margin:0;font-weight:600}
+
+  .nav-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:30px 0 60px;
+    gap:14px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-block;
+    padding:13px 22px;
+    border-radius:10px;
+    font-weight:800;
+    font-size:.95rem;
+  }
+  .btn.ghost{background:#fff;color:var(--navy);border:1px solid var(--line)}
+  .btn.ghost:hover{background:#f0ede4}
+  .btn.on{background:var(--teal);color:#fff}
+  .btn.on:hover{background:#166357}
+  .btn.off{background:#ece9df;color:#a6a196;cursor:default}
+
+  .video-box{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:14px;
+    margin:18px 0;
+  }
+  .video-box .vt{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-weight:800;
+    color:var(--navy);
+    font-size:.9rem;
+    margin:2px 6px 12px;
+  }
+  .video-box .vt .dot{
+    width:8px;height:8px;border-radius:50%;background:var(--orange);flex-shrink:0;
+  }
+  .video-box .frame{
+    position:relative;
+    width:100%;
+    padding-top:56.25%;
+    border-radius:10px;
+    overflow:hidden;
+    background:#0d1622;
+  }
+  .video-box .frame iframe{
+    position:absolute;top:0;left:0;width:100%;height:100%;border:0;
+  }
+
+  .tabla-inm{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:10px;
+    margin:16px 0;
+  }
+  .tabla-inm .f{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:12px 14px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .tabla-inm .f .num{
+    background:var(--teal);
+    color:#fff;
+    width:24px;height:24px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:.75rem;font-weight:800;
+    flex-shrink:0;
+  }
+  .propiedad{
+    background:#fff;
+    border:1px solid var(--line);
+    border-left:6px solid var(--orange);
+    border-radius:12px;
+    padding:16px 18px;
+    margin:12px 0;
+  }
+  .propiedad .num-p{
+    color:var(--orange);
+    font-weight:800;
+    font-size:.78rem;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    margin-bottom:6px;
+  }
+  mjx-container[display="true"]{display:block;overflow-x:auto;overflow-y:hidden;max-width:100%}
+  .box,.propiedad{overflow-x:auto;min-width:0}
+  table.props{display:block;overflow-x:auto;max-width:100%}
+  .tabla-inm .f{min-width:0} .tabla-inm .f span{min-width:0;overflow-x:auto}
+  @media (max-width:600px){ .wrap{padding:0 16px} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a href="index.html">Portal de Integrales</a>
+  <span class="sep">·</span>
+  <span class="current">Bloque 4</span>
+</header>
+
+<div class="wrap">
+
+  <div class="hero">
+    <span class="kicker">Bloque 4 · Introducción</span>
+    <h1>Integración por <em>partes</em></h1>
+    <p class="lead">Cuando la integral es un producto de dos funciones de distinto tipo — un polinomio y una exponencial, un logaritmo solo, una exponencial y un seno — ni la tabla de inmediatas ni el cambio de variable bastan. Aquí entra un método distinto: repartir la integral entre dos partes que se turnan el trabajo.</p>
+  </div>
+
+  <section>
+    <h2><span class="n">1</span> ¿En qué consiste?</h2>
+    <div class="box definicion">
+      <div class="tag">Fórmula</div>
+      <p>La integración por partes deshace la <strong>regla de derivación de un producto</strong>, no la regla de la cadena (esa ya la usamos en el cambio de variable). La fórmula es:</p>
+      <p style="text-align:center;font-size:1.3rem;margin:16px 0">\[\int u\,dv = u\cdot v - \int v\,du\]</p>
+      <p style="margin-bottom:0">La idea: cambiamos una integral que no sabemos resolver (\(\int u\,dv\)) por otra —esperamos que más sencilla— (\(\int v\,du\)), a cambio de calcular el término \(u\cdot v\).</p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">2</span> ¿Cuándo está indicado usarlo?</h2>
+    <p>Cuando el integrando es un <strong>producto de dos funciones de tipo distinto</strong> y ninguna es la derivada de la otra (si lo fuera, tocaría cambio de variable, no partes). Los casos más habituales:</p>
+    <div class="mundo">
+      <div class="item"><div class="k">Polinomio × exponencial</div><h4>\(\int x\,e^x\,dx\)</h4><p>El polinomio baja de grado al derivarlo.</p></div>
+      <div class="item"><div class="k">Polinomio × trigonométrica</div><h4>\(\int x\operatorname{sen} x\,dx\)</h4><p>Igual que arriba: el polinomio se simplifica.</p></div>
+      <div class="item"><div class="k">Polinomio × logaritmo</div><h4>\(\int x\ln x\,dx\)</h4><p>El logaritmo se simplifica al derivarlo (no al integrarlo).</p></div>
+      <div class="item"><div class="k">Exponencial × trigonométrica</div><h4>\(\int e^x\operatorname{sen} x\,dx\)</h4><p>Caso especial: es una integral cíclica (apartado 6).</p></div>
+    </div>
+
+    <div class="video-box">
+      <div class="vt"><span class="dot"></span>▶️ Vídeo · Integración por partes: concepto y cuándo usarla</div>
+      <div class="frame">
+        <iframe src="https://www.youtube.com/embed/6yRQH4SaR4s" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">3</span> Elementos a tener en cuenta</h2>
+    <p>Todo el éxito del método está en <strong>elegir bien qué es \(u\) y qué es \(dv\)</strong>. Como criterio orientativo:</p>
+    <table class="props">
+      <tr><td>\(u\)</td><td>Elige la función que <strong>se simplifica al derivarla</strong> (baja de grado, o se convierte en algo más sencillo). Prioridad orientativa: <strong>logaritmos</strong> &gt; <strong>polinomios</strong> &gt; <strong>trigonométricas/exponenciales</strong>.</td></tr>
+      <tr><td>\(dv\)</td><td>Elige el resto (incluyendo \(dx\)) — debe ser una función que <strong>sepas integrar fácilmente</strong> para obtener \(v\).</td></tr>
+      <tr><td>Error típico</td><td>Elegir \(u\) de forma que, al derivarla, la integral se complique en vez de simplificarse. Si eso pasa, prueba a intercambiar \(u\) y \(dv\).</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2><span class="n">4</span> El procedimiento</h2>
+    <table class="props">
+      <tr><td>Paso 1</td><td>Separa el integrando en dos partes: elige \(u\) y \(dv\) (el resto, incluido \(dx\)).</td></tr>
+      <tr><td>Paso 2</td><td>Calcula \(du\) (derivando \(u\)) y \(v\) (integrando \(dv\); no hace falta poner +C aquí).</td></tr>
+      <tr><td>Paso 3</td><td>Sustituye en la fórmula: \(\int u\,dv = uv - \int v\,du\).</td></tr>
+      <tr><td>Paso 4</td><td>Resuelve la nueva integral \(\int v\,du\) — a veces ya es inmediata; otras veces hay que repetir el proceso.</td></tr>
+      <tr><td>Paso 5</td><td>No olvides añadir la constante \(+C\) al final.</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2><span class="n">5</span> Ejemplos</h2>
+    <div class="box ejemplo">
+      <div class="tag">Ejemplo</div>
+      <p>Calcula \(\displaystyle\int x\,e^x\,dx\)</p>
+      <div class="verif">
+        <span>\(u=x \Rightarrow du=dx\)</span>
+        <span class="flecha">·</span>
+        <span>\(dv=e^x dx \Rightarrow v=e^x\)</span>
+      </div>
+      <p>\[\int x\,e^x\,dx = x\,e^x - \int e^x\,dx = x\,e^x - e^x + C\]</p>
+    </div>
+
+    <div class="box ejemplo">
+      <div class="tag">Ejemplo</div>
+      <p>Calcula \(\displaystyle\int x\ln x\,dx\)</p>
+      <div class="verif">
+        <span>\(u=\ln x \Rightarrow du=\dfrac{1}{x}dx\)</span>
+        <span class="flecha">·</span>
+        <span>\(dv=x\,dx \Rightarrow v=\dfrac{x^2}{2}\)</span>
+      </div>
+      <p>\[\int x\ln x\,dx = \frac{x^2}{2}\ln x - \int \frac{x^2}{2}\cdot\frac{1}{x}\,dx = \frac{x^2}{2}\ln x - \int \frac{x}{2}\,dx\]</p>
+      <p style="margin-bottom:0">\[= \frac{x^2}{2}\ln x - \frac{x^2}{4} + C\]</p>
+    </div>
+
+    <div class="video-box">
+      <div class="vt"><span class="dot"></span>▶️ Vídeo · Ejemplos de aplicación directa</div>
+      <div class="frame">
+        <iframe src="https://www.youtube.com/embed/XQ5FRQsal1A" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">6</span> ¿Qué es una integral cíclica?</h2>
+    <p>A veces, al aplicar partes <strong>dos veces seguidas</strong>, la integral no se simplifica hasta desaparecer — sino que <strong>reaparece la integral original</strong> en el otro lado de la igualdad. Eso es una <strong>integral cíclica</strong>: el proceso "da la vuelta" en lugar de terminar.</p>
+    <p>El caso típico es el producto de una <strong>exponencial por una trigonométrica</strong>: \(\int e^{ax}\operatorname{sen}(bx)\,dx\) o \(\int e^{ax}\cos(bx)\,dx\).</p>
+  </section>
+
+  <section>
+    <h2><span class="n">7</span> Procedimiento para calcular una integral cíclica</h2>
+    <table class="props">
+      <tr><td>Paso 1</td><td>Aplica partes una primera vez sobre \(I=\int e^{ax}\operatorname{sen}(bx)\,dx\).</td></tr>
+      <tr><td>Paso 2</td><td>La integral resultante también es un producto exponencial × trigonométrica: aplica partes <strong>una segunda vez</strong>, manteniendo el mismo criterio de elección de \(u\) (para no deshacer el primer paso).</td></tr>
+      <tr><td>Paso 3</td><td>Al terminar, verás que aparece de nuevo <strong>la integral original, \(I\)</strong>, en el lado derecho de la igualdad.</td></tr>
+      <tr><td>Paso 4</td><td>Trata la ecuación como una ecuación algebraica: agrupa los términos con \(I\) a un lado y despeja \(I\).</td></tr>
+    </table>
+
+    <div class="box ejemplo">
+      <div class="tag">Ejemplo — esquema</div>
+      <p>Al aplicar partes dos veces a \(I=\int e^{x}\operatorname{sen} x\,dx\), se llega a una expresión del tipo:</p>
+      <p>\[I = -e^{x}\cos x + e^{x}\operatorname{sen} x - I\]</p>
+      <p style="margin-bottom:0">Agrupando: \(2I = e^{x}(\operatorname{sen} x - \cos x)\), y despejando: \(I = \dfrac{e^{x}(\operatorname{sen} x-\cos x)}{2}+C\)</p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">8</span> ¿Qué la hace diferente de una integral por partes normal?</h2>
+    <p>En una integral por partes "normal", cada aplicación del método <strong>reduce la dificultad</strong> del problema (el polinomio baja de grado, por ejemplo) hasta llegar a una integral inmediata. En una integral cíclica, en cambio, la dificultad <strong>no disminuye</strong>: la integral se repite indefinidamente si sigues aplicando partes. La salida no es "seguir integrando", sino <strong>reconocer el ciclo y resolverlo algebraicamente</strong>.</p>
+
+    <div class="video-box">
+      <div class="vt"><span class="dot"></span>▶️ Vídeo · Integral cíclica</div>
+      <div class="frame">
+        <iframe src="https://www.youtube.com/embed/rRF9-DCSD_w" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">9</span> Otro caso particular: una única función</h2>
+    <p>Hay integrales donde <strong>solo aparece una función</strong> — no un producto — y aun así se resuelven por partes. El ejemplo clásico es \(\int \ln x\,dx\).</p>
+    <div class="box ejemplo">
+      <div class="tag">El truco</div>
+      <p>Escribimos la función como un producto por 1: \(\ln x = \ln x \cdot 1\). Elegimos:</p>
+      <div class="verif">
+        <span>\(u=\ln x \Rightarrow du=\dfrac{1}{x}dx\)</span>
+        <span class="flecha">·</span>
+        <span>\(dv=1\,dx \Rightarrow v=x\)</span>
+      </div>
+      <p>\[\int \ln x\,dx = x\ln x - \int x\cdot\frac{1}{x}\,dx = x\ln x - \int 1\,dx\]</p>
+      <p style="margin-bottom:0">\[= x\ln x - x + C\]</p>
+    </div>
+    <p>El mismo truco funciona con \(\int \operatorname{arcsen} x\,dx\), \(\int \operatorname{arctg} x\,dx\) y otras funciones "sueltas" que no sabes integrar directamente, pero sí derivar.</p>
+
+    <div class="video-box">
+      <div class="vt"><span class="dot"></span>▶️ Vídeo · Caso particular: una sola función</div>
+      <div class="frame">
+        <iframe src="https://www.youtube.com/embed/iM0suryfKIQ" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">10</span> ¿Qué lo hace diferente de los demás casos?</h2>
+    <p>A diferencia de los casos anteriores, aquí <strong>no hay un producto visible de dos funciones</strong> — solo una. La clave está en darse cuenta de que toda función se puede escribir como "ella misma multiplicada por 1", y que ese "1" hace de \(dv\). No es un método distinto, es la misma fórmula aplicada con una elección de \(dv\) poco intuitiva a primera vista.</p>
+  </section>
+
+  <div class="ib">
+    <h3>🎓 Profundiza — Marco IB</h3>
+    <div class="indagacion">
+      <div class="t">🔍 Pregunta de indagación</div>
+      <p>En una integral cíclica, el método "no converge" de forma directa — reaparece el problema original. ¿Qué nos dice esto sobre los límites de un algoritmo paso a paso, y por qué hace falta razonamiento algebraico adicional para cerrar el problema?</p>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <div class="t">Concepto clave</div>
+        <p>Sistemas · Estructura. La integración por partes deshace la regla del producto, del mismo modo que el cambio de variable deshace la regla de la cadena — cada método de integración corresponde a una regla de derivación distinta.</p>
+      </div>
+      <div class="card">
+        <div class="t">Habilidad ATL</div>
+        <p>Metacognición: reconocer cuándo un procedimiento no está avanzando (como en el ciclo) y cambiar de estrategia (resolver algebraicamente) en lugar de repetir el mismo paso sin fin.</p>
+      </div>
+      <div class="card">
+        <div class="t">Conexión TdC</div>
+        <p>Cuando un método "vuelve al principio", ¿es un fallo del método o una información valiosa en sí misma? ¿En qué otras áreas del conocimiento un razonamiento circular puede ser productivo en lugar de un error?</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-bottom">
+    <a class="btn ghost" href="index.html">← Portal de Integrales</a>
+    <a class="btn ghost" href="integrales_b3_intro.html">← Bloque 3</a>
+    <a class="btn on" href="integrales_b4_practica.html">Practicar B4 →</a>
+    <a class="btn on" href="https://pepivalenzuela.github.io/panel-matematicas/#panel">Formativas en mi panel →</a>
+    <a class="btn ghost" href="integrales_b5_intro.html">Bloque 5 →</a>
+  </div>
+
+</div>
+
+</body>
+</html>

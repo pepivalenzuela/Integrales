@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B6 — Integrales trigonométricas e irracionales · Las Chapas ECOS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+<style>
+  :root{
+    --navy:#1a2e4a;
+    --navy-light:#2a4468;
+    --teal:#1d7a6b;
+    --teal-light:#e4f2ef;
+    --orange:#e07b3a;
+    --orange-light:#fdeee0;
+    --cream:#f5f2eb;
+    --ink:#2b2b2b;
+    --muted:#6b6f76;
+    --white:#ffffff;
+    --line:#e4e0d6;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:'Nunito Sans',sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    line-height:1.7;
+  }
+  h1,h2,h3,.brand{font-family:'Nunito',sans-serif}
+  a{color:inherit;text-decoration:none}
+
+  header.top{
+    background:var(--navy);
+    color:#fff;
+    padding:14px 24px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:.88rem;
+    font-weight:600;
+    flex-wrap:wrap;
+  }
+  header.top a{color:#cfd8e6}
+  header.top a:hover{color:#fff}
+  header.top .sep{color:#5c6b82}
+  header.top .current{color:#fff;font-weight:800}
+
+  .wrap{max-width:800px;margin:0 auto;padding:0 24px}
+
+  .hero{padding:44px 0 8px;text-align:center}
+  .hero .kicker{
+    display:inline-block;
+    background:var(--orange-light);
+    color:var(--orange);
+    font-weight:800;
+    font-size:.76rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    padding:6px 14px;
+    border-radius:100px;
+    margin-bottom:16px;
+  }
+  .hero h1{
+    font-size:2.15rem;
+    font-weight:900;
+    color:var(--navy);
+    margin:0 0 16px;
+    letter-spacing:-.01em;
+  }
+  .hero h1 em{font-style:normal;color:var(--teal)}
+  .hero p.lead{color:var(--muted);font-size:1.05rem;max-width:620px;margin:0 auto}
+
+  section{padding:34px 0}
+  section h2{
+    color:var(--navy);
+    font-size:1.35rem;
+    margin:0 0 14px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  section h2 .n{
+    background:var(--teal);
+    color:#fff;
+    width:30px;height:30px;
+    border-radius:8px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:.9rem;font-weight:800;
+    flex-shrink:0;
+  }
+  p{margin:0 0 14px}
+
+  .box{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:22px 24px;
+    margin:16px 0;
+  }
+  .box.definicion{
+    border-left:6px solid var(--navy);
+    background:linear-gradient(180deg,#fff,#fbfbf9);
+  }
+  .box.definicion .tag{
+    font-weight:800;color:var(--navy);font-size:.82rem;
+    text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;
+  }
+  .box.ejemplo{border-left:6px solid var(--orange)}
+  .box.ejemplo .tag{color:var(--orange);font-weight:800;font-size:.82rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+
+  .verif{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:var(--teal-light);
+    border-radius:10px;
+    padding:14px 18px;
+    margin:14px 0;
+    font-weight:700;
+    color:var(--navy);
+  }
+  .verif .flecha{color:var(--teal);font-size:1.3rem}
+
+  .familia{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:10px;
+    margin:16px 0;
+  }
+  .familia .item{
+    background:var(--navy);
+    color:#fff;
+    text-align:center;
+    padding:12px 8px;
+    border-radius:10px;
+    font-size:.95rem;
+  }
+  .familia .item.destacado{background:var(--orange)}
+
+  table.props{width:100%;border-collapse:collapse;margin:16px 0}
+  table.props td{
+    border:1px solid var(--line);
+    padding:12px 14px;
+    background:#fff;
+  }
+  table.props tr td:first-child{
+    font-weight:700;color:var(--navy);width:38%;
+  }
+
+  .mundo{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:14px;
+    margin:16px 0;
+  }
+  .mundo .item{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:16px 18px;
+  }
+  .mundo .item .k{
+    color:var(--teal);
+    font-weight:800;
+    font-size:.75rem;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    margin-bottom:4px;
+  }
+  .mundo .item h4{margin:0 0 6px;color:var(--navy);font-size:1rem}
+  .mundo .item p{margin:0;color:var(--muted);font-size:.92rem}
+
+  .ib{
+    background:var(--navy);
+    color:#fff;
+    border-radius:16px;
+    padding:28px 26px;
+    margin:38px 0;
+  }
+  .ib h3{margin:0 0 16px;font-size:1.1rem;display:flex;align-items:center;gap:8px}
+  .ib .grid2{display:grid;grid-template-columns:1fr;gap:16px}
+  .ib .card{background:rgba(255,255,255,.08);border-radius:10px;padding:16px 18px}
+  .ib .card .t{font-weight:800;font-size:.82rem;color:#ffd4ae;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em}
+  .ib .card p{margin:0;color:#e6ebf2;font-size:.95rem}
+  .ib .indagacion{
+    background:rgba(224,123,58,.18);
+    border:1px solid rgba(224,123,58,.4);
+    border-radius:10px;
+    padding:18px 20px;
+    margin-bottom:16px;
+  }
+  .ib .indagacion .t{color:var(--orange);font-weight:800;font-size:.82rem;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
+  .ib .indagacion p{margin:0;font-weight:600}
+
+  .nav-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:30px 0 60px;
+    gap:14px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-block;
+    padding:13px 22px;
+    border-radius:10px;
+    font-weight:800;
+    font-size:.95rem;
+  }
+  .btn.ghost{background:#fff;color:var(--navy);border:1px solid var(--line)}
+  .btn.ghost:hover{background:#f0ede4}
+  .btn.on{background:var(--teal);color:#fff}
+  .btn.on:hover{background:#166357}
+  .btn.off{background:#ece9df;color:#a6a196;cursor:default}
+
+  .video-box{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:14px;
+    margin:18px 0;
+  }
+  .video-box .vt{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-weight:800;
+    color:var(--navy);
+    font-size:.9rem;
+    margin:2px 6px 12px;
+  }
+  .video-box .vt .dot{
+    width:8px;height:8px;border-radius:50%;background:var(--orange);flex-shrink:0;
+  }
+  .video-box .frame{
+    position:relative;
+    width:100%;
+    padding-top:56.25%;
+    border-radius:10px;
+    overflow:hidden;
+    background:#0d1622;
+  }
+  .video-box .frame iframe{
+    position:absolute;top:0;left:0;width:100%;height:100%;border:0;
+  }
+
+  .tabla-inm{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:10px;
+    margin:16px 0;
+  }
+  .tabla-inm .f{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:12px 14px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .tabla-inm .f .num{
+    background:var(--teal);
+    color:#fff;
+    width:24px;height:24px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:.75rem;font-weight:800;
+    flex-shrink:0;
+  }
+  .propiedad{
+    background:#fff;
+    border:1px solid var(--line);
+    border-left:6px solid var(--orange);
+    border-radius:12px;
+    padding:16px 18px;
+    margin:12px 0;
+  }
+  .propiedad .num-p{
+    color:var(--orange);
+    font-weight:800;
+    font-size:.78rem;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    margin-bottom:6px;
+  }
+  mjx-container[display="true"]{display:block;overflow-x:auto;overflow-y:hidden;max-width:100%}
+  .box,.propiedad{overflow-x:auto;min-width:0}
+  table.props{display:block;overflow-x:auto;max-width:100%}
+  .tabla-inm .f{min-width:0} .tabla-inm .f span{min-width:0;overflow-x:auto}
+  @media (max-width:600px){ .wrap{padding:0 16px} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a href="index.html">Portal de Integrales</a>
+  <span class="sep">·</span>
+  <span class="current">Bloque 6</span>
+</header>
+
+<div class="wrap">
+
+  <div class="hero">
+    <span class="kicker">Bloque 6 · Introducción</span>
+    <h1>Integrales <em>trigonométricas</em> e irracionales</h1>
+    <p class="lead">Senos y cosenos elevados a potencias, tangentes al cuadrado, raíces… No están en la tabla, pero con una identidad trigonométrica o un cambio de variable bien elegido se convierten en integrales que ya sabes hacer.</p>
+  </div>
+
+  <section>
+    <h2><span class="n">1</span> Las identidades que vas a necesitar</h2>
+    <p>Casi todas las integrales trigonométricas de este curso se resuelven transformando el integrando con alguna de estas identidades, hasta que aparece una integral inmediata o un cambio de variable sencillo.</p>
+    <table class="props">
+      <tr><td>Fundamental</td><td>\(\operatorname{sen}^2 x + \cos^2 x = 1\)</td></tr>
+      <tr><td>Tangente</td><td>\(1 + \operatorname{tg}^2 x = \dfrac{1}{\cos^2 x}\)</td></tr>
+      <tr><td>Ángulo doble</td><td>\(\operatorname{sen} 2x = 2\operatorname{sen} x\cos x\)</td></tr>
+      <tr><td>Bajar el cuadrado</td><td>\(\operatorname{sen}^2 x = \dfrac{1-\cos 2x}{2} \qquad \cos^2 x = \dfrac{1+\cos 2x}{2}\)</td></tr>
+    </table>
+    <div class="verif"><span class="flecha">💡</span><span>Pregúntate siempre primero: ¿aparece una función y su derivada? (por ejemplo \(\operatorname{sen} x\) y \(\cos x\)). Si es así, es un cambio de variable del Bloque 3. Las identidades se usan cuando eso no ocurre a simple vista.</span></div>
+  </section>
+
+  <section>
+    <h2><span class="n">2</span> Producto de seno y coseno, y potencias con su derivada</h2>
+    <p>Si aparece una potencia de \(\operatorname{sen} x\) multiplicada por \(\cos x\) (o al revés), es una integral inmediata de tipo potencia, porque \(\cos x\) es la derivada de \(\operatorname{sen} x\):</p>
+    <div class="box definicion"><div class="tag">Regla</div>
+      <p style="margin:0">\[\int \operatorname{sen}^n x\,\cos x\,dx = \frac{\operatorname{sen}^{n+1} x}{n+1} + C \qquad \int \cos^n x\,\operatorname{sen} x\,dx = -\frac{\cos^{n+1} x}{n+1} + C\]</p></div>
+    <div class="box ejemplo"><div class="tag">Ejemplo resuelto</div>
+      <p>Calcula \(\displaystyle\int \operatorname{sen}^4 x\,\cos x\,dx\)</p>
+      <p>Cambio \(u = \operatorname{sen} x\), \(du = \cos x\,dx\):</p>
+      <p style="margin-bottom:0">\[\int u^4\,du = \frac{u^5}{5} + C = \frac{\operatorname{sen}^5 x}{5} + C\]</p></div>
+  </section>
+
+  <section>
+    <h2><span class="n">3</span> Potencias impares de seno o coseno</h2>
+    <p>Si el seno (o el coseno) está elevado a una potencia <strong>impar</strong>, se separa un factor y el resto se transforma con \(\operatorname{sen}^2 x + \cos^2 x = 1\). Así aparece la derivada que hace falta para el cambio de variable.</p>
+    <div class="box ejemplo"><div class="tag">Ejemplo resuelto</div>
+      <p>Calcula \(\displaystyle\int \operatorname{sen}^3 x\,dx\)</p>
+      <p>Separamos un seno: \(\operatorname{sen}^3 x = \operatorname{sen}^2 x\cdot \operatorname{sen} x = (1-\cos^2 x)\operatorname{sen} x\).</p>
+      <p>Cambio \(u = \cos x\), \(du = -\operatorname{sen} x\,dx\):</p>
+      <p>\[\int (1-\cos^2 x)\operatorname{sen} x\,dx = -\int (1-u^2)\,du = -u + \frac{u^3}{3} + C\]</p>
+      <p style="margin-bottom:0">Deshacemos el cambio: \(\displaystyle\int \operatorname{sen}^3 x\,dx = -\cos x + \frac{\cos^3 x}{3} + C\)</p></div>
+  </section>
+
+  <section>
+    <h2><span class="n">4</span> Potencias pares: bajar el cuadrado</h2>
+    <p>Si la potencia es <strong>par</strong>, separar un factor no sirve. Se usan las fórmulas que «bajan el cuadrado» y convierten el integrando en algo con \(\cos 2x\), que ya es inmediato.</p>
+    <div class="box ejemplo"><div class="tag">Ejemplo resuelto</div>
+      <p>Calcula \(\displaystyle\int \cos^2 x\,dx\)</p>
+      <p>\[\int \cos^2 x\,dx = \int \frac{1+\cos 2x}{2}\,dx = \frac{x}{2} + \frac{1}{2}\cdot\frac{\operatorname{sen} 2x}{2} + C = \frac{x}{2} + \frac{\operatorname{sen} 2x}{4} + C\]</p>
+      <p style="margin-bottom:0">Del mismo modo: \(\displaystyle\int \operatorname{sen}^2 x\,dx = \frac{x}{2} - \frac{\operatorname{sen} 2x}{4} + C\).</p></div>
+    <div class="box ejemplo"><div class="tag">Ejemplo resuelto · La tangente al cuadrado</div>
+      <p>Calcula \(\displaystyle\int \operatorname{tg}^2 x\,dx\)</p>
+      <p>Sumamos y restamos 1 para que aparezca \(1+\operatorname{tg}^2 x\), que es la derivada de \(\operatorname{tg} x\):</p>
+      <p style="margin-bottom:0">\[\int \operatorname{tg}^2 x\,dx = \int \big(1+\operatorname{tg}^2 x - 1\big)\,dx = \operatorname{tg} x - x + C\]</p></div>
+  </section>
+
+  <section>
+    <h2><span class="n">5</span> Integrales irracionales</h2>
+    <p>Son las que tienen raíces. Muchas son inmediatas si se escriben como potencias de exponente fraccionario; otras se resuelven con un cambio de variable que elimina la raíz.</p>
+    <table class="props">
+      <tr><td>Como potencia</td><td>\(\displaystyle\int f'(x)\,\sqrt{f(x)}\,dx = \int f'(x)\,f(x)^{1/2}\,dx = \frac{2}{3}f(x)^{3/2} + C\)</td></tr>
+      <tr><td>Raíz en el denominador</td><td>\(\displaystyle\int \frac{f'(x)}{\sqrt{f(x)}}\,dx = 2\sqrt{f(x)} + C\)</td></tr>
+      <tr><td>Arcoseno</td><td>\(\displaystyle\int \frac{dx}{\sqrt{1-x^2}} = \operatorname{arcsen} x + C\)</td></tr>
+      <tr><td>Cambio que elimina la raíz</td><td>Si aparece \(\sqrt{x}\) o \(\sqrt{ax+b}\), se llama \(t\) a la raíz: \(t=\sqrt{x}\Rightarrow x=t^2,\ dx = 2t\,dt\).</td></tr>
+    </table>
+    <div class="box ejemplo"><div class="tag">Ejemplo resuelto · Como potencia</div>
+      <p>Calcula \(\displaystyle\int x\sqrt{x^2+1}\,dx\)</p>
+      <p>La derivada de \(x^2+1\) es \(2x\): ponemos el 2 dentro y \(\frac12\) fuera.</p>
+      <p style="margin-bottom:0">\[\int x\,(x^2+1)^{1/2}\,dx = \frac12\int 2x\,(x^2+1)^{1/2}\,dx = \frac12\cdot\frac{(x^2+1)^{3/2}}{3/2} + C = \frac{(x^2+1)^{3/2}}{3} + C\]</p></div>
+    <div class="box ejemplo"><div class="tag">Ejemplo resuelto · Cambio que elimina la raíz</div>
+      <p>Calcula \(\displaystyle\int \frac{dx}{1+\sqrt{x}}\)</p>
+      <p>Cambio \(t=\sqrt{x}\): \(x = t^2\), \(dx = 2t\,dt\).</p>
+      <p>\[\int \frac{2t}{1+t}\,dt = \int \left(2 - \frac{2}{1+t}\right)dt = 2t - 2\ln|1+t| + C\]</p>
+      <p style="margin-bottom:0">Deshacemos el cambio: \(\displaystyle\int \frac{dx}{1+\sqrt{x}} = 2\sqrt{x} - 2\ln\big(1+\sqrt{x}\big) + C\)</p></div>
+  </section>
+
+  <section>
+    <h2><span class="n">6</span> ¿Qué método uso? Resumen de todo el tema</h2>
+    <table class="props">
+      <tr><td>Está en la tabla (o casi)</td><td>Inmediata (Bloque 2), ajustando constantes.</td></tr>
+      <tr><td>Aparece una función y su derivada</td><td>Cambio de variable (Bloque 3).</td></tr>
+      <tr><td>Producto de funciones de distinto tipo</td><td>Por partes (Bloque 4).</td></tr>
+      <tr><td>Cociente de polinomios</td><td>Racional (Bloque 5): dividir, fracciones simples, ln y arctg.</td></tr>
+      <tr><td>Potencias de sen y cos, tg²</td><td>Identidades trigonométricas (este bloque).</td></tr>
+      <tr><td>Raíces</td><td>Potencia de exponente fraccionario o cambio \(t = \sqrt{\ \ }\) (este bloque).</td></tr>
+    </table>
+    <div class="verif"><span class="flecha">📌</span><span>Comprueba siempre el resultado derivándolo: tienes que volver a obtener el integrando.</span></div>
+  </section>
+
+  <div class="ib">
+    <h3>🎓 Profundiza — Marco IB</h3>
+    <div class="indagacion">
+      <div class="t">🔍 Pregunta de indagación</div>
+      <p>Una misma integral, como \(\int \operatorname{sen} x\cos x\,dx\), puede dar \(\frac{\operatorname{sen}^2 x}{2}\) o \(-\frac{\cos^2 x}{2}\) según el camino. ¿Cómo pueden ser correctas las dos? ¿Qué nos dice esto sobre la constante C?</p>
+    </div>
+    <div class="grid2">
+      <div class="card"><div class="t">Concepto clave</div><p>Relaciones · Equivalencia. Las identidades trigonométricas permiten escribir la misma función de formas distintas, y elegir la que se puede integrar.</p></div>
+      <div class="card"><div class="t">Habilidad ATL</div><p>Pensamiento estratégico: antes de calcular, decidir qué transformación convierte la integral en una que ya sabes hacer.</p></div>
+      <div class="card"><div class="t">Conexión TdC</div><p>Si dos resultados aparentemente distintos son ambos correctos, ¿qué significa que una respuesta matemática sea «la» respuesta?</p></div>
+    </div>
+  </div>
+
+  <div class="nav-bottom">
+    <a class="btn ghost" href="index.html">← Portal de Integrales</a>
+    <a class="btn ghost" href="integrales_b5_intro.html">← Bloque 5</a>
+    <a class="btn on" href="integrales_b6_practica.html">Practicar B6 →</a>
+    <a class="btn on" href="https://pepivalenzuela.github.io/panel-matematicas/#panel">Formativas en mi panel →</a>
+  </div>
+
+</div>
+
+</body>
+</html>

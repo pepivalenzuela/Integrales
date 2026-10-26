@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B2 — Propiedades e integrales inmediatas · Las Chapas ECOS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+<style>
+  :root{
+    --navy:#1a2e4a;
+    --navy-light:#2a4468;
+    --teal:#1d7a6b;
+    --teal-light:#e4f2ef;
+    --orange:#e07b3a;
+    --orange-light:#fdeee0;
+    --cream:#f5f2eb;
+    --ink:#2b2b2b;
+    --muted:#6b6f76;
+    --white:#ffffff;
+    --line:#e4e0d6;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:'Nunito Sans',sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    line-height:1.7;
+  }
+  h1,h2,h3,.brand{font-family:'Nunito',sans-serif}
+  a{color:inherit;text-decoration:none}
+
+  header.top{
+    background:var(--navy);
+    color:#fff;
+    padding:14px 24px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:.88rem;
+    font-weight:600;
+    flex-wrap:wrap;
+  }
+  header.top a{color:#cfd8e6}
+  header.top a:hover{color:#fff}
+  header.top .sep{color:#5c6b82}
+  header.top .current{color:#fff;font-weight:800}
+
+  .wrap{max-width:800px;margin:0 auto;padding:0 24px}
+
+  .hero{padding:44px 0 8px;text-align:center}
+  .hero .kicker{
+    display:inline-block;
+    background:var(--orange-light);
+    color:var(--orange);
+    font-weight:800;
+    font-size:.76rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    padding:6px 14px;
+    border-radius:100px;
+    margin-bottom:16px;
+  }
+  .hero h1{
+    font-size:2.15rem;
+    font-weight:900;
+    color:var(--navy);
+    margin:0 0 16px;
+    letter-spacing:-.01em;
+  }
+  .hero h1 em{font-style:normal;color:var(--teal)}
+  .hero p.lead{color:var(--muted);font-size:1.05rem;max-width:620px;margin:0 auto}
+
+  section{padding:34px 0}
+  section h2{
+    color:var(--navy);
+    font-size:1.35rem;
+    margin:0 0 14px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  section h2 .n{
+    background:var(--teal);
+    color:#fff;
+    width:30px;height:30px;
+    border-radius:8px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:.9rem;font-weight:800;
+    flex-shrink:0;
+  }
+  p{margin:0 0 14px}
+
+  .box{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:22px 24px;
+    margin:16px 0;
+  }
+  .box.definicion{
+    border-left:6px solid var(--navy);
+    background:linear-gradient(180deg,#fff,#fbfbf9);
+  }
+  .box.definicion .tag{
+    font-weight:800;color:var(--navy);font-size:.82rem;
+    text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;
+  }
+  .box.ejemplo{border-left:6px solid var(--orange)}
+  .box.ejemplo .tag{color:var(--orange);font-weight:800;font-size:.82rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+
+  .verif{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:var(--teal-light);
+    border-radius:10px;
+    padding:14px 18px;
+    margin:14px 0;
+    font-weight:700;
+    color:var(--navy);
+  }
+  .verif .flecha{color:var(--teal);font-size:1.3rem}
+
+  .familia{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:10px;
+    margin:16px 0;
+  }
+  .familia .item{
+    background:var(--navy);
+    color:#fff;
+    text-align:center;
+    padding:12px 8px;
+    border-radius:10px;
+    font-size:.95rem;
+  }
+  .familia .item.destacado{background:var(--orange)}
+
+  table.props{width:100%;border-collapse:collapse;margin:16px 0}
+  table.props td{
+    border:1px solid var(--line);
+    padding:12px 14px;
+    background:#fff;
+  }
+  table.props tr td:first-child{
+    font-weight:700;color:var(--navy);width:38%;
+  }
+
+  .mundo{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:14px;
+    margin:16px 0;
+  }
+  .mundo .item{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:16px 18px;
+  }
+  .mundo .item .k{
+    color:var(--teal);
+    font-weight:800;
+    font-size:.75rem;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    margin-bottom:4px;
+  }
+  .mundo .item h4{margin:0 0 6px;color:var(--navy);font-size:1rem}
+  .mundo .item p{margin:0;color:var(--muted);font-size:.92rem}
+
+  .ib{
+    background:var(--navy);
+    color:#fff;
+    border-radius:16px;
+    padding:28px 26px;
+    margin:38px 0;
+  }
+  .ib h3{margin:0 0 16px;font-size:1.1rem;display:flex;align-items:center;gap:8px}
+  .ib .grid2{display:grid;grid-template-columns:1fr;gap:16px}
+  .ib .card{background:rgba(255,255,255,.08);border-radius:10px;padding:16px 18px}
+  .ib .card .t{font-weight:800;font-size:.82rem;color:#ffd4ae;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em}
+  .ib .card p{margin:0;color:#e6ebf2;font-size:.95rem}
+  .ib .indagacion{
+    background:rgba(224,123,58,.18);
+    border:1px solid rgba(224,123,58,.4);
+    border-radius:10px;
+    padding:18px 20px;
+    margin-bottom:16px;
+  }
+  .ib .indagacion .t{color:var(--orange);font-weight:800;font-size:.82rem;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
+  .ib .indagacion p{margin:0;font-weight:600}
+
+  .nav-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:30px 0 60px;
+    gap:14px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-block;
+    padding:13px 22px;
+    border-radius:10px;
+    font-weight:800;
+    font-size:.95rem;
+  }
+  .btn.ghost{background:#fff;color:var(--navy);border:1px solid var(--line)}
+  .btn.ghost:hover{background:#f0ede4}
+  .btn.on{background:var(--teal);color:#fff}
+  .btn.on:hover{background:#166357}
+  .btn.off{background:#ece9df;color:#a6a196;cursor:default}
+
+  .video-box{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:14px;
+    margin:18px 0;
+  }
+  .video-box .vt{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-weight:800;
+    color:var(--navy);
+    font-size:.9rem;
+    margin:2px 6px 12px;
+  }
+  .video-box .vt .dot{
+    width:8px;height:8px;border-radius:50%;background:var(--orange);flex-shrink:0;
+  }
+  .video-box .frame{
+    position:relative;
+    width:100%;
+    padding-top:56.25%;
+    border-radius:10px;
+    overflow:hidden;
+    background:#0d1622;
+  }
+  .video-box .frame iframe{
+    position:absolute;top:0;left:0;width:100%;height:100%;border:0;
+  }
+
+  .tabla-inm{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:10px;
+    margin:16px 0;
+  }
+  .tabla-inm .f{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:12px 14px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .tabla-inm .f .num{
+    background:var(--teal);
+    color:#fff;
+    width:24px;height:24px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:.75rem;font-weight:800;
+    flex-shrink:0;
+  }
+  .propiedad{
+    background:#fff;
+    border:1px solid var(--line);
+    border-left:6px solid var(--orange);
+    border-radius:12px;
+    padding:16px 18px;
+    margin:12px 0;
+  }
+  .propiedad .num-p{
+    color:var(--orange);
+    font-weight:800;
+    font-size:.78rem;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    margin-bottom:6px;
+  }
+  mjx-container[display="true"]{display:block;overflow-x:auto;overflow-y:hidden;max-width:100%}
+  .box,.propiedad{overflow-x:auto;min-width:0}
+  table.props{display:block;overflow-x:auto;max-width:100%}
+  .tabla-inm .f{min-width:0} .tabla-inm .f span{min-width:0;overflow-x:auto}
+  @media (max-width:600px){ .wrap{padding:0 16px} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a href="index.html">Portal de Integrales</a>
+  <span class="sep">·</span>
+  <span class="current">Bloque 2</span>
+</header>
+
+<div class="wrap">
+
+  <div class="hero">
+    <span class="kicker">Bloque 2 · Introducción</span>
+    <h1>Propiedades e <em>integrales inmediatas</em></h1>
+    <p class="lead">Ya sabes qué es una primitiva. Ahora toca ser eficientes: unas propiedades que simplifican cualquier integral, y una tabla de resultados que puedes aplicar directamente, sin reinventar nada cada vez.</p>
+  </div>
+
+  <section>
+    <h2><span class="n">1</span> Propiedades de las integrales</h2>
+    <p>Antes de calcular integrales más complejas, conviene tener claras cuatro propiedades que vas a usar constantemente. Todas se deducen de las propiedades de la derivada — no son reglas nuevas, son la misma idea vista al revés.</p>
+
+    <div class="propiedad">
+      <div class="num-p">Propiedad 1 · Constante multiplicativa</div>
+      <p style="margin-bottom:0">\[\int k \cdot f(x)\,dx = k\int f(x)\,dx\]</p><p style="margin:0;text-align:center;color:var(--muted)">(k constante)</p>
+    </div>
+
+    <div class="propiedad">
+      <div class="num-p">Propiedad 2 · Suma y diferencia</div>
+      <p style="margin-bottom:0">\[\int \big[f(x) \pm g(x)\big]\,dx = \int f(x)\,dx \pm \int g(x)\,dx\]</p>
+    </div>
+
+    <div class="propiedad">
+      <div class="num-p">Propiedad 3 · Integrar deshace derivar</div>
+      <p style="margin-bottom:0">\[\frac{d}{dx}\left(\int f(x)\,dx\right) = f(x)\]</p>
+    </div>
+
+    <div class="propiedad">
+      <div class="num-p">Propiedad 4 · La familia completa</div>
+      <p style="margin-bottom:0">Si \(F(x)\) es una primitiva de \(f(x)\), entonces <strong>todas</strong> las primitivas de \(f(x)\) son de la forma \(F(x)+C\).</p>
+    </div>
+
+    <p>Las propiedades 1 y 2 juntas se conocen como <strong>linealidad de la integral</strong>: puedes integrar término a término y sacar las constantes fuera. Esto es lo que te permitirá, en el siguiente apartado, calcular integrales de sumas de potencias sin ningún truco adicional.</p>
+
+    <div class="video-box">
+      <div class="vt"><span class="dot"></span>🎥 Vídeo · Propiedades de las integrales (1/2)</div>
+      <div class="frame">
+        <iframe src="https://drive.google.com/file/d/0B2-mayZWYv91Uk1XaU1oRm01QW8/preview" allow="autoplay" allowfullscreen></iframe>
+      </div>
+    </div>
+    <div class="video-box">
+      <div class="vt"><span class="dot"></span>🎥 Vídeo · Propiedades de las integrales (2/2)</div>
+      <div class="frame">
+        <iframe src="https://drive.google.com/file/d/0B2-mayZWYv91al8zYV84REZ2OWM/preview" allow="autoplay" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">2</span> Cálculo de integrales inmediatas</h2>
+
+    <div class="box definicion">
+      <div class="tag">¿Quiénes son?</div>
+      <p style="margin-bottom:0">A las primitivas que resultan aplicando en modo inverso las fórmulas de derivación directamente, o haciendo cálculos sencillos para que así sea, se les llama <strong>integrales inmediatas</strong>.</p>
+    </div>
+
+    <p>Es decir: no hace falta ningún método especial. Reconoces la forma, aplicas la fórmula correspondiente "al revés" (la misma que usabas para derivar) y, como mucho, ajustas algún coeficiente para que encaje. Esta es la tabla que vas a usar de aquí en adelante:</p>
+
+    <div class="tabla-inm">
+      <div class="f"><span class="num">1</span><span>\(\int k\,dx = kx + C\)</span></div>
+      <div class="f"><span class="num">2</span><span>\(\int x^n\,dx = \dfrac{x^{n+1}}{n+1} + C,\ n\neq -1\)</span></div>
+      <div class="f"><span class="num">3</span><span>\(\int \dfrac{1}{x}\,dx = \ln|x| + C\)</span></div>
+      <div class="f"><span class="num">4</span><span>\(\int e^x\,dx = e^x + C\)</span></div>
+      <div class="f"><span class="num">5</span><span>\(\int a^x\,dx = \dfrac{a^x}{\ln a} + C,\ a>0,\ a\neq 1\)</span></div>
+      <div class="f"><span class="num">6</span><span>\(\int \operatorname{sen} x\,dx = -\cos x + C\)</span></div>
+      <div class="f"><span class="num">7</span><span>\(\int \cos x\,dx = \operatorname{sen} x + C\)</span></div>
+      <div class="f"><span class="num">8</span><span>\(\int \operatorname{tg} x\,dx = -\ln|\cos x| + C\)</span></div>
+      <div class="f"><span class="num">9</span><span>\(\int \operatorname{cotg} x\,dx = \ln|\operatorname{sen} x| + C\)</span></div>
+      <div class="f"><span class="num">10</span><span>\(\int \dfrac{1}{\cos^2 x}\,dx = \int (1+\operatorname{tg}^2 x)\,dx = \operatorname{tg} x + C\)</span></div>
+      <div class="f"><span class="num">11</span><span>\(\int \dfrac{1}{\operatorname{sen}^2 x}\,dx = -\operatorname{cotg} x + C\)</span></div>
+      <div class="f"><span class="num">12</span><span>\(\int \dfrac{1}{1+x^2}\,dx = \operatorname{arctg} x + C\)</span></div>
+      <div class="f"><span class="num">13</span><span>\(\int \dfrac{1}{\sqrt{1-x^2}}\,dx = \operatorname{arcsen} x + C\)</span></div>
+    </div>
+
+    <div class="box ejemplo">
+      <div class="tag">Ejemplo resuelto</div>
+      <p>Calcula \(\displaystyle\int (5x^3 - 2\cos x)\,dx\)</p>
+      <p>Aplicamos la linealidad (Propiedades 1 y 2) y luego la fórmula 2 y la fórmula 7 de la tabla:</p>
+      <p style="margin-bottom:0">\[\int 5x^3\,dx - \int 2\cos x\,dx = 5\cdot\frac{x^4}{4} - 2\operatorname{sen} x + C = \frac{5x^4}{4} - 2\operatorname{sen} x + C\]</p>
+    </div>
+
+    <div class="video-box">
+      <div class="vt"><span class="dot"></span>🎥 Vídeo · Cálculo de integrales inmediatas (1/3)</div>
+      <div class="frame">
+        <iframe src="https://drive.google.com/file/d/10YAC_gOZ9ISCB7HoplIJhqOndNji42KU/preview" allow="autoplay" allowfullscreen></iframe>
+      </div>
+    </div>
+    <div class="video-box">
+      <div class="vt"><span class="dot"></span>🎥 Vídeo · Cálculo de integrales inmediatas (2/3)</div>
+      <div class="frame">
+        <iframe src="https://drive.google.com/file/d/19BbW5-wVSLlcRckpo2ic1_RIi-qhcPjk/preview" allow="autoplay" allowfullscreen></iframe>
+      </div>
+    </div>
+    <div class="video-box">
+      <div class="vt"><span class="dot"></span>🎥 Vídeo · Cálculo de integrales inmediatas (3/3)</div>
+      <div class="frame">
+        <iframe src="https://drive.google.com/file/d/1apfnEHLqEtqfcKJEFT0i-KLdGLwIxWLK/preview" allow="autoplay" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">3</span> Para practicar</h2>
+    <p>Estos vídeos resuelven ejercicios paso a paso — úsalos para ver el método aplicado antes de intentarlo tú misma en la zona de práctica.</p>
+
+    <div class="video-box">
+      <div class="vt"><span class="dot"></span>▶️ Practicar · Vídeo 1</div>
+      <div class="frame">
+        <iframe src="https://www.youtube.com/embed/P4jLkgSUAzo" allowfullscreen></iframe>
+      </div>
+    </div>
+    <div class="video-box">
+      <div class="vt"><span class="dot"></span>▶️ Practicar · Vídeo 2</div>
+      <div class="frame">
+        <iframe src="https://www.youtube.com/embed/qDKB2qks1gY" allowfullscreen></iframe>
+      </div>
+    </div>
+    <div class="video-box">
+      <div class="vt"><span class="dot"></span>▶️ Practicar · Vídeo 3</div>
+      <div class="frame">
+        <iframe src="https://www.youtube.com/embed/fij8SF5AMW8" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <div class="ib">
+    <h3>🎓 Profundiza — Marco IB</h3>
+    <div class="indagacion">
+      <div class="t">🔍 Pregunta de indagación</div>
+      <p>La fórmula 2 de la tabla excluye \(n=-1\). ¿Por qué? ¿Qué tiene de especial \(\frac{1}{x}\) para necesitar su propia fórmula (la número 3) en lugar de encajar en el patrón general?</p>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <div class="t">Concepto clave</div>
+        <p>Patrones · Generalización. Una tabla de integrales inmediatas es una generalización de casos particulares de derivadas ya conocidas, leídos en sentido inverso.</p>
+      </div>
+      <div class="card">
+        <div class="t">Habilidad ATL</div>
+        <p>Transferencia: reconocer qué fórmula de la tabla encaja con la forma de una función, incluso cuando aparece disfrazada por un coeficiente.</p>
+      </div>
+      <div class="card">
+        <div class="t">Conexión TdC</div>
+        <p>Una tabla de fórmulas memorizadas, ¿es comprensión matemática o solo un atajo? ¿Cuándo deja de bastar con "reconocer el patrón"?</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-bottom">
+    <a class="btn ghost" href="index.html">← Portal de Integrales</a>
+    <a class="btn ghost" href="integrales_b1_intro.html">← Bloque 1</a>
+    <a class="btn on" href="integrales_b2_practica.html">Practicar B2 →</a>
+    <a class="btn on" href="https://pepivalenzuela.github.io/panel-matematicas/#panel">Formativas en mi panel →</a>
+    <a class="btn ghost" href="integrales_b3_intro.html">Bloque 3 →</a>
+  </div>
+
+</div>
+
+</body>
+</html>

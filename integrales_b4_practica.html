@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B4 Práctica — Integrales · Las Chapas ECOS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+<style>
+  :root{
+    --navy:#1a2e4a; --navy-light:#2a4468; --teal:#1d7a6b; --teal-light:#e4f2ef;
+    --orange:#e07b3a; --orange-light:#fdeee0; --cream:#f5f2eb; --ink:#2b2b2b;
+    --muted:#6b6f76; --white:#ffffff; --line:#e4e0d6;
+    --red:#c65b4a; --red-light:#fbeae7;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Nunito Sans',sans-serif;background:var(--cream);color:var(--ink);line-height:1.6}
+  h1,h2,h3,.brand{font-family:'Nunito',sans-serif}
+  a{color:inherit;text-decoration:none}
+
+  header.top{background:var(--navy);color:#fff;padding:14px 24px;display:flex;align-items:center;gap:8px;font-size:.88rem;font-weight:600;flex-wrap:wrap}
+  header.top a{color:#cfd8e6}
+  header.top a:hover{color:#fff}
+  header.top .sep{color:#5c6b82}
+  header.top .current{color:#fff;font-weight:800}
+
+  .wrap{max-width:720px;margin:0 auto;padding:30px 24px 60px}
+
+  .titlebar{text-align:center;margin-bottom:22px}
+  .titlebar .kicker{display:inline-block;background:var(--teal-light);color:var(--teal);font-weight:800;font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;padding:6px 14px;border-radius:100px;margin-bottom:12px}
+  .titlebar h1{font-size:1.6rem;color:var(--navy);margin:0 0 6px;font-weight:900}
+  .titlebar p{color:var(--muted);margin:0;font-size:.95rem}
+
+  #gate{background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px;text-align:center}
+  #gate input{width:100%;max-width:340px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font-size:1rem;font-family:inherit;margin:14px 0}
+  .btn{display:inline-block;padding:13px 26px;border-radius:10px;font-weight:800;font-size:.95rem;border:none;cursor:pointer;font-family:inherit}
+  .btn.on{background:var(--teal);color:#fff}
+  .btn.on:hover{background:#166357}
+  .btn.ghost{background:#fff;color:var(--navy);border:1px solid var(--line)}
+  .btn.ghost:hover{background:#f0ede4}
+  .btn:disabled{opacity:.5;cursor:default}
+
+  #quiz{display:none}
+  .scoreboard{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 20px;margin-bottom:18px;font-weight:700;color:var(--navy);font-size:.9rem}
+  .scoreboard .ok{color:var(--teal)}
+  .scoreboard .bad{color:var(--red)}
+
+  .qcard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px}
+  .qtag{display:inline-block;font-weight:800;font-size:.72rem;letter-spacing:.05em;text-transform:uppercase;padding:4px 10px;border-radius:100px;margin-bottom:14px}
+  .qtag.teoria{background:var(--teal-light);color:var(--teal)}
+  .qtag.aplicacion{background:var(--orange-light);color:var(--orange)}
+  .qtext{font-size:1.15rem;color:var(--navy);font-weight:700;margin-bottom:20px}
+
+  .opt{display:block;width:100%;text-align:left;background:#fbfbf9;border:1.5px solid var(--line);border-radius:10px;padding:13px 16px;margin-bottom:10px;font-family:inherit;font-size:1rem;cursor:pointer;color:var(--ink)}
+  .opt:hover{border-color:var(--teal)}
+  .opt.correcta{background:var(--teal-light);border-color:var(--teal);color:var(--navy);font-weight:700}
+  .opt.incorrecta{background:var(--red-light);border-color:var(--red);color:#8a3a2e;font-weight:700}
+  .opt:disabled{cursor:default}
+
+  .feedback{margin-top:16px;padding:14px 16px;border-radius:10px;font-size:.92rem;display:none}
+  .feedback.show{display:block}
+  .feedback.ok{background:var(--teal-light);color:#12574c}
+  .feedback.bad{background:var(--red-light);color:#8a3a2e}
+
+  .controls{display:flex;justify-content:flex-end;margin-top:20px}
+
+  .nav-bottom{display:flex;justify-content:space-between;margin-top:28px}
+  @media (max-width:600px){ .wrap{padding:0 16px} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a href="index.html">Portal de Integrales</a>
+  <span class="sep">·</span>
+  <a href="integrales_b4_intro.html">Bloque 4</a>
+  <span class="sep">·</span>
+  <span class="current">Práctica libre</span>
+</header>
+
+<div class="wrap">
+  <div class="titlebar">
+    <span class="kicker">Bloque 4 · Práctica libre</span>
+    <h1>Integración por partes</h1>
+    <p>Ejercicios aleatorios de teoría (tipos de integrales racionales) y de cálculo (arcotangente, arcotangente+logaritmo, fracciones simples). Cada vez que entras, el orden y las preguntas cambian.</p>
+  </div>
+
+  <div id="gate">
+    <p style="margin:0;color:var(--muted)">Escribe tu nombre para empezar (no hay límite de tiempo ni de intentos):</p>
+    <input type="text" id="nombre" placeholder="Nombre y apellidos">
+    <br>
+    <button class="btn on" onclick="empezar()">Empezar a practicar →</button>
+  </div>
+
+  <div id="quiz">
+    <div class="scoreboard">
+      <span id="contador">Pregunta 1</span>
+      <span><span class="ok" id="okcount">0</span> correctas · <span class="bad" id="badcount">0</span> incorrectas</span>
+    </div>
+
+    <div class="qcard">
+      <span class="qtag" id="qtag">Teoría</span>
+      <div class="qtext" id="qtext">—</div>
+      <div id="opciones"></div>
+      <div class="feedback" id="feedback"></div>
+      <div class="controls">
+        <button class="btn on" id="btnSiguiente" onclick="siguiente()" disabled>Siguiente pregunta →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-bottom" style="flex-wrap:wrap;gap:12px">
+    <a class="btn ghost" href="integrales_b4_intro.html">← Volver a la teoría</a>
+    <a class="btn on" href="https://pepivalenzuela.github.io/panel-matematicas/#panel">Formativas en mi panel →</a>
+    <a class="btn ghost" href="integrales_b5_intro.html">Bloque 5 →</a>
+    <a class="btn ghost" href="index.html">Portal de Integrales</a>
+  </div>
+</div>
+
+<script>
+// ---------- Banco de preguntas: Bloque 1 · Primitiva e integral indefinida ----------
+const BANCO_TEORIA = [
+ {
+  "q": "¿En qué consiste la integración por partes?",
+  "o": [
+   "Deshace la regla de derivación de un producto: ∫u dv = uv − ∫v du",
+   "Deshace la regla de la cadena",
+   "Es un caso particular de la tabla de inmediatas",
+   "Consiste en derivar dos veces la función"
+  ],
+  "c": 0,
+  "e": "Viene de la derivada de un producto: (uv)' = u'v + uv'. Integrando y despejando: ∫u dv = uv − ∫v du."
+ },
+ {
+  "q": "¿Cuándo está indicado usar integración por partes?",
+  "o": [
+   "Cuando el integrando es un producto de dos funciones de distinto tipo, sin que una sea la derivada de la otra",
+   "Solo cuando aparece una raíz cuadrada",
+   "Siempre que hay una suma de funciones",
+   "Solo con funciones racionales"
+  ],
+  "c": 0,
+  "e": "Se usa con productos de funciones de distinto tipo en los que ninguna es la derivada de la otra (si lo fuera, sería cambio de variable)."
+ },
+ {
+  "q": "¿Qué criterio orientativo ayuda a elegir u?",
+  "o": [
+   "La función que se simplifica al derivarla (por ejemplo, un logaritmo o un polinomio)",
+   "La función más larga de escribir",
+   "Siempre la función exponencial",
+   "Siempre la que aparece primero en la integral"
+  ],
+  "c": 0,
+  "e": "Conviene llamar u a la función que se simplifica al derivarla: logaritmos y polinomios."
+ },
+ {
+  "q": "¿Qué debe cumplir dv?",
+  "o": [
+   "Ser una función fácil de integrar para poder obtener v",
+   "Ser siempre una constante",
+   "Ser la derivada de u",
+   "No puede incluir dx"
+  ],
+  "c": 0,
+  "e": "dv tiene que ser fácil de integrar, porque de ella hay que obtener v."
+ },
+ {
+  "q": "En ∫x·eˣdx, ¿cuál es la elección adecuada de u?",
+  "o": [
+   "u = x, porque baja de grado al derivarla",
+   "u = eˣ, porque es más difícil de integrar",
+   "u = x·eˣ, la integral completa",
+   "No se puede aplicar partes aquí"
+  ],
+  "c": 0,
+  "e": "Con u = x, du = dx, y la nueva integral ∫eˣ dx es inmediata."
+ },
+ {
+  "q": "Si al elegir u la integral se complica en vez de simplificarse, ¿qué se hace?",
+  "o": [
+   "Se abandona el método",
+   "Se intercambian las elecciones de u y dv",
+   "Se deriva dv en vez de integrarla",
+   "Se multiplica todo por -1"
+  ],
+  "c": 1,
+  "e": "Si la integral se complica, se intercambian u y dv."
+ },
+ {
+  "q": "¿Es necesario añadir +C al calcular v = ∫dv dentro del proceso?",
+  "o": [
+   "No, la constante solo se añade al resultado final",
+   "Sí, siempre, en cada paso",
+   "Solo si dv es trigonométrica",
+   "Solo si u es un logaritmo"
+  ],
+  "c": 0,
+  "e": "La constante solo se añade al final; en v se toma una primitiva cualquiera."
+ },
+ {
+  "q": "¿Qué es una integral cíclica?",
+  "o": [
+   "Una integral donde, al aplicar partes dos veces, reaparece la integral original",
+   "Una integral que nunca tiene solución",
+   "Una integral que se resuelve con cambio de variable",
+   "Una integral con límites infinitos"
+  ],
+  "c": 0,
+  "e": "Al aplicar partes dos veces vuelve a aparecer la integral del principio."
+ },
+ {
+  "q": "¿Cuál es el procedimiento para resolver una integral cíclica?",
+  "o": [
+   "Aplicar partes dos veces manteniendo el mismo criterio, y despejar la integral algebraicamente al reaparecer",
+   "Aplicarla una sola vez y aceptar el resultado",
+   "Cambiar a coordenadas polares",
+   "Convertirla en un límite"
+  ],
+  "c": 0,
+  "e": "Se aplica partes dos veces con el mismo criterio y se despeja la integral como en una ecuación."
+ },
+ {
+  "q": "¿Qué tipo de producto suele dar lugar a una integral cíclica?",
+  "o": [
+   "Exponencial por función trigonométrica (seno o coseno)",
+   "Polinomio por logaritmo",
+   "Dos polinomios",
+   "Raíz cuadrada por polinomio"
+  ],
+  "c": 0,
+  "e": "El caso típico es una exponencial por un seno o un coseno: ninguna de las dos se simplifica al derivar."
+ },
+ {
+  "q": "¿Qué diferencia una integral cíclica de una integral por partes normal?",
+  "o": [
+   "En la normal la dificultad disminuye en cada paso; en la cíclica no, hay que resolverla algebraicamente",
+   "No hay ninguna diferencia real",
+   "La cíclica no lleva constante de integración",
+   "La cíclica se resuelve sin aplicar partes"
+  ],
+  "c": 0,
+  "e": "En una integral normal cada paso la simplifica; en la cíclica no, y se resuelve despejando."
+ },
+ {
+  "q": "¿Cómo se resuelve ∫ln x dx por partes, si solo hay una función?",
+  "o": [
+   "Escribiendo ln x = ln x · 1, y tomando dv = 1·dx",
+   "No se puede resolver por partes",
+   "Multiplicando por x y luego dividiendo",
+   "Con cambio de variable u = ln x únicamente"
+  ],
+  "c": 0,
+  "e": "Se escribe ln x = ln x · 1 y se toma u = ln x, dv = dx."
+ },
+ {
+  "q": "¿Qué otras funciones se resuelven con el mismo truco que ln x?",
+  "o": [
+   "arcsen x y arctg x, entre otras funciones que se derivan fácil pero no se integran directamente",
+   "Solo los polinomios",
+   "Solo las funciones exponenciales",
+   "Ninguna otra función admite este truco"
+  ],
+  "c": 0,
+  "e": "Funciona con funciones que sabemos derivar pero no integrar directamente, como arcsen x y arctg x."
+ },
+ {
+  "q": "¿Qué caracteriza al caso de función única frente a los demás casos de partes?",
+  "o": [
+   "No hay un producto visible de dos funciones: se crea multiplicando por 1",
+   "Se resuelve sin fórmula alguna",
+   "Requiere siempre cambio de variable previo",
+   "Nunca lleva constante de integración"
+  ],
+  "c": 0,
+  "e": "No hay producto a la vista: se fabrica multiplicando por 1 y tomando dv = dx."
+ },
+ {
+  "q": "Al aplicar partes por segunda vez en una integral cíclica, ¿qué hay que mantener?",
+  "o": [
+   "El mismo criterio de elección de u y dv que en el primer paso, para no deshacer lo avanzado",
+   "Es indiferente cómo se elijan u y dv la segunda vez",
+   "Hay que invertir obligatoriamente el criterio del primer paso",
+   "Solo se puede aplicar partes una vez, nunca dos"
+  ],
+  "c": 0,
+  "e": "La segunda vez hay que mantener el mismo tipo de función como u; si no, se deshace el primer paso."
+ },
+ {
+  "q": "¿Qué ocurre si en una integral cíclica cambias el criterio de elección de u en la segunda aplicación de partes?",
+  "o": [
+   "El proceso puede deshacer el primer paso y no llegar a ningún resultado",
+   "No pasa nada, el resultado es el mismo",
+   "La integral se vuelve inmediata directamente",
+   "Aparece automáticamente el signo negativo correcto"
+  ],
+  "c": 0,
+  "e": "Si se cambia el criterio, se vuelve exactamente a la integral de partida sin avanzar."
+ }
+];
+
+const BANCO_APLICACION = [
+ {
+  "q": "Calcula \\(\\int x\\,e^x\\,dx\\)",
+  "o": [
+   "\\(xe^x - e^x + C\\)",
+   "\\(xe^x + e^x + C\\)",
+   "\\(e^x - xe^x + C\\)",
+   "\\(\\dfrac{x^2 e^x}{2}+C\\)"
+  ],
+  "c": 0,
+  "e": "u = x, dv = eˣ dx ⇒ du = dx, v = eˣ: xeˣ − ∫eˣ dx = xeˣ − eˣ + C."
+ },
+ {
+  "q": "Calcula \\(\\int x\\cos x\\,dx\\)",
+  "o": [
+   "\\(x\\operatorname{sen} x + \\cos x + C\\)",
+   "\\(x\\operatorname{sen} x - \\cos x + C\\)",
+   "\\(-x\\operatorname{sen} x + \\cos x + C\\)",
+   "\\(x\\cos x - \\operatorname{sen} x + C\\)"
+  ],
+  "c": 0,
+  "e": "u = x, dv = cos x dx ⇒ v = sen x: x sen x − ∫sen x dx = x sen x + cos x + C."
+ },
+ {
+  "q": "Calcula \\(\\int x\\operatorname{sen} x\\,dx\\)",
+  "o": [
+   "\\(-x\\cos x + \\operatorname{sen} x + C\\)",
+   "\\(x\\cos x + \\operatorname{sen} x + C\\)",
+   "\\(-x\\cos x - \\operatorname{sen} x + C\\)",
+   "\\(x\\cos x - \\operatorname{sen} x + C\\)"
+  ],
+  "c": 0,
+  "e": "u = x, dv = sen x dx ⇒ v = −cos x: −x cos x + ∫cos x dx = −x cos x + sen x + C."
+ },
+ {
+  "q": "Calcula \\(\\int \\ln x\\,dx\\)",
+  "o": [
+   "\\(x\\ln x - x + C\\)",
+   "\\(x\\ln x + x + C\\)",
+   "\\(\\ln x - x + C\\)",
+   "\\(x\\ln x - 1 + C\\)"
+  ],
+  "c": 0,
+  "e": "u = ln x, dv = dx ⇒ du = dx/x, v = x: x ln x − ∫1 dx = x ln x − x + C."
+ },
+ {
+  "q": "Calcula \\(\\int x\\ln x\\,dx\\)",
+  "o": [
+   "\\(\\dfrac{x^2}{2}\\ln x - \\dfrac{x^2}{4} + C\\)",
+   "\\(\\dfrac{x^2}{2}\\ln x + \\dfrac{x^2}{4} + C\\)",
+   "\\(x^2\\ln x - \\dfrac{x^2}{2} + C\\)",
+   "\\(\\dfrac{x^2}{2}\\ln x - \\dfrac{x^2}{2} + C\\)"
+  ],
+  "c": 0,
+  "e": "u = ln x, dv = x dx ⇒ v = x²/2: (x²/2) ln x − ∫(x/2) dx = (x²/2) ln x − x²/4 + C."
+ },
+ {
+  "q": "Calcula \\(\\int x^2\\ln x\\,dx\\)",
+  "o": [
+   "\\(\\dfrac{x^3}{3}\\ln x - \\dfrac{x^3}{9} + C\\)",
+   "\\(\\dfrac{x^3}{3}\\ln x + \\dfrac{x^3}{9} + C\\)",
+   "\\(x^3\\ln x - \\dfrac{x^3}{3} + C\\)",
+   "\\(\\dfrac{x^3}{3}\\ln x - \\dfrac{x^3}{3} + C\\)"
+  ],
+  "c": 0,
+  "e": "u = ln x, dv = x² dx ⇒ v = x³/3: (x³/3) ln x − ∫(x²/3) dx = (x³/3) ln x − x³/9 + C."
+ },
+ {
+  "q": "Calcula \\(\\int x^2 e^x\\,dx\\)",
+  "o": [
+   "\\(e^x(x^2-2x+2)+C\\)",
+   "\\(e^x(x^2+2x+2)+C\\)",
+   "\\(e^x(x^2-2x-2)+C\\)",
+   "\\(x^2e^x-2e^x+C\\)"
+  ],
+  "c": 0,
+  "e": "Partes dos veces con u = x² y luego u = x: x²eˣ − 2(xeˣ − eˣ) = eˣ(x² − 2x + 2) + C."
+ },
+ {
+  "q": "Calcula \\(\\int x^2\\cos x\\,dx\\)",
+  "o": [
+   "\\(x^2\\operatorname{sen} x + 2x\\cos x - 2\\operatorname{sen} x + C\\)",
+   "\\(x^2\\operatorname{sen} x - 2x\\cos x - 2\\operatorname{sen} x + C\\)",
+   "\\(x^2\\operatorname{sen} x + 2x\\cos x + 2\\operatorname{sen} x + C\\)",
+   "\\(-x^2\\operatorname{sen} x + 2x\\cos x - 2\\operatorname{sen} x + C\\)"
+  ],
+  "c": 0,
+  "e": "Partes dos veces: x² sen x − 2∫x sen x dx = x² sen x − 2(−x cos x + sen x) = x² sen x + 2x cos x − 2 sen x + C."
+ },
+ {
+  "q": "Calcula \\(\\int e^x\\operatorname{sen} x\\,dx\\)",
+  "o": [
+   "\\(\\dfrac{e^x(\\operatorname{sen} x-\\cos x)}{2}+C\\)",
+   "\\(\\dfrac{e^x(\\operatorname{sen} x+\\cos x)}{2}+C\\)",
+   "\\(\\dfrac{e^x(\\cos x-\\operatorname{sen} x)}{2}+C\\)",
+   "\\(e^x(\\operatorname{sen} x-\\cos x)+C\\)"
+  ],
+  "c": 0,
+  "e": "Integral cíclica: I = eˣ sen x − eˣ cos x − I ⇒ 2I = eˣ(sen x − cos x) ⇒ I = eˣ(sen x − cos x)/2 + C."
+ },
+ {
+  "q": "Calcula \\(\\int e^x\\cos x\\,dx\\)",
+  "o": [
+   "\\(\\dfrac{e^x(\\operatorname{sen} x+\\cos x)}{2}+C\\)",
+   "\\(\\dfrac{e^x(\\operatorname{sen} x-\\cos x)}{2}+C\\)",
+   "\\(\\dfrac{e^x(\\cos x-\\operatorname{sen} x)}{2}+C\\)",
+   "\\(e^x(\\operatorname{sen} x+\\cos x)+C\\)"
+  ],
+  "c": 0,
+  "e": "Integral cíclica: I = eˣ cos x + eˣ sen x − I ⇒ I = eˣ(sen x + cos x)/2 + C."
+ },
+ {
+  "q": "Calcula \\(\\int \\operatorname{arctg} x\\,dx\\)",
+  "o": [
+   "\\(x\\operatorname{arctg} x - \\dfrac{1}{2}\\ln(1+x^2)+C\\)",
+   "\\(x\\operatorname{arctg} x + \\dfrac{1}{2}\\ln(1+x^2)+C\\)",
+   "\\(\\operatorname{arctg} x - \\dfrac{1}{2}\\ln(1+x^2)+C\\)",
+   "\\(x\\operatorname{arctg} x - \\ln(1+x^2)+C\\)"
+  ],
+  "c": 0,
+  "e": "u = arctg x, dv = dx ⇒ du = dx/(1 + x²), v = x: x arctg x − ∫x/(1 + x²) dx = x arctg x − (1/2) ln(1 + x²) + C."
+ },
+ {
+  "q": "Calcula \\(\\int \\operatorname{arcsen} x\\,dx\\)",
+  "o": [
+   "\\(x\\operatorname{arcsen} x + \\sqrt{1-x^2}+C\\)",
+   "\\(x\\operatorname{arcsen} x - \\sqrt{1-x^2}+C\\)",
+   "\\(\\operatorname{arcsen} x + \\sqrt{1-x^2}+C\\)",
+   "\\(x\\operatorname{arcsen} x + (1-x^2)+C\\)"
+  ],
+  "c": 0,
+  "e": "u = arcsen x, dv = dx ⇒ du = dx/√(1 − x²): x arcsen x − ∫x/√(1 − x²) dx = x arcsen x + √(1 − x²) + C."
+ },
+ {
+  "q": "Calcula \\(\\int x\\,e^{2x}\\,dx\\)",
+  "o": [
+   "\\(\\dfrac{e^{2x}(2x-1)}{4}+C\\)",
+   "\\(\\dfrac{e^{2x}(2x+1)}{4}+C\\)",
+   "\\(\\dfrac{e^{2x}(x-1)}{2}+C\\)",
+   "\\(\\dfrac{e^{2x}(2x-1)}{2}+C\\)"
+  ],
+  "c": 0,
+  "e": "u = x, dv = e²ˣ dx ⇒ v = e²ˣ/2: xe²ˣ/2 − ∫e²ˣ/2 dx = xe²ˣ/2 − e²ˣ/4 = e²ˣ(2x − 1)/4 + C."
+ },
+ {
+  "q": "Calcula \\(\\int 2x\\,e^x\\,dx\\)",
+  "o": [
+   "\\(2e^x(x-1)+C\\)",
+   "\\(2e^x(x+1)+C\\)",
+   "\\(e^x(x-1)+C\\)",
+   "\\(2xe^x+C\\)"
+  ],
+  "c": 0,
+  "e": "El 2 sale fuera: 2∫xeˣ dx = 2(xeˣ − eˣ) = 2eˣ(x − 1) + C."
+ },
+ {
+  "q": "Calcula \\(\\int x\\operatorname{sen}(2x)\\,dx\\)",
+  "o": [
+   "\\(-\\dfrac{x\\cos(2x)}{2} + \\dfrac{\\operatorname{sen}(2x)}{4}+C\\)",
+   "\\(\\dfrac{x\\cos(2x)}{2} + \\dfrac{\\operatorname{sen}(2x)}{4}+C\\)",
+   "\\(-\\dfrac{x\\cos(2x)}{2} - \\dfrac{\\operatorname{sen}(2x)}{4}+C\\)",
+   "\\(-x\\cos(2x) + \\dfrac{\\operatorname{sen}(2x)}{4}+C\\)"
+  ],
+  "c": 0,
+  "e": "u = x, dv = sen(2x) dx ⇒ v = −cos(2x)/2: −x cos(2x)/2 + ∫cos(2x)/2 dx = −x cos(2x)/2 + sen(2x)/4 + C."
+ },
+ {
+  "q": "Calcula \\(\\int (x+1)\\,e^x\\,dx\\)",
+  "o": [
+   "\\(x\\,e^x+C\\)",
+   "\\((x+2)\\,e^x+C\\)",
+   "\\((x-1)\\,e^x+C\\)",
+   "\\(\\dfrac{(x+1)^2}{2}e^x+C\\)"
+  ],
+  "c": 0,
+  "e": "u = x + 1, dv = eˣ dx ⇒ v = eˣ: (x + 1)eˣ − ∫eˣ dx = (x + 1)eˣ − eˣ = xeˣ + C."
+ }
+];
+
+let orden = [];
+let idx = 0;
+let ok = 0, bad = 0;
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function empezar(){
+  const nombre = document.getElementById('nombre').value.trim();
+  if(!nombre){ alert('Escribe tu nombre para empezar.'); return; }
+  document.getElementById('gate').style.display='none';
+  document.getElementById('quiz').style.display='block';
+  generarSecuencia();
+  mostrarPregunta();
+}
+
+function generarSecuencia(){
+  const todas = shuffle(
+    BANCO_TEORIA.map(x=>({...x,tipo:'teoria'})).concat(
+    BANCO_APLICACION.map(x=>({...x,tipo:'aplicacion'})))
+  );
+  orden = todas;
+  idx = 0; ok = 0; bad = 0;
+}
+
+function mostrarPregunta(){
+  if(idx >= orden.length){ generarSecuencia(); }
+  const item = orden[idx];
+  document.getElementById('contador').textContent = `Pregunta ${idx+1}`;
+  document.getElementById('okcount').textContent = ok;
+  document.getElementById('badcount').textContent = bad;
+  const tag = document.getElementById('qtag');
+  tag.textContent = item.tipo === 'teoria' ? 'Teoría' : 'Aplicación';
+  tag.className = 'qtag ' + item.tipo;
+  document.getElementById('qtext').innerHTML = item.q;
+
+  const opciones = shuffle(item.o.map((texto,i)=>({texto, esCorrecta:i===item.c})));
+  const cont = document.getElementById('opciones');
+  cont.innerHTML='';
+  opciones.forEach(op=>{
+    const btn = document.createElement('button');
+    btn.className='opt';
+    btn.innerHTML = op.texto;
+    btn.onclick = ()=>responder(btn, op.esCorrecta, opciones, cont);
+    cont.appendChild(btn);
+  });
+
+  document.getElementById('feedback').className='feedback';
+  document.getElementById('btnSiguiente').disabled = true;
+  if(window.MathJax){ MathJax.typesetClear([cont, document.getElementById('qtext')]); MathJax.typesetPromise([cont, document.getElementById('qtext')]); }
+}
+
+function responder(btnPulsado, esCorrecta, opciones, cont){
+  const botones = cont.querySelectorAll('.opt');
+  botones.forEach(b=>b.disabled=true);
+  botones.forEach((b,i)=>{
+    if(opciones[i].esCorrecta) b.classList.add('correcta');
+  });
+  if(!esCorrecta) btnPulsado.classList.add('incorrecta');
+
+  const fb = document.getElementById('feedback');
+  const exp = orden[idx] && orden[idx].e ? '<div style="margin-top:8px;font-weight:400">💡 ' + orden[idx].e + '</div>' : '';
+  if(esCorrecta){
+    ok++;
+    fb.innerHTML = '<b>✓ Correcto.</b>' + exp;
+    fb.className = 'feedback show ok';
+  } else {
+    bad++;
+    fb.innerHTML = '<b>✗ No es correcto. La respuesta correcta está marcada en verde.</b>' + exp;
+    fb.className = 'feedback show bad';
+  }
+  if(window.MathJax && MathJax.typesetPromise){ MathJax.typesetPromise([fb]).catch(()=>{}); }
+  document.getElementById('okcount').textContent = ok;
+  document.getElementById('badcount').textContent = bad;
+  document.getElementById('btnSiguiente').disabled = false;
+}
+
+function siguiente(){
+  idx++;
+  mostrarPregunta();
+}
+</script>
+
+</body>
+</html>

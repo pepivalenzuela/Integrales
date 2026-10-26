@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B3 Práctica — Integrales · Las Chapas ECOS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+<style>
+  :root{
+    --navy:#1a2e4a; --navy-light:#2a4468; --teal:#1d7a6b; --teal-light:#e4f2ef;
+    --orange:#e07b3a; --orange-light:#fdeee0; --cream:#f5f2eb; --ink:#2b2b2b;
+    --muted:#6b6f76; --white:#ffffff; --line:#e4e0d6;
+    --red:#c65b4a; --red-light:#fbeae7;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Nunito Sans',sans-serif;background:var(--cream);color:var(--ink);line-height:1.6}
+  h1,h2,h3,.brand{font-family:'Nunito',sans-serif}
+  a{color:inherit;text-decoration:none}
+
+  header.top{background:var(--navy);color:#fff;padding:14px 24px;display:flex;align-items:center;gap:8px;font-size:.88rem;font-weight:600;flex-wrap:wrap}
+  header.top a{color:#cfd8e6}
+  header.top a:hover{color:#fff}
+  header.top .sep{color:#5c6b82}
+  header.top .current{color:#fff;font-weight:800}
+
+  .wrap{max-width:720px;margin:0 auto;padding:30px 24px 60px}
+
+  .titlebar{text-align:center;margin-bottom:22px}
+  .titlebar .kicker{display:inline-block;background:var(--teal-light);color:var(--teal);font-weight:800;font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;padding:6px 14px;border-radius:100px;margin-bottom:12px}
+  .titlebar h1{font-size:1.6rem;color:var(--navy);margin:0 0 6px;font-weight:900}
+  .titlebar p{color:var(--muted);margin:0;font-size:.95rem}
+
+  #gate{background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px;text-align:center}
+  #gate input{width:100%;max-width:340px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font-size:1rem;font-family:inherit;margin:14px 0}
+  .btn{display:inline-block;padding:13px 26px;border-radius:10px;font-weight:800;font-size:.95rem;border:none;cursor:pointer;font-family:inherit}
+  .btn.on{background:var(--teal);color:#fff}
+  .btn.on:hover{background:#166357}
+  .btn.ghost{background:#fff;color:var(--navy);border:1px solid var(--line)}
+  .btn.ghost:hover{background:#f0ede4}
+  .btn:disabled{opacity:.5;cursor:default}
+
+  #quiz{display:none}
+  .scoreboard{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 20px;margin-bottom:18px;font-weight:700;color:var(--navy);font-size:.9rem}
+  .scoreboard .ok{color:var(--teal)}
+  .scoreboard .bad{color:var(--red)}
+
+  .qcard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px}
+  .qtag{display:inline-block;font-weight:800;font-size:.72rem;letter-spacing:.05em;text-transform:uppercase;padding:4px 10px;border-radius:100px;margin-bottom:14px}
+  .qtag.teoria{background:var(--teal-light);color:var(--teal)}
+  .qtag.aplicacion{background:var(--orange-light);color:var(--orange)}
+  .qtext{font-size:1.15rem;color:var(--navy);font-weight:700;margin-bottom:20px}
+
+  .opt{display:block;width:100%;text-align:left;background:#fbfbf9;border:1.5px solid var(--line);border-radius:10px;padding:13px 16px;margin-bottom:10px;font-family:inherit;font-size:1rem;cursor:pointer;color:var(--ink)}
+  .opt:hover{border-color:var(--teal)}
+  .opt.correcta{background:var(--teal-light);border-color:var(--teal);color:var(--navy);font-weight:700}
+  .opt.incorrecta{background:var(--red-light);border-color:var(--red);color:#8a3a2e;font-weight:700}
+  .opt:disabled{cursor:default}
+
+  .feedback{margin-top:16px;padding:14px 16px;border-radius:10px;font-size:.92rem;display:none}
+  .feedback.show{display:block}
+  .feedback.ok{background:var(--teal-light);color:#12574c}
+  .feedback.bad{background:var(--red-light);color:#8a3a2e}
+
+  .controls{display:flex;justify-content:flex-end;margin-top:20px}
+
+  .nav-bottom{display:flex;justify-content:space-between;margin-top:28px}
+  @media (max-width:600px){ .wrap{padding:0 16px} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a href="index.html">Portal de Integrales</a>
+  <span class="sep">·</span>
+  <a href="integrales_b3_intro.html">Bloque 3</a>
+  <span class="sep">·</span>
+  <span class="current">Práctica libre</span>
+</header>
+
+<div class="wrap">
+  <div class="titlebar">
+    <span class="kicker">Bloque 3 · Práctica libre</span>
+    <h1>Cambio de variable</h1>
+    <p>Ejercicios aleatorios de teoría (tipos de integrales racionales) y de cálculo (arcotangente, arcotangente+logaritmo, fracciones simples). Cada vez que entras, el orden y las preguntas cambian.</p>
+  </div>
+
+  <div id="gate">
+    <p style="margin:0;color:var(--muted)">Escribe tu nombre para empezar (no hay límite de tiempo ni de intentos):</p>
+    <input type="text" id="nombre" placeholder="Nombre y apellidos">
+    <br>
+    <button class="btn on" onclick="empezar()">Empezar a practicar →</button>
+  </div>
+
+  <div id="quiz">
+    <div class="scoreboard">
+      <span id="contador">Pregunta 1</span>
+      <span><span class="ok" id="okcount">0</span> correctas · <span class="bad" id="badcount">0</span> incorrectas</span>
+    </div>
+
+    <div class="qcard">
+      <span class="qtag" id="qtag">Teoría</span>
+      <div class="qtext" id="qtext">—</div>
+      <div id="opciones"></div>
+      <div class="feedback" id="feedback"></div>
+      <div class="controls">
+        <button class="btn on" id="btnSiguiente" onclick="siguiente()" disabled>Siguiente pregunta →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-bottom" style="flex-wrap:wrap;gap:12px">
+    <a class="btn ghost" href="integrales_b3_intro.html">← Volver a la teoría</a>
+    <a class="btn on" href="https://pepivalenzuela.github.io/panel-matematicas/#panel">Formativas en mi panel →</a>
+    <a class="btn ghost" href="integrales_b4_intro.html">Bloque 4 →</a>
+    <a class="btn ghost" href="index.html">Portal de Integrales</a>
+  </div>
+</div>
+
+<script>
+// ---------- Banco de preguntas: Bloque 1 · Primitiva e integral indefinida ----------
+const BANCO_TEORIA = [
+ {
+  "q": "¿Qué representa \\(u=g(x)\\) en el cambio de variable?",
+  "o": [
+   "La parte 'interna' de la función compuesta que sustituimos",
+   "El resultado final de la integral",
+   "Siempre la variable original x",
+   "La derivada de la función a integrar"
+  ],
+  "c": 0,
+  "e": "u = g(x) es la función «de dentro», la que vamos a sustituir por una sola letra."
+ },
+ {
+  "q": "Si \\(u=g(x)\\), ¿cómo se calcula \\(du\\)?",
+  "o": [
+   "\\(du=g(x)dx\\)",
+   "\\(du=g'(x)dx\\)",
+   "\\(du=g''(x)dx\\)",
+   "\\(du=dx\\)"
+  ],
+  "c": 1,
+  "e": "Se deriva u: du = g'(x) dx."
+ },
+ {
+  "q": "La fórmula \\(\\int f(g(x))g'(x)dx\\) se transforma, con el cambio, en...",
+  "o": [
+   "\\(\\int f(u)du\\)",
+   "\\(\\int f'(u)du\\)",
+   "\\(\\int u\\,du\\)",
+   "\\(f(u)+C\\)"
+  ],
+  "c": 0,
+  "e": "Con u = g(x) y du = g'(x) dx, la integral ∫f(g(x))·g'(x) dx se convierte en ∫f(u) du."
+ },
+ {
+  "q": "¿Qué regla de derivación se está invirtiendo en el cambio de variable?",
+  "o": [
+   "La regla del producto",
+   "La regla de la cadena",
+   "La regla del cociente",
+   "La regla de la potencia"
+  ],
+  "c": 1,
+  "e": "El cambio de variable es la regla de la cadena leída al revés."
+ },
+ {
+  "q": "¿Qué debe aparecer en la integral para poder aplicar cambio de variable con éxito?",
+  "o": [
+   "Una función y, multiplicando, su propia derivada (o algo proporcional a ella)",
+   "Solo funciones polinómicas",
+   "Una suma de dos funciones cualesquiera",
+   "Una función dividida entre una constante"
+  ],
+  "c": 0,
+  "e": "Tiene que aparecer una función y, multiplicando, su derivada (o la derivada por una constante)."
+ },
+ {
+  "q": "¿Cuál es el último paso del método de cambio de variable?",
+  "o": [
+   "Calcular du",
+   "Elegir u",
+   "Deshacer el cambio, sustituyendo u de nuevo por g(x)",
+   "Multiplicar por una constante arbitraria"
+  ],
+  "c": 2,
+  "e": "Al final se deshace el cambio: se vuelve a escribir todo en función de x."
+ },
+ {
+  "q": "En \\(\\int 2x\\cos(x^2)dx\\), ¿cuál es la elección natural de \\(u\\)?",
+  "o": [
+   "\\(u=\\cos x\\)",
+   "\\(u=2x\\)",
+   "\\(u=x^2\\)",
+   "\\(u=\\cos(x^2)\\)"
+  ],
+  "c": 2,
+  "e": "Lo que está «dentro» del coseno es x², y su derivada 2x aparece multiplicando: u = x²."
+ },
+ {
+  "q": "¿Por qué la elección \\(u=x^2\\) funciona en ese ejemplo?",
+  "o": [
+   "Porque x² es un polinomio",
+   "Porque su derivada, 2x, aparece multiplicando en la integral",
+   "Porque coseno siempre requiere cambio de variable",
+   "Porque simplifica el signo"
+  ],
+  "c": 1,
+  "e": "Funciona porque du = 2x dx aparece tal cual en la integral."
+ },
+ {
+  "q": "Si eliges una \\(u\\) que no simplifica la integral, ¿qué suele ocurrir?",
+  "o": [
+   "La integral se resuelve igual de bien",
+   "La integral en términos de u sigue siendo complicada o no se puede resolver con la tabla",
+   "El resultado siempre es 0",
+   "Hay que usar integración por partes obligatoriamente"
+  ],
+  "c": 1,
+  "e": "Si u no se elige bien, la integral en u no se simplifica o ni siquiera se puede escribir solo en u."
+ },
+ {
+  "q": "Para \\(\\int \\cos(3x)dx\\), tras hacer \\(u=3x\\) (con \\(du=3dx\\)), ¿qué hay que hacer?",
+  "o": [
+   "Despejar dx = du/3 y ajustar la integral dividiendo entre 3",
+   "Ignorar el 3 y seguir igual",
+   "Multiplicar el resultado final por 3",
+   "No se puede aplicar cambio de variable aquí"
+  ],
+  "c": 0,
+  "e": "du = 3 dx ⇒ dx = du/3: ∫cos(3x) dx = (1/3)∫cos u du = (1/3) sen(3x) + C."
+ },
+ {
+  "q": "¿Qué comprobación final conviene hacer tras resolver por cambio de variable?",
+  "o": [
+   "Ninguna, no hace falta comprobar",
+   "Derivar el resultado y ver si coincide con la función original",
+   "Sustituir x=0 solamente",
+   "Verificar que C=0"
+  ],
+  "c": 1,
+  "e": "Derivar el resultado tiene que devolver el integrando: es la comprobación más segura."
+ },
+ {
+  "q": "En \\(\\int 3x^2 e^{x^3}dx\\), ¿qué papel juega \\(3x^2\\)?",
+  "o": [
+   "Es la derivada de \\(x^3\\), la elección natural de u",
+   "Es una constante que se puede ignorar",
+   "Es el resultado de la integral",
+   "Es la primitiva de \\(e^{x^3}\\)"
+  ],
+  "c": 0,
+  "e": "3x² es la derivada de x³, así que con u = x³ queda ∫eᵘ du."
+ },
+ {
+  "q": "¿El cambio de variable siempre requiere que la derivada de u aparezca exactamente, sin ajustar constantes?",
+  "o": [
+   "Sí, siempre debe coincidir exactamente",
+   "No, a veces basta con ajustar un coeficiente constante (como en ∫cos(3x)dx)",
+   "No, nunca hace falta calcular du",
+   "Sí, y si no coincide no se puede resolver de ninguna forma"
+  ],
+  "c": 1,
+  "e": "Basta con que la derivada aparezca salvo una constante, que se ajusta multiplicando y dividiendo."
+ },
+ {
+  "q": "¿Qué tipo de integrales suelen resolverse con cambio de variable, en comparación con las inmediatas?",
+  "o": [
+   "Integrales donde la función y su derivada aparecen combinadas, no directamente en la tabla",
+   "Solo integrales de polinomios de grado 1",
+   "Integrales que no tienen solución",
+   "Las mismas exactamente que las inmediatas"
+  ],
+  "c": 0,
+  "e": "Se usa cuando la función y su derivada aparecen combinadas y la integral no está tal cual en la tabla."
+ },
+ {
+  "q": "¿Qué ocurre con la constante C al deshacer el cambio de variable?",
+  "o": [
+   "Se elimina",
+   "Se mantiene: sigue siendo la constante de integración del resultado final",
+   "Se convierte en u",
+   "Hay que calcular su valor exacto siempre"
+  ],
+  "c": 1,
+  "e": "La constante C sigue siendo la constante de integración del resultado final."
+ },
+ {
+  "q": "En términos generales, el cambio de variable consiste en...",
+  "o": [
+   "Cambiar de representación para que la integral encaje en un patrón ya conocido (tabla de inmediatas)",
+   "Multiplicar la integral por una constante arbitraria",
+   "Sustituir x por un número concreto",
+   "Convertir la integral definida en indefinida"
+  ],
+  "c": 0,
+  "e": "Cambiamos la forma de escribir la integral para que encaje en una fórmula de la tabla."
+ }
+];
+
+const BANCO_APLICACION = [
+ {
+  "q": "Calcula \\(\\int 2x\\cos(x^2)\\,dx\\)",
+  "o": [
+   "\\(\\operatorname{sen}(x^2)+C\\)",
+   "\\(-\\operatorname{sen}(x^2)+C\\)",
+   "\\(\\cos(x^2)+C\\)",
+   "\\(2\\operatorname{sen}(x^2)+C\\)"
+  ],
+  "c": 0,
+  "e": "u = x², du = 2x dx: ∫cos u du = sen u + C = sen(x²) + C."
+ },
+ {
+  "q": "Calcula \\(\\int 3x^2 e^{x^3}\\,dx\\)",
+  "o": [
+   "\\(e^{x^3}+C\\)",
+   "\\(3e^{x^3}+C\\)",
+   "\\(e^{3x^3}+C\\)",
+   "\\(x^3 e^{x^3}+C\\)"
+  ],
+  "c": 0,
+  "e": "u = x³, du = 3x² dx: ∫eᵘ du = eᵘ + C = e^(x³) + C."
+ },
+ {
+  "q": "Calcula \\(\\int 2x(x^2+1)^5\\,dx\\)",
+  "o": [
+   "\\(\\dfrac{(x^2+1)^6}{6}+C\\)",
+   "\\((x^2+1)^6+C\\)",
+   "\\(6(x^2+1)^6+C\\)",
+   "\\(\\dfrac{(x^2+1)^5}{5}+C\\)"
+  ],
+  "c": 0,
+  "e": "u = x² + 1, du = 2x dx: ∫u⁵ du = u⁶/6 + C = (x² + 1)⁶/6 + C."
+ },
+ {
+  "q": "Calcula \\(\\int \\cos x \\cdot e^{\\operatorname{sen} x}\\,dx\\)",
+  "o": [
+   "\\(e^{\\operatorname{sen} x}+C\\)",
+   "\\(\\operatorname{sen} x \\cdot e^{\\operatorname{sen} x}+C\\)",
+   "\\(e^{\\cos x}+C\\)",
+   "\\(-e^{\\operatorname{sen} x}+C\\)"
+  ],
+  "c": 0,
+  "e": "u = sen x, du = cos x dx: ∫eᵘ du = e^(sen x) + C."
+ },
+ {
+  "q": "Calcula \\(\\int \\dfrac{2x}{x^2+1}\\,dx\\)",
+  "o": [
+   "\\(\\ln|x^2+1|+C\\)",
+   "\\((x^2+1)\\ln|x^2+1|+C\\)",
+   "\\(2\\ln|x^2+1|+C\\)",
+   "\\(\\ln|2x|+C\\)"
+  ],
+  "c": 0,
+  "e": "u = x² + 1, du = 2x dx: ∫du/u = ln|u| + C = ln|x² + 1| + C."
+ },
+ {
+  "q": "Calcula \\(\\int 6x^2(2x^3+1)^4\\,dx\\)",
+  "o": [
+   "\\(\\dfrac{(2x^3+1)^5}{5}+C\\)",
+   "\\((2x^3+1)^5+C\\)",
+   "\\(5(2x^3+1)^5+C\\)",
+   "\\(\\dfrac{(2x^3+1)^4}{4}+C\\)"
+  ],
+  "c": 0,
+  "e": "u = 2x³ + 1, du = 6x² dx: ∫u⁴ du = u⁵/5 + C = (2x³ + 1)⁵/5 + C."
+ },
+ {
+  "q": "Calcula \\(\\int (1+\\operatorname{tg}^2 x)\\, e^{\\operatorname{tg} x}\\,dx\\)",
+  "o": [
+   "\\(e^{\\operatorname{tg} x}+C\\)",
+   "\\(\\operatorname{tg} x \\cdot e^{\\operatorname{tg} x}+C\\)",
+   "\\(e^{1+\\operatorname{tg}^2 x}+C\\)",
+   "\\((1+\\operatorname{tg}^2 x)\\,e^{\\operatorname{tg} x}+C\\)"
+  ],
+  "c": 0,
+  "e": "u = tg x, du = (1 + tg²x) dx: ∫eᵘ du = e^(tg x) + C."
+ },
+ {
+  "q": "Calcula \\(\\int 4x^3 \\operatorname{sen}(x^4)\\,dx\\)",
+  "o": [
+   "\\(-\\cos(x^4)+C\\)",
+   "\\(\\cos(x^4)+C\\)",
+   "\\(-\\operatorname{sen}(x^4)+C\\)",
+   "\\(4\\cos(x^4)+C\\)"
+  ],
+  "c": 0,
+  "e": "u = x⁴, du = 4x³ dx: ∫sen u du = −cos u + C = −cos(x⁴) + C."
+ },
+ {
+  "q": "Calcula \\(\\int \\dfrac{\\ln x}{x}\\,dx\\)",
+  "o": [
+   "\\(\\dfrac{(\\ln x)^2}{2}+C\\)",
+   "\\(\\ln x+C\\)",
+   "\\((\\ln x)^2+C\\)",
+   "\\(\\dfrac{1}{x^2}+C\\)"
+  ],
+  "c": 0,
+  "e": "u = ln x, du = dx/x: ∫u du = u²/2 + C = (ln x)²/2 + C."
+ },
+ {
+  "q": "Calcula \\(\\int 2x\\cdot 5^{x^2}\\,dx\\)",
+  "o": [
+   "\\(\\dfrac{5^{x^2}}{\\ln 5}+C\\)",
+   "\\(5^{x^2}+C\\)",
+   "\\(x^2\\cdot 5^{x^2-1}+C\\)",
+   "\\(\\dfrac{2\\cdot 5^{x^2}}{\\ln 5}+C\\)"
+  ],
+  "c": 0,
+  "e": "u = x², du = 2x dx: ∫5ᵘ du = 5ᵘ/ln 5 + C = 5^(x²)/ln 5 + C."
+ },
+ {
+  "q": "Calcula \\(\\int (3x^2+2x)(x^3+x^2)^4\\,dx\\)",
+  "o": [
+   "\\(\\dfrac{(x^3+x^2)^5}{5}+C\\)",
+   "\\((x^3+x^2)^5+C\\)",
+   "\\(5(x^3+x^2)^5+C\\)",
+   "\\(\\dfrac{(x^3+x^2)^4}{4}+C\\)"
+  ],
+  "c": 0,
+  "e": "u = x³ + x², du = (3x² + 2x) dx: ∫u⁴ du = (x³ + x²)⁵/5 + C."
+ },
+ {
+  "q": "Calcula \\(\\int \\cos(3x)\\,dx\\)",
+  "o": [
+   "\\(\\dfrac{1}{3}\\operatorname{sen}(3x)+C\\)",
+   "\\(\\operatorname{sen}(3x)+C\\)",
+   "\\(3\\operatorname{sen}(3x)+C\\)",
+   "\\(-\\dfrac{1}{3}\\operatorname{sen}(3x)+C\\)"
+  ],
+  "c": 0,
+  "e": "u = 3x, dx = du/3: (1/3)∫cos u du = (1/3) sen(3x) + C."
+ },
+ {
+  "q": "Calcula \\(\\int e^{5x}\\,dx\\)",
+  "o": [
+   "\\(\\dfrac{1}{5}e^{5x}+C\\)",
+   "\\(e^{5x}+C\\)",
+   "\\(5e^{5x}+C\\)",
+   "\\(\\dfrac{e^{5x}}{x}+C\\)"
+  ],
+  "c": 0,
+  "e": "u = 5x, dx = du/5: (1/5)∫eᵘ du = (1/5)e^(5x) + C."
+ },
+ {
+  "q": "Calcula \\(\\int (2x-1)^3\\,dx\\)",
+  "o": [
+   "\\(\\dfrac{(2x-1)^4}{8}+C\\)",
+   "\\((2x-1)^4+C\\)",
+   "\\(\\dfrac{(2x-1)^4}{4}+C\\)",
+   "\\(4(2x-1)^4+C\\)"
+  ],
+  "c": 0,
+  "e": "u = 2x − 1, dx = du/2: (1/2)∫u³ du = (1/2)·u⁴/4 = (2x − 1)⁴/8 + C."
+ },
+ {
+  "q": "Calcula \\(\\int x\\cos(x^2+1)\\,dx\\)",
+  "o": [
+   "\\(\\dfrac{1}{2}\\operatorname{sen}(x^2+1)+C\\)",
+   "\\(\\operatorname{sen}(x^2+1)+C\\)",
+   "\\(-\\dfrac{1}{2}\\operatorname{sen}(x^2+1)+C\\)",
+   "\\(2\\operatorname{sen}(x^2+1)+C\\)"
+  ],
+  "c": 0,
+  "e": "u = x² + 1, du = 2x dx ⇒ x dx = du/2: (1/2)∫cos u du = (1/2) sen(x² + 1) + C."
+ },
+ {
+  "q": "Calcula \\(\\int \\operatorname{sen} x \\cos^3 x\\,dx\\)",
+  "o": [
+   "\\(-\\dfrac{\\cos^4 x}{4}+C\\)",
+   "\\(\\dfrac{\\cos^4 x}{4}+C\\)",
+   "\\(-\\dfrac{\\operatorname{sen}^4 x}{4}+C\\)",
+   "\\(\\cos^4 x+C\\)"
+  ],
+  "c": 0,
+  "e": "u = cos x, du = −sen x dx: −∫u³ du = −u⁴/4 + C = −cos⁴x/4 + C."
+ }
+];
+
+let orden = [];
+let idx = 0;
+let ok = 0, bad = 0;
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function empezar(){
+  const nombre = document.getElementById('nombre').value.trim();
+  if(!nombre){ alert('Escribe tu nombre para empezar.'); return; }
+  document.getElementById('gate').style.display='none';
+  document.getElementById('quiz').style.display='block';
+  generarSecuencia();
+  mostrarPregunta();
+}
+
+function generarSecuencia(){
+  const todas = shuffle(
+    BANCO_TEORIA.map(x=>({...x,tipo:'teoria'})).concat(
+    BANCO_APLICACION.map(x=>({...x,tipo:'aplicacion'})))
+  );
+  orden = todas;
+  idx = 0; ok = 0; bad = 0;
+}
+
+function mostrarPregunta(){
+  if(idx >= orden.length){ generarSecuencia(); }
+  const item = orden[idx];
+  document.getElementById('contador').textContent = `Pregunta ${idx+1}`;
+  document.getElementById('okcount').textContent = ok;
+  document.getElementById('badcount').textContent = bad;
+  const tag = document.getElementById('qtag');
+  tag.textContent = item.tipo === 'teoria' ? 'Teoría' : 'Aplicación';
+  tag.className = 'qtag ' + item.tipo;
+  document.getElementById('qtext').innerHTML = item.q;
+
+  const opciones = shuffle(item.o.map((texto,i)=>({texto, esCorrecta:i===item.c})));
+  const cont = document.getElementById('opciones');
+  cont.innerHTML='';
+  opciones.forEach(op=>{
+    const btn = document.createElement('button');
+    btn.className='opt';
+    btn.innerHTML = op.texto;
+    btn.onclick = ()=>responder(btn, op.esCorrecta, opciones, cont);
+    cont.appendChild(btn);
+  });
+
+  document.getElementById('feedback').className='feedback';
+  document.getElementById('btnSiguiente').disabled = true;
+  if(window.MathJax){ MathJax.typesetClear([cont, document.getElementById('qtext')]); MathJax.typesetPromise([cont, document.getElementById('qtext')]); }
+}
+
+function responder(btnPulsado, esCorrecta, opciones, cont){
+  const botones = cont.querySelectorAll('.opt');
+  botones.forEach(b=>b.disabled=true);
+  botones.forEach((b,i)=>{
+    if(opciones[i].esCorrecta) b.classList.add('correcta');
+  });
+  if(!esCorrecta) btnPulsado.classList.add('incorrecta');
+
+  const fb = document.getElementById('feedback');
+  const exp = orden[idx] && orden[idx].e ? '<div style="margin-top:8px;font-weight:400">💡 ' + orden[idx].e + '</div>' : '';
+  if(esCorrecta){
+    ok++;
+    fb.innerHTML = '<b>✓ Correcto.</b>' + exp;
+    fb.className = 'feedback show ok';
+  } else {
+    bad++;
+    fb.innerHTML = '<b>✗ No es correcto. La respuesta correcta está marcada en verde.</b>' + exp;
+    fb.className = 'feedback show bad';
+  }
+  if(window.MathJax && MathJax.typesetPromise){ MathJax.typesetPromise([fb]).catch(()=>{}); }
+  document.getElementById('okcount').textContent = ok;
+  document.getElementById('badcount').textContent = bad;
+  document.getElementById('btnSiguiente').disabled = false;
+}
+
+function siguiente(){
+  idx++;
+  mostrarPregunta();
+}
+</script>
+
+</body>
+</html>
